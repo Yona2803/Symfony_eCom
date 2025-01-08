@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Items</title>
+		<link rel="stylesheet" href="{{ asset('css/FormPageStyle.css') }}">
+	</head>
+	<body>
+
+		<div class="container">
+			<h1>Add Item</h1>
+
+			<form action="{{ path('addItem') }}" method="post">
+				<label for="name">Name:</label>
+				<input type="text" id="name" name="name" required>
+				<br>
+				<label for="name">Description:</label>
+				<input type="text" id="description" name="description" required>
+				<br>
+				<label for="name">Price:</label>
+				<input type="text" id="price" name="price" required>
+				<br>
+				<label for="name">Stock:</label>
+				<input type="text" id="stock" name="stock" required>
+				<br>
+				<label for="image">Image:</label>
+				<input type="file" id="image" name="image">
+				<br>
+				<label for="name">Categories:</label>
+				<div classname="categoryList">
+					<input type="text" id="category" name="category">
+				</div>
+				<br>
+				<button type="submit">Add</button>
+			</form>
+		</div>
+	</body>
+</html>
