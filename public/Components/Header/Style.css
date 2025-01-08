@@ -1,0 +1,148 @@
+#Header_Top {
+  width: 100%;
+  height: 48px;
+  background-color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+}
+#Header_Top p {
+  color: #fff;
+  margin-right: 8px;
+}
+#Header_Top a {
+  color: #fff;
+  text-decoration: underline;
+
+  -webkit-transition: fill 0.32s ease-out;
+  -moz-transition: fill 0.32s ease-out;
+  -o-transition: fill 0.32s ease-out;
+  transition: fill 0.32s ease-out;
+}
+#Header_Top a:hover {
+  color: #db4444;
+}
+
+header {
+  width: 100%;
+  height: fit-content;
+  padding: 40px 0 16px 0;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 0.5px solid #000;
+}
+
+#Header_Bottom {
+  width: 1170px;
+  height: 38px;
+  background-color: transparent;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+#Header_Bottom h1 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #000;
+  margin-right: 160px;
+}
+#Header_Bottom h1:hover {
+  cursor: default;
+}
+#Header_Bottom div,
+#Header_Bottom nav {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#Header_Bottom nav {
+  width: fit-content;
+  margin-right: auto;
+}
+
+#Header_Bottom nav ul {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+#Header_Bottom nav ul li {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+}
+
+#Header_Bottom nav ul li a {
+  padding: 7px 24px;
+  color: #000;
+}
+
+#Header_Bottom nav ul li:nth-child(1) a {
+  text-decoration: underline;
+}
+#Header_Bottom nav ul li a:hover {
+  color: #db4444;
+}
+
+#Header_Bottom div {
+  width: fit-content;
+  height: calc(100%);
+}
+
+#Header_Bottom div input {
+  width: 243px;
+  height: 38px;
+  padding: 0 20px;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  font-size: 14px;
+  border: none;
+  outline: none;
+  margin-right: 24px;
+}
+#Header_Bottom div input:focus {
+  outline: 0.5px solid #db4444;
+}
+#Header_Bottom div input::placeholder {
+  font-size: 12px;
+  color: #474747;
+}
+
+#Header_Bottom div a:last-of-type {
+  margin-left: 17px;
+}
+
+#Header_Bottom div a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#Header_Bottom div a svg {
+  width: 32px;
+  height: 32px;
+}
+
+#Header_Bottom div a svg rect {
+  -webkit-transition: fill 0.32s ease-out;
+  -moz-transition: fill 0.32s ease-out;
+  -o-transition: fill 0.32s ease-out;
+  transition: fill 0.32s ease-out;
+}
+
+#Header_Bottom div a:hover svg rect {
+  fill: #d9d9d9;
+}
+
+#Header_Bottom div a:hover svg path {
+  stroke: #000;
+}
