@@ -20,3 +20,152 @@ a {
   height: fit-content;
   display: flex;
 }
+
+/* Category Section */
+.Categories {
+  display: block;
+  width: 100%;
+  height: fit-content;
+}
+
+.Categories .Section1 {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 40px;
+}
+.Categories .Section1 h4 {
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #db4444;
+}
+
+.Categories .Section1 span {
+  width: 20px;
+  height: 40px;
+  border-radius: 4px;
+  background-color: #db4444;
+  margin-right: 16px;
+}
+.Categories .Section2 {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 48px;
+  height: 48px;
+  margin: 20px 0 60px 0;
+}
+
+.Categories .Section2 h5 {
+  margin: 0;
+  padding: 0;
+  font-size: 36px;
+  font-weight: 600;
+  color: #000;
+}
+
+.Categories .Section3 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 1170px;
+  overflow-y: scroll;
+  height: fit-content;
+  gap: 30px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.Categories .Section3::-webkit-scrollbar {
+  display: none;
+}
+.Categories .Section3 a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  width: 168px;
+  min-width: 168px;
+  height: 144px;
+  min-height: 144px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  background-color: transparent;
+  margin: 0;
+  -webkit-transition: all 0.32s ease-out;
+  -moz-transition: all 0.32s ease-out;
+  -o-transition: all 0.32s ease-out;
+  transition: all 0.32s ease-out;
+}
+.Categories .Section3 a:hover {
+  background-color: #db4444;
+}
+.Categories .Section3 a span {
+  width: fit-content;
+  height: fit-content;
+  margin: 0;
+  padding: 0;
+  margin: 11px 0 24px 0;
+}
+.Categories .Section3 a svg {
+  width: 56px;
+  height: 56px;
+  margin: 0;
+}
+
+/* Section to build confidence - Landing Page */
+.Trust_Ad {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: fit-content;
+  margin-top: 113px;
+  gap: 88px;
+}
+
+.Trust_Ad div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 249px;
+  height: 161px;
+}
+
+.Trust_Ad .Trust_Icons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 80px;
+  width: 80px;
+  min-height: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #2f2e30;
+}
+
+.Trust_Ad .Trust_Icons svg {
+  min-width: 58px;
+  width: 58px;
+  min-height: 58px;
+  height: 58px;
+}
+
+.Trust_Ad h6{
+  margin: 24px 0 8px 0;
+  padding: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #000;
+  text-align: center;
+}
+.Trust_Ad p{
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+  color: #000;
+}

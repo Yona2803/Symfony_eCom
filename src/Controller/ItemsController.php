@@ -43,7 +43,7 @@ class ItemsController extends AbstractController
             if ($categoryObj === null) {
                 $categoryObj = new Categories();
                 $categoryObj->setName($categoryName);
-                echo $categoryObj->getName() . " test test test";
+                
                 $entityManager->persist($categoryObj);
                 $entityManager->flush();
             } else {
