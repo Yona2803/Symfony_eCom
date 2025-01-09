@@ -9,7 +9,7 @@
 		<div class="container">
 			<h1>Add Item</h1>
 
-			<form action="{{ path('addItem') }}" method="post">
+			<form action="{{ path('addItem') }}" method="post" enctype="multipart/form-data">
 				<label for="name">Name:</label>
 				<input type="text" id="name" name="name" required>
 				<br>
