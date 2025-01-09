@@ -9,9 +9,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\Items;
-use App\Form\ItemsType;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\String\Slugger\SluggerInterface;
 
 class ItemsController extends AbstractController
 {
@@ -73,5 +70,15 @@ class ItemsController extends AbstractController
         return $this->redirectToRoute('addItemPage');
     }
 
+
+
+    #[Route('/listItems', name: 'listItems')]
+    public function delete(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $items = $entityManager->getRepository(Items::class)->findAll();
+        return $this->render('items/listItems.html.twig', [
+            'items' => $items
+        ]);
+    }
 
 }
