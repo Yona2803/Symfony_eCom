@@ -16,6 +16,6 @@ class Base64Extension extends AbstractExtension
 
     public function base64Encode($value): string
     {
-        return base64_encode($value);
+        return base64_encode(stream_get_contents($value));
     }
 }
