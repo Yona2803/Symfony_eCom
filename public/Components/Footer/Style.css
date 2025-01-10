@@ -1,0 +1,29 @@
+Footer {
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #000;
+  margin-top: 130px;
+}
+
+.footerContainer {
+  display: flex;
+  width: 1170px;
+  height: fit-content;
+  /* gap: 87px; */
+  margin: 80px auto 60px auto;
+}
+
+Footer p {
+  width: 100%;
+  height: fit-content;
+  text-align: center;
+  font-size: 16px;
+  border-top: 0.5px solid white;
+  color: white;
+  opacity: 0.6;
+  padding: 16px 0 24px 0;
+  margin: 0;
+}

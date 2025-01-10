@@ -13,4 +13,16 @@ class MainController extends AbstractController
     {
         return $this->render('base.html.twig');
     }
+
+    #[Route('/Products', name: 'productsPage')]
+    public function products()
+    {
+        return $this->render('Pages/ProductsPage/ProductsPage.html.twig');
+    }
+
+    #[Route('/MyCart', name: 'MyCartPage')]
+    public function cart()
+    {
+        return $this->render('Pages/CartPage/CartPage.html.twig');
+    }
 }
