@@ -34,12 +34,12 @@ class ItemsController extends AbstractController
 
         if ($form->isSubmitted()) {
             $imageFile = $form->get('itemImage')->getData();
-        
+
             if ($imageFile) {
                 $binaryData = file_get_contents($imageFile->getPathname());
                 $item->setItemImage($binaryData);
             }
-        
+
             $categoryObj = $form->get('category')->getData();
             if ($categoryObj === null) {
                 $categoryName = $form->get('category')->getViewData();
@@ -49,13 +49,13 @@ class ItemsController extends AbstractController
                 $entityManager->flush();
             }
             $item->setCategory($categoryObj);
-        
+
             $price = $form->get('price')->getData();
             $item->setPrice((float)$price);
-        
+
             $entityManager->persist($item);
             $entityManager->flush();
-        
+
             return $this->redirectToRoute('home');
         }
 
@@ -100,5 +100,14 @@ class ItemsController extends AbstractController
     }
 
 
-    
+    #[Route('/ByCategory/{categoryName}', name: 'searchByCategory', methods: ['GET'])]
+    public function searchByCategory(string $categoryName, ItemsRepository $itemsRepository): Response
+    {
+        $items = $itemsRepository->findByCategoryName($categoryName);
+        return $this->render('Pages/ProductsPage/ProductsPage.html.twig', [
+            'items' => $items
+        ]);
+    }
+
+
 }

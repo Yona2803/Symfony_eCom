@@ -2,12 +2,12 @@
 <html>
 	<head>
 		<title>Products</title>
-		<link rel="stylesheet" href="{{ ('Pages/ProductsPage/Style.css') }}">
-		<link rel="icon" type="image/x-icon" href="{{ ('img/icon/Icon.png') }}">
+		<link rel="stylesheet" href="{{ asset('Pages/ProductsPage/Style.css') }}">
+		<link rel="icon" type="image/x-icon" href="{{ asset('img/icon/Icon.png') }}">
 	</head>
 	<body>
 		{# Header Section #}
-		{{ include('components/Header/Header.html.twig') }}
+		{{ include('Components/Header/Header.html.twig') }}
 		{# Adding Products Section #}
 
 		<div class="Container">
@@ -69,4 +69,5 @@
 			</div>
 		</div>
 	</body>
-</html></div>{# Footer Section #}{{ include('components/Footer/Footer.html.twig') }}</body></html>
+</html></div>{# Footer Section #}{{ include('Components/Footer/Footer.html.twig') }}</body></html>
+

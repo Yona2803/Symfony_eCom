@@ -25,6 +25,20 @@ class ItemsRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+
+   /**
+     * @return Items[] Returns an array of Items objects
+     */
+    public function findByCategoryName(string $categoryName)
+    {
+        return $this->createQueryBuilder('i')
+            ->innerJoin('i.category', 'c')
+            ->andWhere('c.name = :categoryName')
+            ->setParameter('categoryName', $categoryName)
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
     //     * @return Items[] Returns an array of Items objects
     //     */
