@@ -16,6 +16,15 @@ class ItemsRepository extends ServiceEntityRepository
         parent::__construct($registry, Items::class);
     }
 
+    public function findByPartialName(string $name): array
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.name LIKE :name')
+            ->setParameter('name', '%' . (string)$name . '%')
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
     //     * @return Items[] Returns an array of Items objects
     //     */
@@ -40,4 +49,6 @@ class ItemsRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+
 }

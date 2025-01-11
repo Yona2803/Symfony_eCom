@@ -79,7 +79,7 @@ body {
   }
   
   .Categories #ShowMoreProducts {
-    display: flex;
+    display: block;
     align-items: center;
     justify-content: center;
     width: 234px;
