@@ -12,7 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Twig\Node\Expression\Test\NullTest;
+
 
 class ItemType extends AbstractType
 {
@@ -21,11 +21,8 @@ class ItemType extends AbstractType
         $builder
             ->add('name', TextType::class)
             ->add('description', TextType::class)
-            ->add('price', NumberType::class)
-            ->add('stock', NumberType::class)
-            ->add('itemImage', FileType::class, [
-                'mapped' => false,
-                'required' => false,
+            ->add('price', NumberType::class, [
+                'scale' => 2,
             ])
             ->add('stock', IntegerType::class, [
                 'label' => 'Stock',
@@ -40,8 +37,7 @@ class ItemType extends AbstractType
                 'placeholder' => 'Choose an existing category',
                 'required' => false,
             ])
-            ->add('newCategory', TextType::class, [
-                'label' => 'Or create a new category',
+            ->add('itemImage', FileType::class, [
                 'mapped' => false,
                 'required' => false,
             ]);

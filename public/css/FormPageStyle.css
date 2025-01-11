@@ -1,78 +1,99 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
+/* Container for the form */
 .container {
-    background-color: #ffffff;
-    padding: 20px 30px;
+    width: 80%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: 400px;
 }
 
+/* Header */
 h1 {
-    font-size: 24px;
-    color: #333333;
     text-align: center;
-    margin-bottom: 20px;
+    color: #333;
 }
 
-label {
-    display: block;
-    font-size: 14px;
-    color: #555555;
-    margin-bottom: 5px;
-}
-
-.datalist {
-    width: 100%;
-    height: 30px;
-    background-color: red;
-}
-
+/* Form fields */
 input[type="text"],
-input[list="fruits"],
-input[type="search"] {
+input[type="number"],
+textarea,
+select,
+input[type="file"] {
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
-    border: 1px solid #cccccc;
+    border: 1px solid #ccc;
     border-radius: 4px;
-    font-size: 14px;
-    box-sizing: border-box;
+    background-color: #fff;
+    font-size: 16px;
 }
 
+/* Custom classes */
+.custom-name-field,
+.custom-description-field,
+.custom-price-field,
+.custom-category-field,
+.custom-stock-field,
+.custom-item-image {
+    font-family: Arial, sans-serif;
+}
+
+/* Focus state for form fields */
+input:focus,
+textarea:focus,
+select:focus,
+input[type="file"]:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Button styling */
 button {
-    background-color: #4CAF50;
+    background-color: #007bff;
     color: white;
-    padding: 10px 15px;
     border: none;
+    padding: 10px 20px;
     border-radius: 4px;
-    font-size: 14px;
     cursor: pointer;
-    width: 48%;
+    font-size: 16px;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
 }
 
+/* Hover effect for buttons */
 button:hover {
-    background-color: #45a049;
+    background-color: #0056b3;
 }
 
-.cancel-button {
-    background-color: #f44336;
+/* Button layout */
+button[type="button"] {
+    background-color: #28a745;
+    margin-left: 10px;
 }
 
-.cancel-button:hover {
-    background-color: #e53935;
+button[type="button"]:hover {
+    background-color: #218838;
 }
 
-.actions {
-    display: flex;
-    justify-content: space-between;
+/* Styling for links */
+a {
+    text-decoration: none;
+}
+
+/* Responsive design for mobile */
+@media (max-width: 768px) {
+    .container {
+        width: 90%;
+    }
+
+    button {
+        width: 100%;
+        margin-top: 15px;
+    }
+
+    button[type="button"] {
+        margin-left: 0;
+    }
 }
