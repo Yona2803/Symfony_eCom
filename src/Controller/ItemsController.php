@@ -50,7 +50,6 @@ class ItemsController extends AbstractController
             }
             $item->setCategory($categoryObj);
         
-            // Ensure the price is handled as a float
             $price = $form->get('price')->getData();
             $item->setPrice((float)$price);
         
@@ -92,13 +91,14 @@ class ItemsController extends AbstractController
     #[Route('/search', name: 'search', methods: ['GET'])]
     public function search(Request $request, ItemsRepository $itemsRepository): Response
     {
-
         $name = $request->query->get('searchInput');
 
         $items = $itemsRepository->findByPartialName($name);
         return $this->render('Pages/ProductsPage/ProductsPage.html.twig', [
             'items' => $items
         ]);
-
     }
+
+
+    
 }

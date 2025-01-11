@@ -13,13 +13,10 @@ class MainController extends AbstractController
     {
         return $this->render('base.html.twig');
     }
-<<<<<<< Updated upstream
-=======
 
     #[Route('/MyCart', name: 'MyCartPage')]
     public function cart()
     {
         return $this->render('Pages/CartPage/CartPage.html.twig');
     }
->>>>>>> Stashed changes
 }
