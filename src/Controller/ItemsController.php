@@ -100,6 +100,7 @@ class ItemsController extends AbstractController
     }
 
 
+
     #[Route('/ByCategory/{categoryName}', name: 'searchByCategory', methods: ['GET'])]
     public function searchByCategory(string $categoryName, ItemsRepository $itemsRepository): Response
     {
@@ -108,6 +109,10 @@ class ItemsController extends AbstractController
             'items' => $items
         ]);
     }
+
+
+    
+
 
 
 }

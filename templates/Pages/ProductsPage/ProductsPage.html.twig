@@ -23,12 +23,14 @@
 					{% for item in items %}
 						<div class="Product">
 							<div class="OptionSection">
-								<button type="button">
+							<form method="GET" action="{{ path('toWishlist', {'itemId': item.id }) }}">
+								<button type="submit">
 									<svg class="Selected_Item" width="34" height="34" viewbox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
 										<circle cx="17" cy="17" r="17" fill="none"/>
 										<path d="M13 11C10.7912 11 9 12.7396 9 14.8859C9 16.6185 9.7 20.7305 16.5904 24.8873C16.7138 24.961 16.8555 25 17 25C17.1445 25 17.2862 24.961 17.4096 24.8873C24.3 20.7305 25 16.6185 25 14.8859C25 12.7396 23.2088 11 21 11C18.7912 11 17 13.3551 17 13.3551C17 13.3551 15.2088 11 13 11Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 									</svg>
 								</button>
+							</form>
 							</div>
 							<div class="ProductImage">
 								{% if item.itemImage %}

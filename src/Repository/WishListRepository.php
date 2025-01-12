@@ -16,6 +16,19 @@ class WishListRepository extends ServiceEntityRepository
         parent::__construct($registry, WishList::class);
     }
 
+    /**
+     * @return WishList|null Returns a WishList object or null
+     */
+    public function findByUserId(int $userId): ?WishList
+    {
+        return $this->createQueryBuilder('w')
+            ->innerJoin('w.user', 'u')
+            ->andWhere('u.id = :userId')
+            ->setParameter('userId', $userId)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     //    /**
     //     * @return WishList[] Returns an array of WishList objects
     //     */
