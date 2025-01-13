@@ -1,26 +1,42 @@
-
+<!-- filepath: /D:/VS.Code/MySymfony/Symfony_eCom/templates/items/addItemPage.html.twig -->
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Add Item</title>
 		<link rel="stylesheet" href="{{ asset('css/FormPageStyle.css') }}">
+		<script>
+			function previewImage(event) {
+const input = event.target;
+const reader = new FileReader();
+reader.onload = function () {
+const preview = document.getElementById('imagePreview');
+preview.src = reader.result;
+preview.style.display = 'block';
+};
+reader.readAsDataURL(input.files[0]);
+}
+		</script>
 	</head>
 	<body>
+		{{ include('items/dashBoard.html.twig') }}
 		<div class="container">
 			<h1>Add Item</h1>
-
 			{{ form_start(form, {'action': path('addItem'), 'method': 'POST', 'attr': {'enctype': 'multipart/form-data'}}) }}
 			{{ form_row(form.name, {'attr': {'class': 'custom-name-field'}}) }}
 			{{ form_row(form.description, {'attr': {'class': 'custom-description-field'}}) }}
 			{{ form_row(form.price, {'attr': {'class': 'custom-price-field'}}) }}
 			{{ form_row(form.category, {'attr': {'class': 'custom-category-field'}}) }}
 			{{ form_row(form.stock, {'attr': {'class': 'custom-stock-field'}}) }}
-			{{ form_row(form.itemImage, {'attr': {'class': 'custom-item-image'}}) }}
+			{{ form_row(form.itemImage, {'attr': {'class': 'custom-item-image', 'onchange': 'previewImage(event)'}}) }}
+
+			<img id="imagePreview" src="#" alt="Image Preview" style="display: none; max-width: 200px; margin-top: 20px;"/>
 
 			<br>
 			<button type="submit">Add Product</button>
 			<a href="{{ path('home') }}">
-			<button type="button">View Products</button>
+				<button type="button">View Products</button>
 			</a>
 			{{ form_end(form) }}
 		</div>

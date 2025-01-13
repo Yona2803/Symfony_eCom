@@ -92,5 +92,16 @@ class ItemsController extends AbstractController
     }
 
 
+    #[Route('/add-item-page', name: 'add_item_page')]
+    public function addItemPage(Request $request): Response
+    {
+        $item = new Items();
+        $form = $this->createForm(ItemType::class, $item);
+
+        return $this->render('items/addItemPageContent.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
 
 }
