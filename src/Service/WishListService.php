@@ -3,12 +3,10 @@
 namespace App\Service;
 
 use App\Entity\Items;
-use App\Entity\Roles;
 use App\Entity\Users;
 use App\Entity\WishList;
 use App\Repository\WishListRepository;
 use Doctrine\ORM\EntityManagerInterface;
-
 
 class WishListService
 {
@@ -22,7 +20,8 @@ class WishListService
     }
 
 
-    public function addToWishList(int $userId, int $itemId){
+    public function addToWishList(int $userId, int $itemId): bool
+    {
 
         /*$user = new Users();
         $user->setUsername('ahmed');
@@ -39,19 +38,25 @@ class WishListService
 
         $wishList = $this->wishlistRepository->findByUserId($userId);
 
-        if ($wishList === null) {
-            $wishList = new Wishlist();
-            $wishList->setUser($user);
-            $wishList->addItem($item);
-        }else{
-            $wishList->getItem()->add($item);
+        $checkAlreadyExists = $this->wishlistRepository->findItemInWishList($wishList->getId(), $itemId);
+
+        if (!$checkAlreadyExists) {
+            if ($wishList === null) {
+                $wishList = new Wishlist();
+                $wishList->setUser($user);
+                $wishList->addItem($item);
+            } else {
+                $wishList->getItem()->add($item);
+            }
+
+            $item->addWishlist($wishList);
+
+            $this->em->persist($wishList);
+            $this->em->flush();
+            $value = true;
+        } else {
+            $value = false;
         }
-
-        $item->addWishlist($wishList);
-
-        $this->em->persist($wishList);
-        $this->em->flush();
-
+        return $value;
     }
-
 }

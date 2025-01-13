@@ -12,7 +12,6 @@ use App\Entity\Items;
 use App\Form\ItemType;
 use App\Repository\ItemsRepository;
 use App\Service\ItemsService;
-use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ItemsController extends AbstractController
 {
@@ -26,41 +25,16 @@ class ItemsController extends AbstractController
 
 
     #[Route('/addItem', name: 'addItem')]
-    public function addItem(Request $request, EntityManagerInterface $entityManager): Response
+    public function addItem2(Request $request): Response
     {
-        $item = new Items();
-        $form = $this->createForm(ItemType::class, $item);
-        $form->handleRequest($request);
+        $result = $this->itemsService->handleAddItem($request);
 
-        if ($form->isSubmitted()) {
-            $imageFile = $form->get('itemImage')->getData();
-
-            if ($imageFile) {
-                $binaryData = file_get_contents($imageFile->getPathname());
-                $item->setItemImage($binaryData);
-            }
-
-            $categoryObj = $form->get('category')->getData();
-            if ($categoryObj === null) {
-                $categoryName = $form->get('category')->getViewData();
-                $categoryObj = new Categories();
-                $categoryObj->setName($categoryName);
-                $entityManager->persist($categoryObj);
-                $entityManager->flush();
-            }
-            $item->setCategory($categoryObj);
-
-            $price = $form->get('price')->getData();
-            $item->setPrice((float)$price);
-
-            $entityManager->persist($item);
-            $entityManager->flush();
-
+        if ($result['success']) {
             return $this->redirectToRoute('home');
         }
 
         return $this->render('items/addItemPage.html.twig', [
-            'form' => $form->createView(),
+            'form' => $result['form']->createView(),
         ]);
     }
 

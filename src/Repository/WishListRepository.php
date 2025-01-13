@@ -29,6 +29,33 @@ class WishListRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
+
+
+     /**
+     * Finds a specific item in a wishlist.
+     *
+     * @param int $wishListId
+     * @param int $itemId
+     * @return WishList|null
+     */
+    public function findItemInWishList(int $wishListId, int $itemId): ?WishList
+    {
+        return $this->createQueryBuilder('w')
+            ->innerJoin('w.item', 'i')
+            ->andWhere('w.id = :wishListId')
+            ->andWhere('i.id = :itemId')
+            ->setParameter('wishListId', $wishListId)
+            ->setParameter('itemId', $itemId)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+
+
+
+
+
+
     //    /**
     //     * @return WishList[] Returns an array of WishList objects
     //     */
