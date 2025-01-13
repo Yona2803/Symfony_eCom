@@ -85,7 +85,11 @@ class ItemsController extends AbstractController
     }
 
 
-    
+    #[Route('/test', name: 'test', methods: ['GET'])]
+    public function test(): Response
+    {
+        return $this->render('items/dashBoard.html.twig');
+    }
 
 
 

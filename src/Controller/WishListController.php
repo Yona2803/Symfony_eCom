@@ -19,14 +19,14 @@ class WishListController extends AbstractController
     }
 
 
-    #[Route('/addItemToWishList/{itemId}', name: 'toWishlist')]
+    #[Route('/addItemToWishList/{itemId}', name: 'toWishlist', methods: ['GET'])]
     public function addItemToWishList(int $itemId): Response
     {
-        $value = $this->wishListService->addToWishList(4,$itemId);
+        $value = $this->wishListService->addToWishList(4, $itemId);
 
         if ($value) {
             $this->addFlash('success', 'Item added to wishlist successfully.');
-        }else{
+        } else {
             $this->addFlash('warning', 'Item already exists in wishlist.');
         }
 
