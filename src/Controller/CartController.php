@@ -7,7 +7,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class CartController extends AbstractController
 {
-
+    
     #[Route('/MyCart', name: 'MyCartPage')]
     public function cart()
     {
