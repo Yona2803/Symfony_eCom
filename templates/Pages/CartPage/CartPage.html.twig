@@ -10,9 +10,51 @@
 		{{ include('components/Header/Header.html.twig') }}
 		{# Adding Products Section #}
 		<div class="Container">
-			
+			<div class="Cart">
+				<p id="Route_Page">Home/
+					<span>Cart</span>
+				</p>
+				<div class="Cart_Details">
+					<div class="Cart_Header">
+						<span>Product</span>
+						<span>Price</span>
+						<span>Quantity</span>
+						<span>Subtotal</span>
+					</div>
+					<div
+						class="Cart_Products">{# Here the Products will appear #}
+					</div>
+					<div class="Navigate_Btn">
+						<a href="{{ path('productsPage') }}">Return To Shop</a>
+						<button class="refresh">Update Cart</button>
+					</div>
+					<div class="Cart_Checkout">
+						<div>
+							<input type="text" name="coupon" placeholder="Coupon Code">
+							<button>Apply Coupon</button>
+						</div>
+						<div class="Cart_Total">
+							<h4>Cart Total</h4>
+							<p>Subtotal:
+								<span id="HT"></span>
+							</p>
+							<span class="Seperetor_List"></span>
+							<p>Shipping:
+								<span id="ShippingStatus"></span>
+							</p>
+							<span class="Seperetor_List"></span>
+							<p>Total:
+								<span id="TTC"></span>
+							</p>
+							<button class="Checkout">Proceed To Checkout</button>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 		{# Footer Section #}
-		{{ include('components/Footer/Footer.html.twig') }}
-	</body>
+		{{ include('components/Footer/Footer.html.twig') }}</body>
+
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="{{('Pages/CartPage/main.js')}}"></script>
 </html>
