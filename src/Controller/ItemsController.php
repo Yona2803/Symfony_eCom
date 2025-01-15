@@ -30,7 +30,7 @@ class ItemsController extends AbstractController
         $result = $this->itemsService->handleAddItem($request);
 
         if ($result['success']) {
-            return $this->redirectToRoute('home');
+            return $this->redirectToRoute('dashboard');
         }
 
         return $this->render('items/addItemPage.html.twig', [
@@ -87,14 +87,14 @@ class ItemsController extends AbstractController
 
 
     #[Route('/dashboard', name: 'dashboard', methods: ['GET'])]
-    public function test(): Response
+    public function toDashboard(): Response
     {
         return $this->render('items/dashBoard.html.twig');
     }
 
 
     #[Route('/add-item-page', name: 'add_item_page')]
-    public function addItemPage(Request $request): Response
+    public function addItemPage(): Response
     {
         $item = new Items();
         $form = $this->createForm(ItemType::class, $item);
