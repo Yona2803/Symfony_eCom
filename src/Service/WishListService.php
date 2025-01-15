@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Items;
+use App\Entity\Roles;
 use App\Entity\Users;
 use App\Entity\WishList;
 use App\Repository\WishListRepository;
@@ -22,41 +23,30 @@ class WishListService
 
     public function addToWishList(int $userId, int $itemId): bool
     {
-
-        /*$user = new Users();
-        $user->setUsername('ahmed');
-        $user->setEmail('ahmed@gmail.com');      /// this code just for testing
-        $user->setPassword('123');
-        $user->setPhoneNumber('0611111111');
-        $user->setRole(Roles::CUSTOMER);
-        $this->em->persist($user);*/
-
-
+        $value = false;
 
         $user = $this->em->getRepository(Users::class)->findOneBy(['id' => $userId]);
         $item = $this->em->getRepository(Items::class)->findOneBy(['id' => $itemId]);
 
-        $wishList = $this->wishlistRepository->findByUserId($userId);
+        $wishList = $user->getWishList();
 
-        $checkAlreadyExists = $this->wishlistRepository->findItemInWishList($wishList->getId(), $itemId);
-
-        if (!$checkAlreadyExists) {
-            if ($wishList === null) {
-                $wishList = new Wishlist();
-                $wishList->setUser($user);
-                $wishList->addItem($item);
-            } else {
+        if ($wishList !== null) {
+            $checkAlreadyExists = $this->wishlistRepository->findItemInWishList($wishList->getId(), $itemId);
+            if (!$checkAlreadyExists) {
                 $wishList->getItem()->add($item);
+                $value = true;
             }
-
-            $item->addWishlist($wishList);
-
-            $this->em->persist($wishList);
-            $this->em->flush();
-            $value = true;
         } else {
-            $value = false;
+            $wishList = new Wishlist();
+            $wishList->setUser($user);
+            $wishList->addItem($item);
+            $value = true;
         }
+
+        $item->addWishlist($wishList);
+
+        $this->em->persist($wishList);
+        $this->em->flush();
         return $value;
     }
 }

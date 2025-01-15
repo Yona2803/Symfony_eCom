@@ -22,7 +22,8 @@ class WishListController extends AbstractController
     #[Route('/addItemToWishList/{itemId}', name: 'toWishlist', methods: ['GET'])]
     public function addItemToWishList(int $itemId): Response
     {
-        $value = $this->wishListService->addToWishList(4, $itemId);
+        // replace the number 9 with an id of a user in your database
+        $value = $this->wishListService->addToWishList(9, $itemId);
 
         if ($value) {
             $this->addFlash('success', 'Item added to wishlist successfully.');
@@ -32,6 +33,4 @@ class WishListController extends AbstractController
 
         return $this->redirectToRoute('productsPage');
     }
-
-
 }
