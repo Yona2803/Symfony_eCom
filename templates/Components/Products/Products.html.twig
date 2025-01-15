@@ -16,7 +16,7 @@
 		<div class="ProductList">
 			{% for item in items|slice(0, 8) %}
 				<div class="Product">
-					<div class="OptionSection">
+					<div class="OptionSection" id="{{ item.id }}">
 						<form method="GET" action="{{ path('toWishlist', {'itemId': item.id }) }}">
 							<button type="submit">
 								<svg class="Selected_Item" width="34" height="34" viewbox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -31,7 +31,7 @@
 							{% else %}
 								No image
 							{% endif %}
-							<button type="button">Add To Cart</button>
+							<button type="button" onclick="addToCart({{ item.id }})">Add To Cart</button>
 						</div>
 						<h6>{{item.name}}</h6>
 						<div class="ProductInfo">
@@ -66,3 +66,20 @@
 		</div>
 	</div>
 
+<script>
+	// Add to cart (example in JavaScript)
+function addToCart(id) {
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
+const existingItem = cart.find(item => item.id === id);
+
+if (existingItem) {
+existingItem.quantity += 1;
+} else {
+cart.push({id: id, quantity: 1});
+}
+localStorage.setItem('cart', JSON.stringify(cart));
+
+// call to update the icon page
+updateCartIcon();
+}
+</script>
