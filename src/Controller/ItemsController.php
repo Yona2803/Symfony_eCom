@@ -40,6 +40,7 @@ class ItemsController extends AbstractController
 
 
 
+    #[Route('/', name: 'homePage')]
     #[Route('/home', name: 'home')]
     public function getAll(): Response
     {
@@ -62,7 +63,7 @@ class ItemsController extends AbstractController
 
 
 
-    #[Route('/search', name: 'search', methods: ['GET'])]
+    #[Route('/Products', name: 'search', methods: ['GET'])]
     public function search(Request $request, ItemsRepository $itemsRepository): Response
     {
         $name = $request->query->get('searchInput');
@@ -75,7 +76,7 @@ class ItemsController extends AbstractController
 
 
 
-    #[Route('/ByCategory/{categoryName}', name: 'searchByCategory', methods: ['GET'])]
+    #[Route('/Category/{categoryName}', name: 'searchByCategory', methods: ['GET'])]
     public function searchByCategory(string $categoryName, ItemsRepository $itemsRepository): Response
     {
         $items = $itemsRepository->findByCategoryName($categoryName);
@@ -85,12 +86,21 @@ class ItemsController extends AbstractController
     }
 
 
-    #[Route('/test', name: 'test', methods: ['GET'])]
+    #[Route('/dashboard', name: 'dashboard', methods: ['GET'])]
     public function test(): Response
     {
         return $this->render('items/dashBoard.html.twig');
     }
 
 
+    #[Route('/add-item-page', name: 'add_item_page')]
+    public function addItemPage(Request $request): Response
+    {
+        $item = new Items();
+        $form = $this->createForm(ItemType::class, $item);
 
+        return $this->render('items/addItemPage.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
 }
