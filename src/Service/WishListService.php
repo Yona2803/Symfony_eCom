@@ -3,7 +3,6 @@
 namespace App\Service;
 
 use App\Entity\Items;
-use App\Entity\Roles;
 use App\Entity\Users;
 use App\Entity\WishList;
 use App\Repository\WishListRepository;
