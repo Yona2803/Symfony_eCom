@@ -37,8 +37,6 @@ class ItemsController extends AbstractController
         ]);
     }
 
-
-
     #[Route('/', name: 'homePage')]
     #[Route('/home', name: 'home')]
     public function getAll(): Response

@@ -1,0 +1,221 @@
+body {
+  width: 100%;
+  height: 100%;
+  font-family: "Segoe UI", Tahoma, Verdana, sans-serif;
+  font-weight: 400;
+  color: #000;
+  margin: 0;
+  padding: 0;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+a {
+  text-decoration: none;
+}
+.Container {
+  width: 1170px;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+}
+
+#Route_Page {
+  font-size: 14px;
+  margin: 70px 0 80px 0;
+  padding: 0;
+}
+#Route_Page a {
+  color: rgb(0, 0, 0, .5);
+}
+#Route_Page span {
+  color: rgb(0, 0, 0);
+}
+#ProductDetails {
+  width: 1170px;
+  height: fit-content;
+  display: flex;
+}
+
+#Left {
+  width: 700px;
+  max-width: 700px;
+  height: fit-content;
+}
+#Left img {
+  width: auto;
+  max-width: 700px;
+  height: fit-content;
+  object-fit: contain;
+}
+
+#Right {
+  width: 399px;
+  height: fit-content;
+  margin-left: 71px;
+  display: flex;
+  flex-direction: column;
+}
+#Right h3 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #000;
+  text-transform: capitalize;
+  margin: 0;
+}
+
+#Right span:first-of-type {
+  width: fit-content;
+  height: 21px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 8px 0;
+}
+
+#Right span:first-of-type span {
+  color: rgb(0, 0, 0, 0.5);
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0 5px;
+}
+
+#Right span:first-of-type span span {
+  color: #00ff66;
+}
+
+#Right h2 {
+  font-size: 24px;
+  font-weight: 500;
+  color: #000;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+#Right p {
+  width: 100%;
+  height: fit-content;
+  font-size: 14px;
+  font-weight: 500;
+  color: #000;
+  text-wrap: wrap;
+  margin: 18px 0 24px 0;
+}
+#Right #SeperatorLine {
+  width: 100%;
+  height: 1px;
+  background: rgb(0, 0, 0, 0.5);
+  border-radius: 0.5px;
+}
+#Right div {
+  width: 100%;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 34px 0 16px 0;
+}
+
+#Right div input {
+  font-size: 20px;
+  font-weight: 500;
+  height: 40.4px;
+  width: 80px;
+  border: 1px solid rgb(0, 0, 0, 0.5);
+  outline: 0;
+  border-radius: 4px;
+  background-color: white;
+  text-align: center;
+}
+
+#Right div button:first-of-type {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 240.8px;
+  height: 44px;
+  background-color: white;
+  outline: none;
+  border: 1px solid rgb(0, 0, 0, 0.5);
+  font-size: 16px;
+  font-weight: 500;
+  color: #000;
+  padding: 0;
+  border-radius: 4px;
+  -webkit-transition: all 0.32s ease-out;
+  -moz-transition: all 0.32s ease-out;
+  -o-transition: all 0.32s ease-out;
+  transition: all 0.32s ease-out;
+}
+#Right div button:first-of-type:hover {
+  background-color: #ff5c5c;
+  border: 1px solid transparent;
+  color: white;
+}
+#Right div button:first-of-type:active {
+  background-color: #db4444;
+}
+
+#Right div button:last-of-type {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background-color: white;
+  color: #000;
+  outline: none;
+  border: 1px solid rgb(0, 0, 0, 0.5);
+  padding: 0;
+  border-radius: 4px;
+  -webkit-transition: all 0.32s ease-out;
+  -moz-transition: all 0.32s ease-out;
+  -o-transition: all 0.32s ease-out;
+  transition: all 0.32s ease-out;
+}
+#Right div button:last-of-type:hover {
+  background-color: #ff5c5c;
+  border: 1px solid transparent;
+}
+#Right div button:last-of-type:active {
+  background-color: #db4444;
+}
+
+#Right div button:last-of-type svg {
+  width: fit-content;
+  height: 30px;
+}
+#Right div button:last-of-type:hover svg path {
+  stroke: white;
+}
+
+/* Btn: Buy Now */
+#Right button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 44px;
+  background-color: #db4444;
+  font-size: 16px;
+  font-weight: 500;
+  color: #fff;
+  outline: none;
+  border: 1px solid transparent;
+  padding: 0;
+  border-radius: 4px;
+  -webkit-transition: all 0.32s ease-out;
+  -moz-transition: all 0.32s ease-out;
+  -o-transition: all 0.32s ease-out;
+  transition: all 0.32s ease-out;
+}
+
+#Right button:hover {
+  background-color: #ff5c5c;
+  border: 1px solid transparent;
+}
+#Right button:active {
+  background-color: #db4444;
+}

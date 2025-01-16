@@ -1,3 +1,22 @@
+function sss() {
+  let routeInfo = JSON.parse(localStorage.getItem("routeInfo")) || [];
+  let Route_Path;
+  let Route_Text;
+
+  // Log the entire routeInfo array for debugging
+  console.log("Current routeInfo: 22 ", routeInfo);
+  if (Array.isArray(routeInfo) && routeInfo.length > 0) {
+    Route_Path = routeInfo[0].srcPage_Path;
+    Route_Text = routeInfo[0].srcPage_Text;
+  } else {
+    // Add new route info
+    Route_Path = "none";
+    Route_Text = "Home";
+  }
+  document.getElementById("Route_Path").href = Route_Path;
+  document.getElementById("Route_Path").innerHTML = Route_Text;
+}
+sss();
 function MyCart_Products() {
   let container = document.querySelector(".Cart_Products");
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -13,8 +32,9 @@ function MyCart_Products() {
   let ids = cart.map((item) => item.id);
   let queryParams = encodeURIComponent(JSON.stringify(ids));
 
-  // Sending by Ajax to Back-End
+  // Sending by Ajax to Back-End => Show response in HTML
   $.ajax({
+    // url: `/MyCart/ShowProducts?items_ids=${queryParams}`,
     url: `/MyCart/ShowProducts?items_ids=${queryParams}`,
     type: "GET",
     success: function (response) {
@@ -62,13 +82,21 @@ function MyCart_Products() {
     },
   });
 }
-MyCart_Products();
+// check if Cart exist in Local storage
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let cartIds = cart.map((item) => item.id);
+
+if (cartIds.length > 0) {
+  MyCart_Products();
+} else {
+  let container = document.querySelector(".Cart_Products");
+  container.innerHTML = "<p>No products found in the cart.</p>";
+}
 
 // Update Cart : Refresh Page
 const refreshButton = document.querySelector(".refresh");
 const refreshPage = () => {
   calculate_All();
-  // MyCart_Products();
 };
 refreshButton.addEventListener("click", refreshPage);
 
@@ -82,7 +110,6 @@ function calculate_ById(id, price) {
     document.getElementById("itemTotale" + id).innerText =
       total.toFixed(2) + " Dh";
     update_LocalStorage(id, quantity);
-    // calculate_All();
   } catch (error) {
     console.error(`Error calculating total for item ${productId}:`, error);
   }

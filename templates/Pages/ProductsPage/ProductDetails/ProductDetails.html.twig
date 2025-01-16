@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Connecting</title>
+		<link rel="stylesheet" href="{{ asset('Pages/ProductsPage/ProductDetails/Style.css') }}">
+		<link rel="icon" type="image/x-icon" href="{{ asset('img/icon/Icon.png') }}">
+	</head>
+	<body>
+		{# Header Section #}
+		{{ include( 'components/Header/Header.html.twig') }}
+		{# Adding Products Section #}
+		<div class="Container">
+			<p id="Route_Page">
+				<a id="Route_Path"></a>
+				<span> 
+					{{ ProductDetails.name }}</span>
+			</p>
+			<div id="ProductDetails">
+				<div id="Left">
+					{% if ProductDetails.itemImage %}
+						<img src="data:image/jpeg;base64,{{ ProductDetails.itemImage|base64_encode }}" alt="{{ ProductDetails.name }}">
+					{% else %}
+						No image
+					{% endif %}
+				</div>
+				<div id="Right">
+					<h3 id="ProductName">{{ ProductDetails.name }}</h3>
+					<span>
+						<svg width="16" height="15" viewbox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<path d="M14.673 7.17173C15.7437 6.36184 15.1709 4.65517 13.8284 4.65517H11.3992C10.7853 4.65517 10.243 4.25521 10.0617 3.66868L9.33754 1.32637C8.9309 0.0110567 7.0691 0.0110564 6.66246 1.32637L5.93832 3.66868C5.75699 4.25521 5.21469 4.65517 4.60078 4.65517H2.12961C0.791419 4.65517 0.215919 6.35274 1.27822 7.16654L3.39469 8.78792C3.85885 9.1435 4.05314 9.75008 3.88196 10.3092L3.11296 12.8207C2.71416 14.1232 4.22167 15.1704 5.30301 14.342L7.14861 12.9281C7.65097 12.5432 8.34903 12.5432 8.85139 12.9281L10.6807 14.3295C11.7636 15.159 13.2725 14.1079 12.8696 12.8046L12.09 10.2827C11.9159 9.71975 12.113 9.10809 12.5829 8.75263L14.673 7.17173Z" fill="#FFAD33"/>
+						</svg>
+						<svg width="16" height="15" viewbox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<path d="M14.673 7.17173C15.7437 6.36184 15.1709 4.65517 13.8284 4.65517H11.3992C10.7853 4.65517 10.243 4.25521 10.0617 3.66868L9.33754 1.32637C8.9309 0.0110567 7.0691 0.0110564 6.66246 1.32637L5.93832 3.66868C5.75699 4.25521 5.21469 4.65517 4.60078 4.65517H2.12961C0.791419 4.65517 0.215919 6.35274 1.27822 7.16654L3.39469 8.78792C3.85885 9.1435 4.05314 9.75008 3.88196 10.3092L3.11296 12.8207C2.71416 14.1232 4.22167 15.1704 5.30301 14.342L7.14861 12.9281C7.65097 12.5432 8.34903 12.5432 8.85139 12.9281L10.6807 14.3295C11.7636 15.159 13.2725 14.1079 12.8696 12.8046L12.09 10.2827C11.9159 9.71975 12.113 9.10809 12.5829 8.75263L14.673 7.17173Z" fill="#FFAD33"/>
+						</svg>
+						<svg width="16" height="15" viewbox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<path d="M14.673 7.17173C15.7437 6.36184 15.1709 4.65517 13.8284 4.65517H11.3992C10.7853 4.65517 10.243 4.25521 10.0617 3.66868L9.33754 1.32637C8.9309 0.0110567 7.0691 0.0110564 6.66246 1.32637L5.93832 3.66868C5.75699 4.25521 5.21469 4.65517 4.60078 4.65517H2.12961C0.791419 4.65517 0.215919 6.35274 1.27822 7.16654L3.39469 8.78792C3.85885 9.1435 4.05314 9.75008 3.88196 10.3092L3.11296 12.8207C2.71416 14.1232 4.22167 15.1704 5.30301 14.342L7.14861 12.9281C7.65097 12.5432 8.34903 12.5432 8.85139 12.9281L10.6807 14.3295C11.7636 15.159 13.2725 14.1079 12.8696 12.8046L12.09 10.2827C11.9159 9.71975 12.113 9.10809 12.5829 8.75263L14.673 7.17173Z" fill="#FFAD33"/>
+						</svg>
+						<svg width="16" height="15" viewbox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<path d="M14.673 7.17173C15.7437 6.36184 15.1709 4.65517 13.8284 4.65517H11.3992C10.7853 4.65517 10.243 4.25521 10.0617 3.66868L9.33754 1.32637C8.9309 0.0110567 7.0691 0.0110564 6.66246 1.32637L5.93832 3.66868C5.75699 4.25521 5.21469 4.65517 4.60078 4.65517H2.12961C0.791419 4.65517 0.215919 6.35274 1.27822 7.16654L3.39469 8.78792C3.85885 9.1435 4.05314 9.75008 3.88196 10.3092L3.11296 12.8207C2.71416 14.1232 4.22167 15.1704 5.30301 14.342L7.14861 12.9281C7.65097 12.5432 8.34903 12.5432 8.85139 12.9281L10.6807 14.3295C11.7636 15.159 13.2725 14.1079 12.8696 12.8046L12.09 10.2827C11.9159 9.71975 12.113 9.10809 12.5829 8.75263L14.673 7.17173Z" fill="#FFAD33"/>
+						</svg>
+						<svg width="16" height="15" viewbox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<path d="M14.673 7.17173C15.7437 6.36184 15.1709 4.65517 13.8284 4.65517H11.3992C10.7853 4.65517 10.243 4.25521 10.0617 3.66868L9.33754 1.32637C8.9309 0.0110567 7.0691 0.0110564 6.66246 1.32637L5.93832 3.66868C5.75699 4.25521 5.21469 4.65517 4.60078 4.65517H2.12961C0.791419 4.65517 0.215919 6.35274 1.27822 7.16654L3.39469 8.78792C3.85885 9.1435 4.05314 9.75008 3.88196 10.3092L3.11296 12.8207C2.71416 14.1232 4.22167 15.1704 5.30301 14.342L7.14861 12.9281C7.65097 12.5432 8.34903 12.5432 8.85139 12.9281L10.6807 14.3295C11.7636 15.159 13.2725 14.1079 12.8696 12.8046L12.09 10.2827C11.9159 9.71975 12.113 9.10809 12.5829 8.75263L14.673 7.17173Z" fill="#FFAD33"/>
+						</svg>
+						<span>||
+							{% if ProductDetails.stock > 0 %}
+								<span>&#40;{{ ProductDetails.stock }}&#41; in Stock</span>
+							{% else %}
+								<span style="color: #DB4444">out of stock</span>
+							{% endif %}
+						</span>
+					</span>
+					<h2>{{ ProductDetails.price }}
+						DH</h2>
+					<p>{{ ProductDetails.description }}</p>
+					<span id="SeperatorLine"></span>
+					<div>
+						<input type="number" min="1" id="quantity{{ ProductDetails.id }}" value="1" max="{{ ProductDetails.stock }}">
+						<button type="button" onclick="addToCart({{ ProductDetails.id }})">Add To Cart</button>
+						<button type="submit">
+							<svg class="Selected_Item" width="34" height="34" viewbox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<circle cx="17" cy="17" r="17" fill="none"/>
+								<path d="M13 11C10.7912 11 9 12.7396 9 14.8859C9 16.6185 9.7 20.7305 16.5904 24.8873C16.7138 24.961 16.8555 25 17 25C17.1445 25 17.2862 24.961 17.4096 24.8873C24.3 20.7305 25 16.6185 25 14.8859C25 12.7396 23.2088 11 21 11C18.7912 11 17 13.3551 17 13.3551C17 13.3551 15.2088 11 13 11Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+							</svg>
+						</button>
+					</div>
+					<button type="button">Buy Now</button>
+				</div>
+			</div>
+		</div>
+		{# Footer Section #}
+		{{ include('components/Footer/Footer.html.twig') }}
+
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{{ asset('js/global.js') }}"></script>
+<script>
+let idPrd = {{ ProductDetails.id|json_encode|raw }};
+</script>
+		<script src="{{ asset('Pages/ProductsPage/ProductDetails/main.js') }}"></script>
+	</body>
+</html>
