@@ -6,37 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="{{ asset('css/dashBoardStyle.css') }}">
-    <script>
-        function loadContent(url, containerId) {
-            fetch(url)
-                .then(response => response.text())
-                .then(html => {
-                    document.getElementById(containerId).innerHTML = html;
-                })
-                .catch(error => {
-                    console.error('Error loading content:', error);
-                });
-        }
-
-        function previewImage(event) {
-            const input = event.target;
-            const reader = new FileReader();
-            reader.onload = function() {
-                const preview = document.getElementById('imagePreview');
-                preview.src = reader.result;
-                preview.style.display = 'block';
-            };
-            reader.readAsDataURL(input.files[0]);
-        }
-    </script>
+    
 </head>
 <body>
     <div class="dashboard">
+    
+    {% for label, messages in app.flashes %}
+				{% for message in messages %}
+					<script>
+						alert('{{ message }}');
+					</script>
+				{% endfor %}
+			{% endfor %}
+
         <div class="sidebar">
             <h2>Dashboard</h2>
             <ul class="nav">
                 <li><a href="home">Home</a></li>
-                <li><a href="#wishlist">Wishlist</a></li>
+                <li><a href="#" onclick="loadContent('{{ path('wishlistPage') }}', 'main-content')">Wishlist</a></li>
                 <li>
                     <a href="#users">Users</a>
                     <ul class="submenu">
@@ -94,5 +81,28 @@
             </section>
         </div>
     </div>
+    <script>
+        function loadContent(url, containerId) {
+            fetch(url)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById(containerId).innerHTML = html;
+                })
+                .catch(error => {
+                    console.error('Error loading content:', error);
+                });
+        }
+
+        function previewImage(event) {
+            const input = event.target;
+            const reader = new FileReader();
+            reader.onload = function() {
+                const preview = document.getElementById('imagePreview');
+                preview.src = reader.result;
+                preview.style.display = 'block';
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    </script>
 </body>
 </html>

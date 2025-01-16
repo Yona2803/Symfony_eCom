@@ -49,4 +49,28 @@ class WishListService
         $this->em->flush();
         return $value;
     }
+
+
+    public function getWishListById(int $wishlistId){
+        return $this->wishlistRepository->find($wishlistId);
+    }
+
+
+    public function removeFromWishList(int $itemId){
+        $value = false;
+        $item = $this->em->getRepository(Items::class)->findOneBy(['id' => $itemId]);
+        $user = $this->em->getRepository(Users::class)->findOneBy(['id' => 9]);  // replace number 9 with the userId
+        $wishList = $user->getWishList();
+
+        if($wishList){
+            $wishList->getItem()->removeElement($item);
+            $this->em->persist($wishList);
+            $this->em->flush();
+            $value = true;
+        }
+        return $value;
+    }
+
+
+
 }

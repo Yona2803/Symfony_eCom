@@ -33,4 +33,34 @@ class WishListController extends AbstractController
 
         return $this->redirectToRoute('productsPage');
     }
+
+
+
+    #[Route('/wishlist', name: 'wishlistPage', methods: ['GET'])]
+    public function wishList(): Response
+    {
+        // replace the number 9 with an id of a user in your database
+        $wishlist = $this->wishListService->getWishListById(13);
+
+        return $this->render('items/wishlistPage.html.twig', [
+            'wishlist' => $wishlist,
+        ]);
+    }
+
+
+    #[Route('/delete_item/{itemId}', name: 'delete_item', methods: ['GET'])]
+    public function removeItemFromWishList(int $itemId): Response
+    {
+        $value = $this->wishListService->removeFromWishList($itemId);
+
+        if ($value) {
+            $this->addFlash('success', 'Item removed from wishlist successfully.');
+        } else {
+            $this->addFlash('warning', 'Item does not exist in wishlist.');
+        }
+
+        return $this->redirectToRoute('dashboard');
+    }
+
+
 }
