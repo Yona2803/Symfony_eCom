@@ -3,22 +3,38 @@
 namespace App\Service;
 
 use App\Entity\Items;
-use App\Entity\Roles;
 use App\Entity\Users;
 use App\Entity\WishList;
+use App\Repository\ItemsRepository;
+use App\Repository\UsersRepository;
 use App\Repository\WishListRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class WishListService
 {
 
     private EntityManagerInterface $em;
     private WishListRepository $wishlistRepository;
-    public function __construct(EntityManagerInterface $em, WishListRepository $wishlistRepository)
+    private ItemsRepository $itemsRepository;
+    private UsersRepository $usersRepository;
+    private $params;
+
+    public function __construct(
+        EntityManagerInterface $em,
+        WishListRepository $wishlistRepository,
+        ItemsRepository $itemsRepository,
+        UsersRepository $usersRepository,
+        ParameterBagInterface $params)
     {
         $this->em = $em;
         $this->wishlistRepository = $wishlistRepository;
+        $this->itemsRepository = $itemsRepository;
+        $this->usersRepository = $usersRepository;
+        $this->params = $params;
     }
+
+
 
 
     public function addToWishList(int $userId, int $itemId): bool
@@ -56,21 +72,23 @@ class WishListService
     }
 
 
-    public function removeFromWishList(int $itemId){
-        $value = false;
-        $item = $this->em->getRepository(Items::class)->findOneBy(['id' => $itemId]);
-        $user = $this->em->getRepository(Users::class)->findOneBy(['id' => 9]);  // replace number 9 with the userId
-        $wishList = $user->getWishList();
+    public function removeItemFromWishlist(int $itemId): bool
+    {
+        $item = $this->itemsRepository->find($itemId);
+        $userId = $this->params->get('user_id');
 
-        if($wishList){
-            $wishList->getItem()->removeElement($item);
-            $this->em->persist($wishList);
-            $this->em->flush();
-            $value = true;
+        if ($item) {
+            $wishlist = $this->usersRepository->find($userId)->getWishList();
+            if ($wishlist) {
+                $wishlist->removeItem($item);
+                $this->em->persist($wishlist);
+                $this->em->flush();
+                return true;
+            }
         }
-        return $value;
-    }
 
+        return false;
+    }
 
 
 }
