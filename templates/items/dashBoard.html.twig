@@ -6,18 +6,19 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Admin Dashboard</title>
 		<link rel="stylesheet" href="{{ asset('css/dashBoardStyle.css') }}">
+        <link rel="icon" type="image/x-icon" href="{{ asset('img/icon/Icon.png') }}">
 	</head>
 	<body>
 		<div
 			class="dashboard">
 
-			{# {% for label, messages in app.flashes %}
-										{% for message in messages %}
-											<script>
-												alert('{{ message }}');
-											</script>
-										{% endfor %}
-									{% endfor %} #}
+			{% for label, messages in app.flashes %}
+                {% for message in messages %}
+                    <script>
+                        alert('{{ message }}');
+                    </script>
+                {% endfor %}
+            {% endfor %}
 
 			<div class="sidebar">
 				<h2>Dashboard</h2>
