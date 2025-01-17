@@ -1,22 +1,22 @@
-function sss() {
+function RoutePath() {
   let routeInfo = JSON.parse(localStorage.getItem("routeInfo")) || [];
   let Route_Path;
   let Route_Text;
 
   // Log the entire routeInfo array for debugging
-  console.log("Current routeInfo: 22 ", routeInfo);
   if (Array.isArray(routeInfo) && routeInfo.length > 0) {
     Route_Path = routeInfo[0].srcPage_Path;
     Route_Text = routeInfo[0].srcPage_Text;
   } else {
     // Add new route info
-    Route_Path = "none";
+    Route_Path = "/";
     Route_Text = "Home";
   }
   document.getElementById("Route_Path").href = Route_Path;
   document.getElementById("Route_Path").innerHTML = Route_Text;
 }
-sss();
+RoutePath();
+
 function MyCart_Products() {
   let container = document.querySelector(".Cart_Products");
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -48,9 +48,15 @@ function MyCart_Products() {
                                           }" alt="Product Image">
                                           <p>${product.name}</p>
                                       </div>
-                                      <span id="price${product.id}">${
-              product.price
-            } Dh</span>
+                                      <span id="price${product.id}">
+  ${new Intl.NumberFormat("fr-FR", {
+    style: "decimal",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })
+    .format(product.price)
+    .replace(",", ".")}
+</span>
                                       <div>
                                           <input type="number" id="quantity${
                                             product.id
@@ -58,21 +64,21 @@ function MyCart_Products() {
               product.id
             )}" name="quantity${product.id}" min="1" max="${
               product.stock
-            }" onchange="calculate_ById(${product.id},${
-              product.price
-            })" onclik="calculate_All()">
+            }" onchange="calculate_ById(${product.id},${product.price},${
+              product.stock
+            })" > 
+            
                                       </div>
                                       <span id="itemTotale${product.id}"></span>
                                   </div>`;
 
             container.innerHTML += productHTML;
-            calculate_ById(product.id, product.price);
+            calculate_ById(product.id, product.price, product.stock);
           });
         });
       } else {
         container.innerHTML = "<p>No products found in the cart.</p>";
       }
-      calculate_All();
     },
     error: function (xhr, status, error) {
       console.log("Status:", status);
@@ -101,28 +107,49 @@ const refreshPage = () => {
 refreshButton.addEventListener("click", refreshPage);
 
 // calculate totale of each item
-function calculate_ById(id, price) {
+function calculate_ById(id, price, MaxStock) {
   try {
-    let quantity =
-      parseInt(document.getElementById("quantity" + id).value) || 1;
-    let total = price * quantity;
+    let quantity = parseInt(document.getElementById("quantity" + id).value);
 
-    document.getElementById("itemTotale" + id).innerText =
-      total.toFixed(2) + " Dh";
-    update_LocalStorage(id, quantity);
+    // Ensure quantity is a valid number
+    if (isNaN(quantity)) {
+      console.error(`Invalid quantity for item with ID ${id}`);
+      return;
+    }
+
+    let total = 0;
+    if (quantity > 0 && quantity <= MaxStock) {
+      total = price * quantity;
+      const formattedNumber = new Intl.NumberFormat("fr-FR", {
+        style: "decimal",
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })
+        .format(total)
+        .replace(",", ".");
+
+      document.getElementById("itemTotale" + id).innerText =
+        formattedNumber + " Dh";
+    }
+
+    update_LocalStorage(id, quantity, MaxStock);
+    calculate_All();
   } catch (error) {
-    console.error(`Error calculating total for item ${productId}:`, error);
+    console.error(`Error calculating total for item ${id}:`, error);
   }
 }
 
-function update_LocalStorage(id, quantity) {
+function update_LocalStorage(id, quantity, MaxStock) {
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
   const existingItem = cart.find((item) => item.id === id);
 
   if (existingItem) {
-    existingItem.quantity = quantity;
+    if (quantity > 0 && quantity <= MaxStock) {
+      existingItem.quantity = quantity;
+    }
   } else {
-    cart.push({ id: id, quantity: 1 });
+    const newQuantity = quantity > 0 && quantity <= MaxStock ? quantity : 1;
+    cart.push({ id: id, quantity: newQuantity });
   }
   localStorage.setItem("cart", JSON.stringify(cart));
 }
@@ -131,17 +158,23 @@ function calculate_All() {
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
   let total = 0;
+  let ErrorExist = false;
   cart.forEach((item) => {
-    let quantity =
-      parseInt(document.getElementById("quantity" + item.id).value) || 0;
-    let price =
-      parseInt(
-        document
-          .getElementById("price" + item.id)
-          .textContent.replace(" Dh", "")
-      ) || 0;
+    let quantity = document.getElementById("quantity" + item.id);
 
-    total += price * quantity;
+    let price = document.getElementById("price" + item.id).innerHTML;
+
+    let cleanPrice = parseFloat(price.replace(/\s/g, "").replace(",", "."));
+
+    if (
+      parseInt(quantity.value) <= parseInt(quantity.max) &&
+      parseInt(quantity.value) > 0
+    ) {
+      total += cleanPrice * parseInt(quantity.value);
+    } else {
+      ErrorExist = true;
+      return;
+    }
   });
 
   //ShippingStatus, HT, TTC
@@ -149,18 +182,23 @@ function calculate_All() {
   let ShippingStatus;
   let TTC_Shipping;
 
-  if (TTC >= 250) {
-    ShippingStatus = "Free";
-    TTC_Shipping = TTC;
-  } else if (TTC >= 100) {
-    ShippingStatus = "15 Dh";
-    TTC_Shipping = TTC + 15;
+  if (!ErrorExist) {
+    if (TTC >= 250) {
+      ShippingStatus = "Free";
+      TTC_Shipping = TTC;
+    } else if (TTC >= 100) {
+      ShippingStatus = "15 Dh";
+      TTC_Shipping = TTC + 15;
+    } else {
+      ShippingStatus = "25 Dh";
+      TTC_Shipping = TTC + 25;
+    }
+    document.getElementById("HT").innerText = total.toFixed(2) + " Dh";
+    document.getElementById("ShippingStatus").innerText = ShippingStatus;
+    document.getElementById("TTC").innerText = TTC_Shipping.toFixed(2) + " Dh";
   } else {
-    ShippingStatus = "25 Dh";
-    TTC_Shipping = TTC + 25;
+    alert(
+      "Something is wrong : check the Qty of each item, Please fill the inputs with the arrows of input fields"
+    );
   }
-
-  document.getElementById("HT").innerText = total.toFixed(2) + " Dh";
-  document.getElementById("ShippingStatus").innerText = ShippingStatus;
-  document.getElementById("TTC").innerText = TTC_Shipping.toFixed(2) + " Dh";
 }

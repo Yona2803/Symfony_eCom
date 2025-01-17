@@ -1,19 +1,48 @@
 // Add to cart (example in JavaScript)
-function addToCart(id) {
+function addToCart(id, MaxStock) {
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
   const existingItem = cart.find((item) => item.id === id);
 
-  let quantity = parseInt(document.getElementById("quantity" + id).value) || 1;
+  // let quantity = parseInt(document.getElementById("quantity" + id).value) || 1;
+  let quantity = document.getElementById("quantity" + id);
 
-  if (existingItem) {
-    existingItem.quantity = quantity;
+  if (parseInt(quantity.value) <= MaxStock && parseInt(quantity.value) > 0) {
+    if (existingItem) {
+      existingItem.quantity =
+        existingItem.quantity > parseInt(quantity.value)
+          ? existingItem.quantity
+          : parseInt(quantity.value);
+    } else {
+      cart.push({ id: id, quantity: parseInt(quantity.value) });
+    }
   } else {
-    cart.push({ id: id, quantity: quantity });
+    alert(
+      "Something is wrong : check the Qty of each item, Please fill the inputs with the arrows of input fields"
+    );
   }
+
   localStorage.setItem("cart", JSON.stringify(cart));
 
   // call to update the icon page
   updateCartIcon();
+}
+
+function update_LocalStorages(id, MaxStock) {
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  const existingItem = cart.find((item) => item.id === id);
+
+  let quantity = document.getElementById("quantity" + id);
+
+  if (parseInt(quantity.value) <= MaxStock && parseInt(quantity.value) > 0) {
+    if (existingItem) {
+      existingItem.quantity = parseInt(quantity.value);
+    }
+    localStorage.setItem("cart", JSON.stringify(cart));
+  } else {
+    alert(
+      "Something is wrong : check the Qty of each item, Please fill the inputs with the arrows of input fields"
+    );
+  }
 }
 
 // Get elements and initial values
