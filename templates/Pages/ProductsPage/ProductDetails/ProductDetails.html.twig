@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Connecting</title>
+		<title>Product: {{ ProductDetails.name }}</title>
 		<link rel="stylesheet" href="{{ asset('Pages/ProductsPage/ProductDetails/Style.css') }}">
 		<link rel="icon" type="image/x-icon" href="{{ asset('img/icon/Icon.png') }}">
 	</head>
 	<body>
 		{# Header Section #}
-		{{ include( 'components/Header/Header.html.twig') }}
+		{% include 'components/Header/Header.html.twig' with { 'ParentPage': 'ProductDetails' } %}
 		{# Adding Products Section #}
 		<div class="Container">
 			<p id="Route_Page">
@@ -54,8 +54,8 @@
 					<p>{{ ProductDetails.description }}</p>
 					<span id="SeperatorLine"></span>
 					<div>
-						<input type="number" min="1" id="quantity{{ ProductDetails.id }}" value="1" max="{{ ProductDetails.stock }}">
-						<button type="button" onclick="addToCart({{ ProductDetails.id }})">Add To Cart</button>
+						<input type="number" min="1" id="quantity{{ ProductDetails.id }}" onchange="update_LocalStorages({{ ProductDetails.id }},{{ ProductDetails.stock }})" value="1" max="{{ ProductDetails.stock }}">
+						<button type="button" onclick="addToCart({{ ProductDetails.id }},{{ ProductDetails.stock }})">Add To Cart</button>
 						<button type="submit">
 							<svg class="Selected_Item" width="34" height="34" viewbox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
 								<circle cx="17" cy="17" r="17" fill="none"/>

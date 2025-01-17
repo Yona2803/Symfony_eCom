@@ -32,7 +32,7 @@
 								{% else %}
 									No image
 								{% endif %}
-								<button type="button" onclick="addToCart({{ item.id }})">Add To Cart</button>
+								<button type="button" onclick="addToCart({{ item.id }}); event.preventDefault();  event.stopPropagation();">Add To Cart</button>
 							</div>
 							<h6 id="ProductName">{{item.name}}</h6>
 							<div class="ProductInfo">

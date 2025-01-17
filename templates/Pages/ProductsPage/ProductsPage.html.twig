@@ -7,7 +7,7 @@
 	</head>
 	<body>
 		{# Header Section #}
-		{{ include('Components/Header/Header.html.twig') }}
+		{% include 'components/Header/Header.html.twig' with { 'ParentPage': 'Products' } %}
 		{# Adding Products Section #}
 		<div class="Container">
 
@@ -47,7 +47,7 @@
 									{% else %}
 										No image
 									{% endif %}
-									<button type="button" onclick="addToCart( event, {{ item.id }})">Add To Cart</button>
+									<button type="button" onclick="addToCart( {{ item.id }}); event.preventDefault();  event.stopPropagation();">Add To Cart</button>
 								</div>
 								<h6>{{item.name}}</h6>
 								<div class="ProductInfo">
@@ -77,12 +77,14 @@
 
 					{% endfor %}
 				</div>
-				<button id="ShowMoreProducts" type="button">View All Products</button>
+				<a href="{{ path('productsPage') }}">
+					<button id="ShowMoreProducts" type="button">View All Products</button>
+				</a>
 			</div>
 		</div>
 		{# Footer Section #}
 		{{ include('Components/Footer/Footer.html.twig') }}
 	</body>
-		<script src="{{ asset('js/global.js') }}"></script>
-		<script src="{{ asset('Pages/ProductsPage/main.js') }}"></script>
+	<script src="{{ asset('js/global.js') }}"></script>
+	<script src="{{ asset('Pages/ProductsPage/main.js') }}"></script>
 </html>
