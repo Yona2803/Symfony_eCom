@@ -7,7 +7,6 @@ use App\Entity\Items;
 use App\Form\ItemType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\BrowserKit\Response;
 use Symfony\Component\Form\FormFactoryInterface;
 
 class ItemsService
@@ -79,5 +78,4 @@ class ItemsService
     {
         return $this->entityManager->getRepository(Items::class)->findByPartialName($name);
     }
-
 }
