@@ -23,7 +23,7 @@ class ItemsService
 
 
 
-    public function handleAddItem(Request $request): array
+    public function handleAddItem(Request $request): bool
     {
         $item = new Items();
         $form = $this->formFactory->create(ItemType::class, $item);
@@ -53,12 +53,11 @@ class ItemsService
             $this->entityManager->persist($item);
             $this->entityManager->flush();
 
-            return ['success' => true, 'form' => $form];
+            return true;
         }
 
-        return ['success' => false, 'form' => $form];
+        return false;
     }
-
 
 
 

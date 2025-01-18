@@ -8,6 +8,14 @@
 		<link rel="icon" type="image/x-icon" href="{{ asset('img/icon/Icon.png') }}">
 	</head>
 	<body>
+		{{ include('items/dashBoard.html.twig') }}
+
+		{% for message in app.flashes('addProduct') %}
+			<script>
+				alert('{{ message }}');
+			</script>
+		{% endfor %}
+		
 		<div class="container">
 			<h1>Add Product</h1>
 			{{ form_start(form, {'action': path('addItem'), 'method': 'POST', 'attr': {'enctype': 'multipart/form-data'}}) }}
@@ -39,4 +47,3 @@
 		</div>
 	</body>
 </html>
-

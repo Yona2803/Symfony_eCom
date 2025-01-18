@@ -8,9 +8,9 @@
 	</head>
 	<body>
 		{# Header Section #}
-		{{ include('components/Header/Header.html.twig') }}
+		{% include 'components/Header/Header.html.twig' %}
 		{# Body Section #}
-		{{ include('Pages/LandingPage/LandingPage.html.twig') }}
+		{% include 'Pages/LandingPage/LandingPage.html.twig' with items %}
 		{# Footer Section #}
 		{{ include('components/Footer/Footer.html.twig') }}
 

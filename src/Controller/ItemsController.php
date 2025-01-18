@@ -12,6 +12,7 @@ use App\Form\ItemType;
 use App\Repository\ItemsRepository;
 use App\Service\ItemsService;
 
+
 class ItemsController extends AbstractController
 {
 
@@ -28,13 +29,12 @@ class ItemsController extends AbstractController
     {
         $result = $this->itemsService->handleAddItem($request);
 
-        if ($result['success']) {
-            return $this->redirectToRoute('dashboard');
+        if ($result) {
+            $this->addFlash('addProduct', 'Product added successfully!');
+            return $this->redirect('add-item-page');
         }
-
-        return $this->render('items/addItemPage.html.twig', [
-            'form' => $result['form']->createView(),
-        ]);
+        $this->addFlash('error', 'Failed to add product.');
+        return new Response(null, Response::HTTP_NOT_FOUND);
     }
 
 

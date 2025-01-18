@@ -35,8 +35,12 @@ a {
 .Cart #Route_Page {
   font-size: 14px;
   color: rgba(0, 0, 0, 0.5);
-  margin: 80px 0;
+  margin: 70px 0 80px 0;
   padding: 0;
+}
+
+.Cart #Route_Page a {
+  color: rgb(0, 0, 0, .5);
 }
 
 .Cart #Route_Page span {

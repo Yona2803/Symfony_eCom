@@ -11,9 +11,11 @@
 		{# Adding Products Section #}
 		<div class="Container">
 			<div class="Cart">
-				<p id="Route_Page">Home/
-					<span>Cart</span>
-				</p>
+				<p id="Route_Page">
+				<a id="Route_Path"></a>
+				<span> 
+					Cart</span>
+			</p>
 				<div class="Cart_Details">
 					<div class="Cart_Header">
 						<span>Product</span>
@@ -56,5 +58,6 @@
 		{{ include('components/Footer/Footer.html.twig') }}</body>
 
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{{ asset('js/global.js') }}"></script>
 	<script src="{{('Pages/CartPage/main.js')}}"></script>
 </html>

@@ -8,16 +8,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Attribute\Route;
-use App\Entity\Items;
 
-class HomePageController extends AbstractController
+class ConnectingPageController extends AbstractController
 {
-    #[Route('/', name: 'homePage')]
+    #[Route('/Connecting', name: 'ConnectingPage')]
     public function index(Request $request, EntityManagerInterface $entityManager)
     {
-        $items = $entityManager->getRepository(Items::class)->findAll();
-        return $this->render('base.html.twig', [
-            'items' => $items
-        ]);
+        return $this->render('Pages/ConnectingPage/ConnectingPage.html.twig');
     }
 }
