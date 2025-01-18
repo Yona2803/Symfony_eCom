@@ -1,18 +1,28 @@
 function deleteItem(itemId) {
-    fetch(`/wishlist/delete/${itemId}`, {
-        method: "DELETE",
-        headers: {
-            "Content-Type": "application/json",
-        },
-    })
-        .then((response) => {
-            if (response.ok) {
-                document.getElementById(`item-${itemId}`).remove();
-            } else {
-                console.error("Failed to delete item");
-            }
+
+    const userConfirmed = window.confirm("Are you sure you want to remove this product from your wishlist?");
+
+    if (userConfirmed) {
+        fetch(`/wishlist/delete/${itemId}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            },
         })
-        .catch((error) => {
-            console.error("Error:", error);
-        });
+            .then((response) => response.json())  
+            .then((data) => {
+                if (data.status === "success") {
+                    document.getElementById(`item-${itemId}`).remove();
+                    alert(data.message); 
+                } else {
+                    console.error(data.message);
+                    alert(data.message); 
+                }
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+    } else {
+        console.log("Item deletion canceled.");
+    }
 }
