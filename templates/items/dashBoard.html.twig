@@ -11,14 +11,6 @@
 		<div
 			class="dashboard">
 
-			{# {% for label, messages in app.flashes %}
-										{% for message in messages %}
-											<script>
-												alert('{{ message }}');
-											</script>
-										{% endfor %}
-									{% endfor %} #}
-
 			<div class="sidebar">
 				<h2>Dashboard</h2>
 				<ul class="nav">
@@ -26,7 +18,7 @@
 						<a href="home">Home</a>
 					</li>
 					<li>
-						<a href="#" onclick="loadContent('{{ path('wishlistPage') }}', 'main-content')">Wishlist</a>
+						<a href="{{ path('wishlistPage') }}">Wishlist</a>
 					</li>
 					<li>
 						<a href="#users">Users</a>
@@ -43,7 +35,7 @@
 						<a href="#">Products</a>
 						<ul class="submenu">
 							<li>
-								<a href="#" onclick="loadContent('{{ path('add_item_page') }}', 'main-content')">Add Product</a>
+								<a href="{{ path('add_item_page') }}">Add Product</a>
 							</li>
 							<li>
 								<a href="#updateProduct">Update Product</a>
@@ -77,48 +69,15 @@
 					</li>
 				</ul>
 			</div>
-			<div class="main-content" id="main-content">
-				<header>
-					<h1>Welcome, Admin</h1>
-				</header>
-				<section id="dashboard">
-					<h2>Dashboard</h2>
-					<p>Overview of the system.</p>
-				</section>
-				<section id="users">
-					<h2>Users</h2>
-					<p>Manage users here.</p>
-				</section>
-				<section id="products">
-					<h2>Products</h2>
-					<p>Manage products here.</p>
-				</section>
-				<section id="orders">
-					<h2>Orders</h2>
-					<p>Manage orders here.</p>
-				</section>
-				<section id="settings">
-					<h2>Settings</h2>
-					<p>Manage settings here.</p>
-				</section>
-			</div>
-		</div>
+			
 		<script>
-			function loadContent(url, containerId) {
-                fetch(url).then(response => response.text()).then(html => {
-                document.getElementById(containerId).innerHTML = html;
-                }).catch(error => {
-                console.error('Error loading content:', error);
-                });
-                }
-
                 function previewImage(event) {
-                const input = event.target;
-                const reader = new FileReader();
-                reader.onload = function () {
-                const preview = document.getElementById('imagePreview');
-                preview.src = reader.result;
-                preview.style.display = 'block';
+					const input = event.target;
+					const reader = new FileReader();
+					reader.onload = function () {
+					const preview = document.getElementById('imagePreview');
+					preview.src = reader.result;
+					preview.style.display = 'block';
                 };
                 reader.readAsDataURL(input.files[0]);
                 }
