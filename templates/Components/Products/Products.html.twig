@@ -25,19 +25,16 @@
 							</svg>
 						</button>
 					</div>
-
 					<a href="{{ path('ProductDetails', {'id': item.id}) }}">
 						<div class="ProductImage">
 							{% if item.itemImage %}
-								<img src="data:image/jpeg;base64,{{ item.itemImage|base64_encode }}" alt="{{ item.name }}" width="100">
+								<img src="data:image/jpeg;base64,{{ item.itemImage|base64_encode }}" alt="{{ item.name }}">
 							{% else %}
-								No image
+								<img src="{{ asset('img/No_Img.png') }}" alt="{{ item.name }}">
 							{% endif %}
-							<button type="button" onclick="addToCart({{ item.id }})">Add To Cart</button>
-
+							<button type="button" onclick="addToCart({{ item.id }}); event.preventDefault();  event.stopPropagation();">Add To Cart</button>
 						</div>
 					</a>
-
 					<h6 id="ProductName">{{item.name}}</h6>
 					<div class="ProductInfo">
 						<span>{{item.price}}
@@ -62,6 +59,7 @@
 						<span>&#40;{{item.stock}}&#41;</span>
 					</div>
 				</div>
+
 			{% endfor %}
 		</div>
 		<a href="{{ path('productsPage') }}">
