@@ -20,7 +20,7 @@
 					{% if ProductDetails.itemImage %}
 						<img src="data:image/jpeg;base64,{{ ProductDetails.itemImage|base64_encode }}" alt="{{ ProductDetails.name }}">
 					{% else %}
-						No image
+						<img src="{{ asset('img/No_Img.png') }}" alt="{{ ProductDetails.name }}">
 					{% endif %}
 				</div>
 				<div id="Right">

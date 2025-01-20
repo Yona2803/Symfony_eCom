@@ -145,8 +145,8 @@ a {
   padding: 0 20px 0 40px;
 }
 .Cart_Details .Cart_Products .Product div:first-of-type img {
-  height: 54px;
-  width: 54px;
+  max-height: 54px;
+  max-width: 54px;
   margin: 0 10px 0 0;
 }
 .Cart_Details .Cart_Products .Product div:first-of-type p {

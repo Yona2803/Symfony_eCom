@@ -13,15 +13,14 @@ function updateCartIcon() {
 }
 updateCartIcon();
 
-function submitBtn() {
-  let input = document.getElementById("searchInput").value;
-  let BtnSearch = document.querySelector(".search-bar button");
+let input = document.getElementById("searchInput");
+let BtnSearch = document.querySelector(".search-bar button");
 
-  if (input.trim() !== "") {
+function submitBtn() {
+  if (input.value.trim() !== "") {
     BtnSearch.disabled = false;
     BtnSearch.classList.add("Button_True");
     BtnSearch.classList.remove("Button_False");
-
   } else {
     BtnSearch.disabled = true;
     BtnSearch.classList.remove("Button_True");
