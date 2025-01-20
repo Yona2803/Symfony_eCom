@@ -1,17 +1,13 @@
 <?php
+
 namespace App\Controller;
 
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Attribute\Route;
 
-class MainController extends AbstractController
+class CartController extends AbstractController
 {
-    #[Route('/', name: 'homePage')]
-    public function index()
-    {
-        return $this->render('base.html.twig');
-    }
-
+    
     #[Route('/MyCart', name: 'MyCartPage')]
     public function cart()
     {

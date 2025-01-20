@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Connecting</title>
+		<link rel="stylesheet" href="{{ ('Pages/ConnectingPage/Style.css') }}">
+		<link rel="icon" type="image/x-icon" href="{{ ('img/icon/Icon.png') }}">
+	</head>
+	<body>
+		{# Header Section #}
+		{% include 'components/Header/Header.html.twig' with { 'ParentPage': 'Connecting' } %}
+		{# Adding Products Section #}
+		<div class="Container">
+			
+		</div>
+		{# Footer Section #}
+		{{ include('components/Footer/Footer.html.twig') }}</body>
+
+	{# <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> #}
+<script src="{{ asset('js/global.js') }}"></script>
+	<script src="{{('Pages/ConnectingPage/main.js')}}"></script>
+</html>

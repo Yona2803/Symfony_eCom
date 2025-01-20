@@ -6,17 +6,26 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Admin Dashboard</title>
 		<link rel="stylesheet" href="{{ asset('css/dashBoardStyle.css') }}">
+        <link rel="icon" type="image/x-icon" href="{{ asset('img/icon/Icon.png') }}">
 	</head>
 	<body>
-		<div class="dashboard">
+		<div
+			class="dashboard">
+			{% for label, messages in app.flashes %}
+                {% for message in messages %}
+                    <script>
+                        alert('{{ message }}');
+                    </script>
+                {% endfor %}
+            {% endfor %}
 			<div class="sidebar">
-				<h2>Admin Dashboard</h2>
+				<h2>Dashboard</h2>
 				<ul class="nav">
 					<li>
 						<a href="home">Home</a>
 					</li>
 					<li>
-						<a href="#dashboard">Dashboard</a>
+						<a href="{{ path('wishlistPage') }}">Wishlist</a>
 					</li>
 					<li>
 						<a href="#users">Users</a>
@@ -33,7 +42,7 @@
 						<a href="#">Products</a>
 						<ul class="submenu">
 							<li>
-								<a href="addItem">Add Product</a>
+								<a href="{{ path('add_item_page') }}">Add Product</a>
 							</li>
 							<li>
 								<a href="#updateProduct">Update Product</a>
@@ -67,7 +76,19 @@
 					</li>
 				</ul>
 			</div>
-		</div>
+			
+		<script>
+                function previewImage(event) {
+					const input = event.target;
+					const reader = new FileReader();
+					reader.onload = function () {
+					const preview = document.getElementById('imagePreview');
+					preview.src = reader.result;
+					preview.style.display = 'block';
+                };
+                reader.readAsDataURL(input.files[0]);
+                }
+		</script>
+        <script src="{{ asset('Pages/WishlistPage/main.js') }}"></script>
 	</body>
 </html>
-

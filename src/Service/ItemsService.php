@@ -7,7 +7,6 @@ use App\Entity\Items;
 use App\Form\ItemType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\BrowserKit\Response;
 use Symfony\Component\Form\FormFactoryInterface;
 
 class ItemsService
@@ -24,7 +23,7 @@ class ItemsService
 
 
 
-    public function handleAddItem(Request $request): array
+    public function handleAddItem(Request $request): bool
     {
         $item = new Items();
         $form = $this->formFactory->create(ItemType::class, $item);
@@ -54,12 +53,11 @@ class ItemsService
             $this->entityManager->persist($item);
             $this->entityManager->flush();
 
-            return ['success' => true, 'form' => $form];
+            return true;
         }
 
-        return ['success' => false, 'form' => $form];
+        return false;
     }
-
 
 
 
@@ -79,5 +77,4 @@ class ItemsService
     {
         return $this->entityManager->getRepository(Items::class)->findByPartialName($name);
     }
-
 }

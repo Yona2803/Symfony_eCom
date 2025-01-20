@@ -95,7 +95,12 @@
 	<div id="PubAd_img">
 		<img src="{{ ('img/PubAd_img.png') }}" alt="Pub Image">
 	</div>
-</div>{# Adding the Product list #}{{ include('Components/Products/Products.html.twig') }}{# Adding the Trust_Ad #}<div class="Container">
+</div>
+{# Adding the Product list #}
+{% include 'Components/Products/Products.html.twig' with { 'items': items } %}
+
+{# Adding the Trust_Ad #}
+<div class="Container">
 	<div class="Trust_Ad">
 		<div>
 			<div class="Trust_Icons">
@@ -141,4 +146,5 @@
 		</div>
 	</div>
 </div>
-
+<script src="{{ asset('js/global.js') }}"></script>
+<script src="{{('Pages/LandingPage/main.js')}}"></script>

@@ -83,11 +83,14 @@ header {
 
 #Header_Bottom nav ul li a {
   padding: 7px 24px;
-  color: #000;
+  /* color: #000; */
 }
 
-#Header_Bottom nav ul li:nth-child(1) a {
-  text-decoration: underline;
+.ParentPage_False {
+  color: #000;
+}
+.ParentPage_True {
+  color: #db4444;
 }
 #Header_Bottom nav ul li a:hover {
   color: #db4444;
@@ -98,16 +101,42 @@ header {
   height: calc(100%);
 }
 
+#Header_Bottom div .search-bar {
+  position: relative;
+  margin-right: 24px;
+}
+#Header_Bottom div .search-bar button {
+  position: absolute;
+  right: 5px;
+  background: none;
+  outline: none;
+  border: none;
+
+  cursor: pointer;
+}
+
+.Button_False {
+  stroke: rgb(0, 0, 0, 1);
+}
+
+.Button_True:hover svg path {
+  stroke: #db4444;
+  -webkit-transition: stroke 0.32s ease-out;
+  -moz-transition: stroke 0.32s ease-out;
+  -o-transition: stroke 0.32s ease-out;
+  transition: stroke 0.32s ease-out;
+}
+
 #Header_Bottom div input {
+  position: relative;
   width: 243px;
   height: 38px;
-  padding: 0 20px;
+  padding: 0 50px 0 20px;
   background-color: #f5f5f5;
   border-radius: 4px;
   font-size: 14px;
   border: none;
   outline: none;
-  margin-right: 24px;
 }
 #Header_Bottom div input:focus {
   outline: 0.5px solid #db4444;

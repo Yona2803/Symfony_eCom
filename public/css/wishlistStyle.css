@@ -1,0 +1,87 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+
+.container {
+    width: calc(100% - 250px);
+    padding: 20px 30px;
+    border-radius: 8px;
+    max-width: 800px;
+    margin-left: 320px;
+    margin-right: auto;
+}
+
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.wishlist-items {
+    width: 100%; 
+    list-style: none;
+    padding: 0;
+    padding-bottom: 10px;
+
+}
+
+.wishlist-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+}
+
+.item-image img {
+    max-width: 100px;
+    margin-right: 20px;
+}
+
+.item-details {
+    flex: 1;
+}
+
+.item-details h2 {
+    margin: 0 0 10px;
+}
+
+.item-details p {
+    margin: 5px 0;
+}
+
+.item-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+
+.btn-delete,
+.btn-buy {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.btn-delete:hover,
+.btn-buy:hover {
+    background-color: #0056b3;
+}
+
+.btn-delete {
+    background-color: #dc3545;
+}
+
+.btn-delete:hover {
+    background-color: #c82333;
+}

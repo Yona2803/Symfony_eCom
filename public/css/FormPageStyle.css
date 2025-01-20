@@ -1,99 +1,106 @@
-/* Container for the form */
-.container {
-    width: 80%;
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+.form-group{
+    width: 100%;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    
+}
+.form-group-description{
+    width: 70%;
 }
 
-/* Header */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+
+
+.container {
+    height: 100vh;
+    width: calc(100% - 250px);
+    background-color: #ffffff;
+    padding: 20px 30px;
+    margin: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin-left: 320px;
+    margin-right: auto;
+}
+
+
+
 h1 {
     text-align: center;
-    color: #333;
+    margin-bottom: 20px;
 }
 
-/* Form fields */
-input[type="text"],
-input[type="number"],
-textarea,
-select,
-input[type="file"] {
+.form-group {
+    margin-bottom: 15px;
+}
+
+.custom-name-field,
+.custom-price-field,
+.custom-stock-field,
+.custom-category-field,
+.custom-description-field,
+.custom-item-image {
     width: 100%;
     padding: 10px;
-    margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    background-color: #fff;
-    font-size: 16px;
+    box-sizing: border-box;
+    margin-top: 5px;
 }
 
-/* Custom classes */
-.custom-name-field,
-.custom-description-field,
-.custom-price-field,
-.custom-category-field,
-.custom-stock-field,
-.custom-item-image {
-    font-family: Arial, sans-serif;
+.custom-description-field {
+    height: 100px;
+    resize: vertical;
 }
 
-/* Focus state for form fields */
-input:focus,
-textarea:focus,
-select:focus,
-input[type="file"]:focus {
-    border-color: #007bff;
-    outline: none;
-}
-
-/* Button styling */
-button {
+button[type="submit"],
+button[type="button"] {
     background-color: #007bff;
-    color: white;
+    color: #fff;
     border: none;
     padding: 10px 20px;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 16px;
     margin-top: 10px;
-    transition: background-color 0.3s ease;
+    margin-bottom: 20px;
+    display: inline-block;
 }
 
-/* Hover effect for buttons */
-button:hover {
+button[type="submit"]:hover,
+button[type="button"]:hover {
     background-color: #0056b3;
 }
 
-/* Button layout */
 button[type="button"] {
-    background-color: #28a745;
-    margin-left: 10px;
+    background-color: #6c757d;
 }
 
 button[type="button"]:hover {
-    background-color: #218838;
+    background-color: #5a6268;
 }
 
-/* Styling for links */
-a {
-    text-decoration: none;
+
+.image-preview-container {
+    display: flex;
+    margin-top: 20px;
+    border: 1px solid #0c0c0c;
+    border-radius: 4px;
+    overflow: hidden;
+    width: 200px;
+    height: 200px;
 }
 
-/* Responsive design for mobile */
-@media (max-width: 768px) {
-    .container {
-        width: 90%;
-    }
+.image-preview {
+    width: 100%;
+    height: 100%;
+} 
 
-    button {
-        width: 100%;
-        margin-top: 15px;
-    }
-
-    button[type="button"] {
-        margin-left: 0;
-    }
-}

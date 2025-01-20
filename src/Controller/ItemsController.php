@@ -2,8 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Categories;
-use Doctrine\ORM\EntityManagerInterface;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,6 +11,7 @@ use App\Entity\Items;
 use App\Form\ItemType;
 use App\Repository\ItemsRepository;
 use App\Service\ItemsService;
+
 
 class ItemsController extends AbstractController
 {
@@ -29,17 +29,17 @@ class ItemsController extends AbstractController
     {
         $result = $this->itemsService->handleAddItem($request);
 
-        if ($result['success']) {
-            return $this->redirectToRoute('home');
+        if ($result) {
+            $this->addFlash('addProduct', 'Product added successfully!');
+            return $this->redirect('add-item-page');
         }
-
-        return $this->render('items/addItemPage.html.twig', [
-            'form' => $result['form']->createView(),
-        ]);
+        $this->addFlash('error', 'Failed to add product.');
+        return new Response(null, Response::HTTP_NOT_FOUND);
     }
 
 
 
+    #[Route('/', name: 'homePage')]
     #[Route('/home', name: 'home')]
     public function getAll(): Response
     {
@@ -62,7 +62,7 @@ class ItemsController extends AbstractController
 
 
 
-    #[Route('/search', name: 'search', methods: ['GET'])]
+    #[Route('/Products', name: 'search', methods: ['GET'])]
     public function search(Request $request, ItemsRepository $itemsRepository): Response
     {
         $name = $request->query->get('searchInput');
@@ -75,7 +75,7 @@ class ItemsController extends AbstractController
 
 
 
-    #[Route('/ByCategory/{categoryName}', name: 'searchByCategory', methods: ['GET'])]
+    #[Route('/Category/{categoryName}', name: 'searchByCategory', methods: ['GET'])]
     public function searchByCategory(string $categoryName, ItemsRepository $itemsRepository): Response
     {
         $items = $itemsRepository->findByCategoryName($categoryName);
@@ -85,23 +85,21 @@ class ItemsController extends AbstractController
     }
 
 
-    #[Route('/test', name: 'test', methods: ['GET'])]
-    public function test(): Response
+    #[Route('/dashboard', name: 'dashboard', methods: ['GET'])]
+    public function toDashboard(): Response
     {
         return $this->render('items/dashBoard.html.twig');
     }
 
 
     #[Route('/add-item-page', name: 'add_item_page')]
-    public function addItemPage(Request $request): Response
+    public function addItemPage(): Response
     {
         $item = new Items();
         $form = $this->createForm(ItemType::class, $item);
 
-        return $this->render('items/addItemPageContent.html.twig', [
+        return $this->render('items/addItemPage.html.twig', [
             'form' => $form->createView(),
         ]);
     }
-
-
 }

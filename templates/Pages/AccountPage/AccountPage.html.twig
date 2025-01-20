@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>My Account</title>
+		<link rel="stylesheet" href="{{ ('Pages/AccountPage/Style.css') }}">
+		<link rel="icon" type="image/x-icon" href="{{ ('img/icon/Icon.png') }}">
+	</head>
+	<body>
+		{# Header Section #}
+		{% include 'components/Header/Header.html.twig' with { 'ParentPage': 'My Account' } %}
+		{# Adding Products Section #}
+		<div class="Container">
+			<div class="Top_Section">
+				<p id="Route_Page">
+					<a id="Route_Path"></a>
+					<span>
+						Account</span>
+				</p>
+
+				<p id="Account_Name">Welecom!
+					<span>
+						Youness</span>
+				</p>
+			</div>
+
+			<div class="Mid_Section">
+				<div class="left_Section">
+					<h3>Manage My Account</h3>
+					<br></br>
+				<ul>
+					<li>My Profile</li>
+					<li>Address Book</li>
+					<li>My Payment Options</li>
+				</ul>
+				<br></br>
+			<h3>My Orders</h3>
+			<ul>
+				<li>My Returns</li>
+				<li>My Cancellations</li>
+			</ul>
+			<br></br>
+
+		<h3>My WishList</h3>
+	</body>
+</html></div><div class="Right_Section"></div></div></div>{# Footer Section #}{{ include('components/Footer/Footer.html.twig') }}</body><script src="https://code.jquery.com/jquery-3.6.0.min.js"></script><script src="{{ asset('js/global.js') }}"></script><script src="{{('Pages/AccountPage/main.js')}}"></script></html>
