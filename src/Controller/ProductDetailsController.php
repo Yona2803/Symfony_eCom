@@ -28,7 +28,6 @@ class ProductDetailsController extends AbstractController
 
         return $this->render('Pages/ProductsPage/ProductDetails/ProductDetails.html.twig', [
             'ProductDetails' => $product,
-            // 'Back_ToPage' => $PageInfo
         ]);
     
     }

@@ -15,7 +15,6 @@ use App\Service\ItemsService;
 
 class ItemsController extends AbstractController
 {
-
     private ItemsService $itemsService;
 
     public function __construct(ItemsService $itemsService)
@@ -85,11 +84,13 @@ class ItemsController extends AbstractController
     }
 
 
+
     #[Route('/dashboard', name: 'dashboard', methods: ['GET'])]
     public function toDashboard(): Response
     {
         return $this->render('items/dashBoard.html.twig');
     }
+
 
 
     #[Route('/add-item-page', name: 'add_item_page')]
@@ -102,4 +103,5 @@ class ItemsController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
 }
