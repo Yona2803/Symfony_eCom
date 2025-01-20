@@ -6,7 +6,7 @@
 {# Adding Html #}
 <div id="Header_Top">
 	<p>Summer Sale For All Swim Suits And Free Express Delivery - OFF 50%!</p>
-	<a href="">
+	<a href="{{path('productsPage')}}">
 		<b>ShopNow</b>
 	</a>
 </div>
@@ -16,16 +16,16 @@
 		<h1>Exclusive.</h1>
 		<nav>
 			<ul>
-				<li><a href="{{ path('homePage') }}">Home</a></li>
-				<li><a href="">Contact</a></li>
-				<li><a href="">About</a></li>
+				<li><a href="{{path('homePage')}}" class="ParentPage_{{ ParentPage == 'Home' ? 'True' : 'False' }}">Home</a></li>
+				<li><a href="" class="ParentPage_{{ ParentPage == 'Contact' ? 'True' : 'False' }}">Contact</a></li>
+				<li><a href="" class="ParentPage_{{ ParentPage == 'About' ? 'True' : 'False' }}">About</a></li>
 			</ul>
 		</nav>
 		<div>
 			<form method="GET" action="{{ path('search') }}">
 				<div class="search-bar">
-					<input type="text" name="searchInput" id="searchInput" placeholder="What are you looking for?">
-					<button type="submit">
+					<input type="text" name="searchInput" id="searchInput" placeholder="What are you looking for?" oninput="submitBtn()">
+					<button type="submit" disabled>
 						<svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 							<path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 							<path d="M21 21L16.65 16.65" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -34,7 +34,6 @@
 				</div>
 			</form>
 			<a href="{{ path('MyCartPage') }}">
-			{# <a href="{{ path('MyCartPage', { 'srcPage_Path': srcPage_Path, 'srcPage_Text': srcPage_Text }) }}"> #}
 				<div class="Product">
 					<svg width="32" height="32" viewbox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
 						<rect width="32" height="32" rx="16" fill="transparent"/>
@@ -49,6 +48,7 @@
 					</svg>
 				</div>
 			</a>
+
 			<a href="{{ path('dashboard') }}">
 				<svg width="33" height="32" viewbox="0 0 33 32" fill="none" xmlns="http://www.w3.org/2000/svg">
 					<rect x="0.5" width="32" height="32" rx="16" fill="#DB4444"/>

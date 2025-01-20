@@ -7,7 +7,7 @@
 	</head>
 	<body>
 		{# Header Section #}
-		{{ include('Components/Header/Header.html.twig') }}
+		{% include 'components/Header/Header.html.twig' with { 'ParentPage': 'Products' } %}
 		{# Adding Products Section #}
 		<div class="Container">
 			<div class="Categories">
@@ -33,11 +33,11 @@
 							<a href="{{ path('ProductDetails', { 'id': item.id }) }}">
 								<div class="ProductImage">
 									{% if item.itemImage %}
-										<img src="data:image/jpeg;base64,{{ item.itemImage|base64_encode }}" alt="{{ item.name }}" width="100">
+										<img src="data:image/jpeg;base64,{{ item.itemImage|base64_encode }}" alt="{{ item.name }}" >
 									{% else %}
-										No image
+									<img src="{{ asset('img/No_Img.png') }}" alt="{{ item.name }}">
 									{% endif %}
-									<button type="button" onclick="addToCart( event, {{ item.id }})">Add To Cart</button>
+									<button type="button" onclick="addToCart( {{ item.id }}); event.preventDefault();  event.stopPropagation();">Add To Cart</button>
 								</div>
 							</a>
 
@@ -68,7 +68,9 @@
 
 					{% endfor %}
 				</div>
+
 				<button id="ShowMoreProducts" type="button">View ll Products</button>
+
 			</div>
 		</div>
 		{# Footer Section #}

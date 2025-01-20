@@ -12,3 +12,19 @@ function updateCartIcon() {
   }
 }
 updateCartIcon();
+
+let input = document.getElementById("searchInput");
+let BtnSearch = document.querySelector(".search-bar button");
+
+function submitBtn() {
+  if (input.value.trim() !== "") {
+    BtnSearch.disabled = false;
+    BtnSearch.classList.add("Button_True");
+    BtnSearch.classList.remove("Button_False");
+  } else {
+    BtnSearch.disabled = true;
+    BtnSearch.classList.remove("Button_True");
+    BtnSearch.classList.add("Button_False");
+  }
+}
+submitBtn();

@@ -7,7 +7,7 @@
 	</head>
 	<body>
 		{# Header Section #}
-		{{ include('components/Header/Header.html.twig') }}
+		{% include 'components/Header/Header.html.twig' with { 'ParentPage': 'Connecting' } %}
 		{# Adding Products Section #}
 		<div class="Container">
 			
