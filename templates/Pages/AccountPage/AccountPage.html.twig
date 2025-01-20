@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>My Account</title>
+		<link rel="stylesheet" href="{{ ('Pages/AccountPage/Style.css') }}">
+		<link rel="icon" type="image/x-icon" href="{{ ('img/icon/Icon.png') }}">
+	</head>
+	<body>
+		{# Header Section #}
+		{% include 'components/Header/Header.html.twig' with { 'ParentPage': 'My Account' } %}
+		{# Adding Products Section #}
+		<div class="Container">
+				<p id="Route_Page">
+				<a id="Route_Path"></a>
+				<span> 
+					Account</span>
+			</p>
+			<div class="">
+				
+			</div>
+		</div>
+		{# Footer Section #}
+		{{ include('components/Footer/Footer.html.twig') }}</body>
+
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ asset('js/global.js') }}"></script>
+	<script src="{{('Pages/AccountPage/main.js')}}"></script>
+</html>
