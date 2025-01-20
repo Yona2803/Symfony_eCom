@@ -15,6 +15,11 @@
 				alert('{{ message }}');
 			</script>
 		{% endfor %}
+		{% for message in app.flashes('addProductError') %}
+			<script>
+				alert('{{ message }}');
+			</script>
+		{% endfor %}
 		
 		<div class="container">
 			<h1>Add Product</h1>

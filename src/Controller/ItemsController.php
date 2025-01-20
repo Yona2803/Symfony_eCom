@@ -33,7 +33,7 @@ class ItemsController extends AbstractController
             $this->addFlash('addProduct', 'Product added successfully!');
             return $this->redirect('add-item-page');
         }
-        $this->addFlash('error', 'Failed to add product.');
+        $this->addFlash('addProductError', 'Failed to add product.');
         return new Response(null, Response::HTTP_NOT_FOUND);
     }
 

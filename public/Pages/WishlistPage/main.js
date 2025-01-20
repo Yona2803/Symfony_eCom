@@ -26,3 +26,28 @@ function deleteItem(itemId) {
         console.log("Item deletion canceled.");
     }
 }
+
+
+
+
+function addProductToWishlist(itemId){
+    fetch(`/wishlist/add/${itemId}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+    .then((response) => response.json())  
+            .then((data) => {
+                if (data.status === "success") {
+                    alert(data.message); 
+                } else {
+                    console.error(data.message);
+                    alert(data.message); 
+                }
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+    
+}
