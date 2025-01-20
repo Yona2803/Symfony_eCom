@@ -21,6 +21,7 @@ a {
   width: 1170px;
   height: fit-content;
   display: flex;
+  flex-direction: column;
 }
 
 .Top_Section{
@@ -56,11 +57,27 @@ a {
   display: flex;
   outline: 1px solid yellow;
 }
-.Mid_Section .left_Section{
+.Mid_Section .Left_Section{
   width: 300px;
   max-width: 300px;
   height: fit-content;
   display: flex;
   flex-direction: column;
   outline: 1px solid purple;
+}
+.Mid_Section .Left_Section h3{
+  font-size: 16px;
+  font-weight: 500;
+  color: rgba(0, 0, 0);
+  margin: 13px 0 16px 0;
+  padding: 0;
+}
+
+.Mid_Section .Right_Section{
+  width: 870px;
+  max-width: 870px;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  outline: 1px solid palegreen;
 }

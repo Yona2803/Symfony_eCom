@@ -24,22 +24,30 @@
 			</div>
 
 			<div class="Mid_Section">
-				<div class="left_Section">
+				<div class="Left_Section">
 					<h3>Manage My Account</h3>
-					<br></br>
-				<ul>
-					<li>My Profile</li>
-					<li>Address Book</li>
-					<li>My Payment Options</li>
-				</ul>
-				<br></br>
-			<h3>My Orders</h3>
-			<ul>
-				<li>My Returns</li>
-				<li>My Cancellations</li>
-			</ul>
-			<br></br>
-
-		<h3>My WishList</h3>
+					<br/>
+					<ul>
+						<li>My Profile</li>
+						<li>Address Book</li>
+						<li>My Payment Options</li>
+					</ul>
+					<br/>
+					<h3>My Orders</h3>
+					<ul>
+						<li>My Returns</li>
+						<li>My Cancellations</li>
+					</ul>
+					<br/>
+					<h3>My WishList</h3>
+				</div>
+				<div class="Right_Section"></div>
+			</div>
+		</div>
+		{# Footer Section #}
+		{{ include('components/Footer/Footer.html.twig') }}
 	</body>
-</html></div><div class="Right_Section"></div></div></div>{# Footer Section #}{{ include('components/Footer/Footer.html.twig') }}</body><script src="https://code.jquery.com/jquery-3.6.0.min.js"></script><script src="{{ asset('js/global.js') }}"></script><script src="{{('Pages/AccountPage/main.js')}}"></script></html>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="{{ asset('js/global.js') }}"></script>
+	<script src="{{('Pages/AccountPage/main.js')}}"></script>
+</html>
