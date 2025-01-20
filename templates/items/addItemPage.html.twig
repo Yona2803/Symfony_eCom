@@ -15,6 +15,11 @@
 				alert('{{ message }}');
 			</script>
 		{% endfor %}
+		{% for message in app.flashes('addProductError') %}
+			<script>
+				alert('{{ message }}');
+			</script>
+		{% endfor %}
 		
 		<div class="container">
 			<h1>Add Product</h1>
@@ -33,7 +38,7 @@
 			<div class="form-group">
 				{{ form_row(form.itemImage, {'attr': {'class': 'custom-item-image', 'onchange': 'previewImage(event)'}}) }}
 				<div class="image-preview-container">
-					<img id="imagePreview" src="{{ asset('img/No_Img.jpg') }}" alt="Image Preview" class="image-preview"/>
+					<img id="imagePreview" src="{{ asset('img/No_Img.png') }}" alt="Image Preview" class="image-preview"/>
 				</div>
 			</div>
 

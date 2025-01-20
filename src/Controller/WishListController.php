@@ -30,19 +30,19 @@ class WishListController extends AbstractController
 
 
 
-    #[Route('/addItemToWishList/{itemId}', name: 'toWishlist', methods: ['GET'])]
+    #[Route('/wishlist/add/{itemId}', name: 'toWishlist', methods: ['GET'])]
     public function addItemToWishList(int $itemId): Response
     {
         $userId = $this->params->get('user_id');
         $value = $this->wishListService->addToWishList($userId, $itemId);
 
         if ($value) {
-            $this->addFlash('success', 'Item added to wishlist successfully.');
-        } else {
-            $this->addFlash('warning', 'Item already exists in wishlist.');
+            $this->addFlash('addToWishlist', 'Product successfully added to your wishlist.');
+            return new JsonResponse(['status' => 'addToWishlist', 'message' => 'Product successfully added to your wishlist.'], Response::HTTP_OK);
         }
 
-        return $this->redirectToRoute('productsPage');
+        $this->addFlash('wishlistError', 'Product already exist in your wishlist.');
+        return new JsonResponse(['status' => 'wishlistError', 'message' => 'Product already exist in your wishlist.'], Response::HTTP_BAD_REQUEST);
     }
 
 

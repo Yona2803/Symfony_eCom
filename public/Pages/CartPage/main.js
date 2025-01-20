@@ -34,7 +34,6 @@ function MyCart_Products() {
 
   // Sending by Ajax to Back-End => Show response in HTML
   $.ajax({
-    // url: `/MyCart/ShowProducts?items_ids=${queryParams}`,
     url: `/MyCart/ShowProducts?items_ids=${queryParams}`,
     type: "GET",
     success: function (response) {
@@ -43,9 +42,13 @@ function MyCart_Products() {
           productArray.forEach(function (product) {
             let productHTML = `<div class="Product" id="${product.id}">
                                       <div>
-                                          <img src="${
-                                            product.itemImage
-                                          }" alt="Product Image">
+                                       ${
+                                         product.itemImage &&
+                                         product.itemImage !==
+                                           "data:image/jpg;base64,"
+                                           ? `<img src="${product.itemImage}" alt="Product Image: ${product.name}">`
+                                           : `<img src="img/No_Img.png" alt="No Image Available for product: ${product.name}">`
+                                       }
                                           <p>${product.name}</p>
                                       </div>
                                       <span id="price${product.id}">
@@ -76,6 +79,7 @@ function MyCart_Products() {
             calculate_ById(product.id, product.price, product.stock);
           });
         });
+        calculate_All();
       } else {
         container.innerHTML = "<p>No products found in the cart.</p>";
       }
@@ -120,20 +124,18 @@ function calculate_ById(id, price, MaxStock) {
     let total = 0;
     if (quantity > 0 && quantity <= MaxStock) {
       total = price * quantity;
-      const formattedNumber = new Intl.NumberFormat("fr-FR", {
-        style: "decimal",
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      })
-        .format(total)
-        .replace(",", ".");
 
       document.getElementById("itemTotale" + id).innerText =
-        formattedNumber + " Dh";
-    }
+        new Intl.NumberFormat("fr-FR", {
+          style: "decimal",
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })
+          .format(total)
+          .replace(",", ".") + " Dh";
 
-    update_LocalStorage(id, quantity, MaxStock);
-    calculate_All();
+      update_LocalStorage(id, quantity, MaxStock);
+    }
   } catch (error) {
     console.error(`Error calculating total for item ${id}:`, error);
   }
@@ -162,7 +164,7 @@ function calculate_All() {
   cart.forEach((item) => {
     let quantity = document.getElementById("quantity" + item.id);
 
-    let price = document.getElementById("price" + item.id).innerHTML;
+    let price = document.getElementById("price" + item.id).innerText;
 
     let cleanPrice = parseFloat(price.replace(/\s/g, "").replace(",", "."));
 
@@ -187,18 +189,55 @@ function calculate_All() {
       ShippingStatus = "Free";
       TTC_Shipping = TTC;
     } else if (TTC >= 100) {
-      ShippingStatus = "15 Dh";
+      ShippingStatus =
+        new Intl.NumberFormat("fr-FR", {
+          style: "decimal",
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })
+          .format(15)
+          .replace(",", ".") + " Dh";
       TTC_Shipping = TTC + 15;
     } else {
-      ShippingStatus = "25 Dh";
+      ShippingStatus =
+        new Intl.NumberFormat("fr-FR", {
+          style: "decimal",
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })
+          .format(25)
+          .replace(",", ".") + " Dh";
       TTC_Shipping = TTC + 25;
     }
-    document.getElementById("HT").innerText = total.toFixed(2) + " Dh";
+    document.getElementById("HT").innerText =
+      new Intl.NumberFormat("fr-FR", {
+        style: "decimal",
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })
+        .format(total)
+        .replace(",", ".") + " Dh";
+
     document.getElementById("ShippingStatus").innerText = ShippingStatus;
-    document.getElementById("TTC").innerText = TTC_Shipping.toFixed(2) + " Dh";
+
+    document.getElementById("TTC").innerText =
+      new Intl.NumberFormat("fr-FR", {
+        style: "decimal",
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })
+        .format(TTC_Shipping)
+        .replace(",", ".") + " Dh";
   } else {
     alert(
       "Something is wrong : check the Qty of each item, Please fill the inputs with the arrows of input fields"
     );
   }
+}
+
+
+// Proceed To Checkout
+function Proceed_Checkout() {
+  calculate_All();
+
 }
