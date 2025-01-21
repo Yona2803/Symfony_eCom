@@ -107,19 +107,14 @@ class ItemsController extends AbstractController
 
 
     #[Route('/Products/{tag}', name:'findByTag', methods: ['GET'])]
-    public function findItemsByTag(string $tag, Request $request, ItemsRepository $itemsRepository)
+    public function findItemsByTag(string $tag): Response
 {
-    // $tag = $request->query->get('tag');  // Get the tag from the URL
 
-    if (!$tag) {
-        throw $this->createNotFoundException('No tag provided');
-    }
+    $items = $this->itemsService->findItemsByTag($tag);
 
-    $items = $itemsRepository->findByTag($tag);  // Use the custom repository method
-
-    return $this->render('Pages/ProductsPage/ProductsPage.html.twig', [
-        'items' => $items,
-    ]);
+        return $this->render('Pages/ProductsPage/ProductsPage.html.twig', [
+            'items' => $items,
+        ]);
 }
 
 

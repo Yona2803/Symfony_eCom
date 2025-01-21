@@ -83,4 +83,19 @@ class ItemsService
     {
         return $this->entityManager->getRepository(Items::class)->findByPartialName($name);
     }
+
+
+
+    public function findItemsByTag(string $tag): array
+    {
+        $tag = null;
+        if (!$tag) {
+            return [];
+        }
+
+        return $this->entityManager->getRepository(Items::class)->findByTag($tag);
+    }
+
+
+
 }
