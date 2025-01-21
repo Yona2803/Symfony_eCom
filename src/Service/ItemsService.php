@@ -30,6 +30,12 @@ class ItemsService
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+
+            $selectedTags = $form->get('tags')->getData();
+            $item->setTags($selectedTags);
+
+
             $imageFile = $form->get('itemImage')->getData();
 
             if ($imageFile) {

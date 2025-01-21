@@ -45,7 +45,8 @@ h1 {
 .custom-stock-field,
 .custom-category-field,
 .custom-description-field,
-.custom-item-image {
+.custom-item-image,
+.custom-tags-field {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
@@ -101,3 +102,16 @@ button[type="button"]:hover {
     height: 100%;
 } 
 
+
+
+
+#item_tags_1,
+#item_tags_2,
+#item_tags_3,
+#item_tags_4,
+#item_tags_5,
+#item_tags_6,
+#item_tags_7,
+#item_tags_8{
+    margin-left: 15px;
+}

@@ -88,3 +88,15 @@ h1 {
 .btn-delete:hover {
     background-color: #c82333;
 }
+
+
+.item-price {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #ff5722;
+    padding: 10px;
+    border-radius: 5px;
+    display: inline-block;
+}
+
