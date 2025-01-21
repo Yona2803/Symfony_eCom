@@ -88,7 +88,6 @@ class ItemsService
 
     public function findItemsByTag(string $tag): array
     {
-        $tag = null;
         if (!$tag) {
             return [];
         }
