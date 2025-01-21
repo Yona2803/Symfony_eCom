@@ -53,6 +53,9 @@ class Items
     #[ORM\ManyToMany(targetEntity: WishList::class, mappedBy: 'item')]
     private Collection $wishlist;
 
+    #[ORM\Column(length: 60)]
+    private ?array $tags = [];
+
     public function __construct()
     {
         $this->orderDetails = new ArrayCollection();
@@ -215,6 +218,17 @@ class Items
             $wishlist->removeItem($this);
         }
 
+        return $this;
+    }
+
+    public function getTags(): ?array
+    {
+        return $this->tags;
+    }
+
+    public function setTags(array $tags): static
+    {
+        $this->tags = $tags;
         return $this;
     }
 }

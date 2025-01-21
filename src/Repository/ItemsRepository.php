@@ -39,6 +39,23 @@ class ItemsRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+
+
+    public function findByTag(string $tag)
+    {
+        return $this->createQueryBuilder('i')
+            ->where('i.tags LIKE :tag')
+            ->setParameter('tag', '%' . $tag . '%')
+            ->getQuery()
+            ->getResult();
+    }
+
+
+
+
+
+
+
     //    /**
     //     * @return Items[] Returns an array of Items objects
     //     */
