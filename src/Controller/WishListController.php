@@ -64,17 +64,22 @@ class WishListController extends AbstractController
 
 
 
-
-
     #[Route('/wishlist', name: 'wishlistPage', methods: ['GET'])]
     public function wishList(): Response
     {
-
         $userId = $this->params->get('user_id');
-        $wishlist = $this->usersRepository->find($userId)->getWishList();
+        $user = $this->usersRepository->find($userId);
 
+        if (!$user) {
+            return $this->render('items/wishlistPage.html.twig', [
+                'wishlist' => [],
+            ]); 
+        }
+    
+        $wishlist = $user->getWishList();
         return $this->render('items/wishlistPage.html.twig', [
             'wishlist' => $wishlist,
         ]);
     }
+    
 }
