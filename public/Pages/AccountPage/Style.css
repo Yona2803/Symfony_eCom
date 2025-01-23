@@ -24,12 +24,12 @@ a {
   flex-direction: column;
 }
 
-.Top_Section{
-    width: 100%;
-    height: fit-content;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.Top_Section {
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 #Route_Page {
@@ -47,37 +47,340 @@ a {
   color: rgb(0, 0, 0, 1);
 }
 
-#Account_Name span{
-    color: #DB4444;
+#Account_Name span {
+  color: #db4444;
+  text-transform: uppercase;
 }
 
-.Mid_Section{
+.Mid_Section {
   width: 100%;
   height: fit-content;
   display: flex;
-  outline: 1px solid yellow;
 }
-.Mid_Section .Left_Section{
+.Mid_Section .Left_Section {
   width: 300px;
   max-width: 300px;
   height: fit-content;
   display: flex;
   flex-direction: column;
-  outline: 1px solid purple;
+  padding-top: 13px;
 }
-.Mid_Section .Left_Section h3{
+
+.Mid_Section .Left_Section h3 {
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 600;
   color: rgba(0, 0, 0);
-  margin: 13px 0 16px 0;
+  margin: 0 0 16px 0;
+  padding: 0;
+  cursor: default;
+}
+
+.Mid_Section .Left_Section ul {
+  font-size: 16px;
+  font-weight: 600;
+  color: rgba(0, 0, 0);
+  margin: 0 0 24px 0;
   padding: 0;
 }
 
-.Mid_Section .Right_Section{
-  width: 870px;
-  max-width: 870px;
+.Mid_Section .Left_Section ul li {
+  font-size: 16px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.5);
+  margin: 0 0 8px 35px;
+  padding: 0;
+  list-style: none;
+  cursor: pointer;
+
+  -webkit-transition: all 0.32s ease-out;
+  -moz-transition: all 0.32s ease-out;
+  -o-transition: all 0.32s ease-out;
+  transition: all 0.32s ease-out;
+}
+
+.Mid_Section .Left_Section ul li:hover {
+  color: #ff5c5c;
+}
+
+.Mid_Section .Left_Section ul li:active {
+  color: #db4444;
+}
+
+.active {
+  color: #db4444;
+}
+
+.Mid_Section .Right_Section {
+  width: calc(870px - 80px - 80px);
+  max-width: calc(870px - 80px - 80px);
   height: fit-content;
   display: flex;
   flex-direction: column;
-  outline: 1px solid palegreen;
+  padding: 40px 80px;
+  background-color: white;
+  border-radius: 4px;
+
+  -webkit-box-shadow: 0px 1px 13px 0px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: 0px 1px 13px 0px rgba(0, 0, 0, 0.05);
+  box-shadow: 0px 1px 13px 0px rgba(0, 0, 0, 0.05);
+  
+
+  -webkit-transition: all 0.32s ease-out;
+  -moz-transition: all 0.32s ease-out;
+  -o-transition: all 0.32s ease-out;
+  transition: all 0.32s ease-out;
+}
+
+.Mid_Section .Right_Section #Edite_Profile h2 {
+  font-size: 20px;
+  font-weight: 500;
+  color: #db4444;
+  margin: 0 0 16px 0;
+  padding: 0;
+  text-transform: capitalize;
+}
+
+.Mid_Section .Right_Section #Edite_Profile div {
+  display: flex;
+}
+.Section {
+  margin-bottom: 24px;
+}
+
+.Mid_Section .Right_Section #Edite_Profile div:nth-of-type(1) div,
+.Mid_Section .Right_Section #Edite_Profile div:nth-of-type(2) div,
+.Mid_Section .Right_Section #Edite_Profile div:nth-of-type(3) div {
+  display: flex;
+  width: 330px;
+  height: 82px;
+  flex-direction: column;
+}
+
+.Mid_Section .Right_Section #Edite_Profile div:nth-of-type(1) div:first-of-type,
+.Mid_Section .Right_Section #Edite_Profile div:nth-of-type(2) div:first-of-type,
+.Mid_Section
+  .Right_Section
+  #Edite_Profile
+  div:nth-of-type(3)
+  div:first-of-type {
+  margin: 0;
+  margin-right: auto;
+}
+
+.Mid_Section .Right_Section #Edite_Profile div:nth-of-type(1) div label,
+.Mid_Section .Right_Section #Edite_Profile div:nth-of-type(2) div label,
+.Mid_Section .Right_Section #Edite_Profile div:nth-of-type(3) div label,
+.Mid_Section .Right_Section #Edite_Profile div:nth-of-type(4) label {
+  font-size: 16px;
+  font-weight: 400;
+  color: rgb(0, 0, 0);
+  margin: 0 0 auto 0;
+  padding: 0;
+  text-transform: capitalize;
+}
+.Mid_Section .Right_Section #Edite_Profile div:nth-of-type(1) div input,
+.Mid_Section .Right_Section #Edite_Profile div:nth-of-type(2) div input,
+.Mid_Section .Right_Section #Edite_Profile div:nth-of-type(3) div input,
+.Mid_Section .Right_Section #Edite_Profile div:nth-of-type(4) input {
+  width: calc(100% - 16px - 16px);
+  height: calc(50px - 13px - 13px);
+  outline: 1px solid transparent;
+  border-radius: 4px;
+  border: none;
+  background: #f5f5f5;
+  font-weight: 400;
+  color: rgb(0, 0, 0, 0.5);
+  margin: 0;
+  padding: 13px 16px;
+  letter-spacing: 1px;
+
+  -webkit-transition: all 0.32s ease-out;
+  -moz-transition: all 0.32s ease-out;
+  -o-transition: all 0.32s ease-out;
+  transition: all 0.32s ease-out;
+}
+.Mid_Section
+  .Right_Section
+  #Edite_Profile
+  div:nth-of-type(1)
+  div
+  label:hover
+  input,
+.Mid_Section .Right_Section #Edite_Profile div:nth-of-type(1) div input:hover,
+.Mid_Section
+  .Right_Section
+  #Edite_Profile
+  div:nth-of-type(2)
+  div
+  label:hover
+  input,
+.Mid_Section
+  .Right_Section
+  #Edite_Profile
+  div:nth-of-type(3)
+  div
+  label:hover
+  input,
+.Mid_Section .Right_Section #Edite_Profile div:nth-of-type(2) div input:hover,
+.Mid_Section .Right_Section #Edite_Profile div:nth-of-type(3) div input:hover,
+.Mid_Section .Right_Section #Edite_Profile div:nth-of-type(4) label:hover input,
+.Mid_Section .Right_Section #Edite_Profile div:nth-of-type(4) input:hover {
+  outline: 1px solid rgb(0, 0, 0, 0.5);
+}
+.Mid_Section .Right_Section #Edite_Profile div:nth-of-type(1) div input:focus,
+.Mid_Section .Right_Section #Edite_Profile div:nth-of-type(2) div input:focus,
+.Mid_Section .Right_Section #Edite_Profile div:nth-of-type(3) div input:focus,
+.Mid_Section .Right_Section #Edite_Profile div:nth-of-type(4) input:focus {
+  color: #000;
+  background: #fff;
+  outline: 1px solid #db4444;
+}
+
+/* Passwords */
+.Mid_Section .Right_Section #Edite_Profile div:nth-of-type(4) {
+  display: flex;
+  flex-direction: column;
+  width: 710px;
+  height: fit-content;
+  gap: 16px;
+}
+
+.Mid_Section .Right_Section #Edite_Profile div:nth-of-type(4) div {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: fit-content;
+  gap: 16px;
+}
+
+.Mid_Section .Right_Section #Edite_Profile div:nth-of-type(4) div:first-of-type div:first-of-type{
+  margin-bottom: calc(24px - 16px);
+
+}
+
+/* Button's */
+.Mid_Section .Right_Section #Edite_Profile div:nth-of-type(5) {
+  flex-direction: column;
+  width: 100%;
+  height: fit-content;
+}
+
+.Mid_Section .Right_Section #Edite_Profile div:nth-of-type(5) span {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  max-width: calc(100% - 10px - 180px - 136px);
+  height: 0;
+  color: #595959;
+  margin-left: 10px;
+
+  overflow: hidden;
+  letter-spacing: normal;
+    text-wrap: nowrap;
+
+  -webkit-transition: all 1.32s ease-out;
+  -moz-transition: all 1.32s ease-out;
+  -o-transition: all 1.32s ease-out;
+  transition: all 1.32s ease-out;
+}
+.Mid_Section .Right_Section #Edite_Profile div:nth-of-type(5) div{
+  display: flex;
+  height: fit-content;
+  width: 100%;
+}
+
+.Mid_Section .Right_Section #Edite_Profile div:nth-of-type(5) div button {
+  width: fit-content;
+  height: fit-content;
+  padding: 16px 48px;
+  border-radius: 4px;
+  outline: none;
+  border: none;
+  font-weight: 400;
+  cursor: pointer;
+
+  -webkit-transition: all 0.32s ease-out;
+  -moz-transition: all 0.32s ease-out;
+  -o-transition: all 0.32s ease-out;
+  transition: all 0.32s ease-out;
+}
+
+.Mid_Section
+  .Right_Section
+  #Edite_Profile
+  div:nth-of-type(5) div 
+  button:first-of-type {
+  background-color: transparent;
+  color: #000;
+  margin-left: auto;
+}
+.Mid_Section
+  .Right_Section
+  #Edite_Profile
+  div:nth-of-type(5)
+  button:last-of-type {
+  background-color: #db4444;
+  color: #fff;
+}
+
+.Mid_Section
+  .Right_Section
+  #Edite_Profile
+  div:nth-of-type(5) div 
+  button:last-of-type:hover {
+  background-color: #ff5c5c;
+}
+.Mid_Section
+  .Right_Section
+  #Edite_Profile
+  div:nth-of-type(5)
+  button:last-of-type:active {
+  background-color: #db4444;
+}
+.Mid_Section
+  .Right_Section
+  #Edite_Profile
+  div:nth-of-type(5) div 
+  button:first-of-type:hover {
+  color: #ff5c5c;
+}
+.Mid_Section
+  .Right_Section
+  #Edite_Profile
+  div:nth-of-type(5) div 
+  button:first-of-type:active {
+  color: #db4444;
+}
+
+/* Error Msg, incase nothing loaded or server went down */
+.Form_ErrorMsg {
+  display: none;
+  width: fit-content;
+  height: fit-content;
+  color: rgb(0, 0, 0, 0.75);
+  text-align: center;
+  margin: 0 auto;
+}
+
+.Msg_404 {
+  width: 100%;
+  height: fit-content;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.Msg_404 img {
+  width: 450px;
+  height: 300px;
+  object-fit: cover;
+}
+
+.Msg_404 p {
+  width: 100%;
+  color: rgb(0, 0, 0, 0.75);
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 55px;
 }

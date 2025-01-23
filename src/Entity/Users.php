@@ -6,7 +6,8 @@ use App\Repository\UsersRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 
 enum Roles: string
@@ -15,9 +16,8 @@ enum Roles: string
     case CUSTOMER = 'ROLE_CUSTOMER';
 }
 
-
 #[ORM\Entity(repositoryClass: UsersRepository::class)]
-class Users
+class Users implements PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -39,9 +39,6 @@ class Users
     #[ORM\Column(type: 'string', enumType: Roles::class)]
     private ?Roles $role = null;
 
-    /**
-     * @var Collection<int, Orders>
-     */
     #[ORM\OneToMany(targetEntity: Orders::class, mappedBy: 'user', orphanRemoval: true)]
     private Collection $orders;
 
@@ -50,6 +47,15 @@ class Users
 
     #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?WishList $wishList = null;
+
+    #[ORM\Column(length: 25)]
+    private ?string $firstName = null;
+
+    #[ORM\Column(length: 25)]
+    private ?string $lastName = null;
+
+    #[ORM\Column(length: 60)]
+    private ?string $address = null;
 
     public function __construct()
     {
@@ -69,7 +75,6 @@ class Users
     public function setUsername(string $username): static
     {
         $this->username = $username;
-
         return $this;
     }
 
@@ -81,7 +86,6 @@ class Users
     public function setEmail(string $email): static
     {
         $this->email = $email;
-
         return $this;
     }
 
@@ -90,10 +94,9 @@ class Users
         return $this->password;
     }
 
-    public function setPassword(string $password): static
+    public function setPassword(string $password): self
     {
         $this->password = $password;
-
         return $this;
     }
 
@@ -105,7 +108,6 @@ class Users
     public function setPhoneNumber(string $phoneNumber): static
     {
         $this->phoneNumber = $phoneNumber;
-
         return $this;
     }
 
@@ -117,13 +119,14 @@ class Users
     public function setRole(?Roles $role): static
     {
         $this->role = $role;
-
         return $this;
     }
 
-    /**
-     * @return Collection<int, Orders>
-     */
+    public function getRoles(): array
+    {
+        return [$this->role->value];
+    }
+
     public function getOrders(): Collection
     {
         return $this->orders;
@@ -135,19 +138,16 @@ class Users
             $this->orders->add($order);
             $order->setUser($this);
         }
-
         return $this;
     }
 
     public function removeOrder(Orders $order): static
     {
         if ($this->orders->removeElement($order)) {
-            // set the owning side to null (unless already changed)
             if ($order->getUser() === $this) {
                 $order->setUser(null);
             }
         }
-
         return $this;
     }
 
@@ -158,13 +158,10 @@ class Users
 
     public function setCarts(Carts $carts): static
     {
-        // set the owning side of the relation if necessary
         if ($carts->getUser() !== $this) {
             $carts->setUser($this);
         }
-
         $this->carts = $carts;
-
         return $this;
     }
 
@@ -175,13 +172,44 @@ class Users
 
     public function setWishList(WishList $wishList): static
     {
-        // set the owning side of the relation if necessary
         if ($wishList->getUser() !== $this) {
             $wishList->setUser($this);
         }
-
         $this->wishList = $wishList;
-
         return $this;
     }
+
+    public function getFirstName(): ?string
+    {
+        return $this->firstName;
+    }
+
+    public function setFirstName(string $firstName): static
+    {
+        $this->firstName = $firstName;
+        return $this;
+    }
+
+    public function getLastName(): ?string
+    {
+        return $this->lastName;
+    }
+
+    public function setLastName(string $lastName): static
+    {
+        $this->lastName = $lastName;
+        return $this;
+    }
+
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    public function setAddress(string $address): static
+    {
+        $this->address = $address;
+        return $this;
+    }
+
 }

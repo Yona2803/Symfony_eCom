@@ -2,52 +2,122 @@
 <html>
 	<head>
 		<title>My Account</title>
-		<link rel="stylesheet" href="{{ ('Pages/AccountPage/Style.css') }}">
-		<link rel="icon" type="image/x-icon" href="{{ ('img/icon/Icon.png') }}">
+		<link rel="stylesheet" href="{{ asset('Pages/AccountPage/Style.css') }}">
+		<link rel="icon" type="image/x-icon" href="{{ asset('img/icon/Icon.png') }}">
 	</head>
 	<body>
 		{# Header Section #}
 		{% include 'components/Header/Header.html.twig' with { 'ParentPage': 'My Account' } %}
-		{# Adding Products Section #}
+
+		{# Adding Form and Contents #}
 		<div class="Container">
 			<div class="Top_Section">
 				<p id="Route_Page">
 					<a id="Route_Path"></a>
-					<span>
-						Account</span>
+					<span>Account</span>
 				</p>
 
-				<p id="Account_Name">Welecom!
-					<span>
-						Youness</span>
+				<p id="Account_Name">Welcome!
+					<span>{{ User_Data.firstName ? User_Data.firstName : "" }}</span>
 				</p>
 			</div>
-
 			<div class="Mid_Section">
 				<div class="Left_Section">
 					<h3>Manage My Account</h3>
 					<br/>
 					<ul>
-						<li>My Profile</li>
-						<li>Address Book</li>
-						<li>My Payment Options</li>
+						<li onclick="Hide_Show(Profile)" >My Profile</li>
+						<li onclick="Hide_Show(AddressBook)" >Address Book</li>
+						<li onclick="Hide_Show(Payment)" >My Payment Options</li>
 					</ul>
 					<br/>
 					<h3>My Orders</h3>
 					<ul>
-						<li>My Returns</li>
-						<li>My Cancellations</li>
+						<li onclick="Hide_Show(Returns)" >My Returns</li>
+						<li onclick="Hide_Show(Cancellations)" >My Cancellations</li>
 					</ul>
 					<br/>
-					<h3>My WishList</h3>
+					<h3 onclick="Hide_Show(WishList)">My WishList</h3>
 				</div>
-				<div class="Right_Section"></div>
+				<div class="Right_Section">
+					{{ form_start(form, {'attr': {'id': 'Edite_Profile', 'class': 'Edite_Profile'},'action': path('UpdateAccountPage', {'User_id': User_Data.id}), 'method': 'POST'}) }}
+					<h2>Edit Your Profile</h2>
+
+					<div class="Section">
+						<div>
+							{{ form_label(form.firstName) }}
+							{{ form_widget(form.firstName, {'attr': {'class': 'form-control', 'value': User_Data.firstName|default('')}}) }}
+						</div>
+						<div>
+							{{ form_label(form.lastName) }}
+							{{ form_widget(form.lastName, {'attr': {'class': 'form-control', 'value': User_Data.lastName|default('')}}) }}
+						</div>
+					</div>
+
+					<div class="Section">
+						<div>
+							{{ form_label(form.email) }}
+							{{ form_widget(form.email, {'attr': {'class': 'form-control', 'value': User_Data.email|default('')}}) }}
+						</div>
+						<div>
+							{{ form_label(form.address) }}
+							{{ form_widget(form.address, {'attr': {'class': 'form-control', 'value': User_Data.address|default('')}}) }}
+						</div>
+					</div>
+
+					<div class="Section">
+						<div>
+							{{ form_label(form.phoneNumber) }}
+							{{ form_widget(form.phoneNumber, {'attr': {'class': 'form-control', 'value': User_Data.phoneNumber|default('')}}) }}
+						</div>
+						<div>
+							{{ form_label(form.username) }}
+							{{ form_widget(form.username, {'attr': {'class': 'form-control', 'value': User_Data.username|default('')}}) }}
+						</div>
+					</div>
+
+					<div
+						class="Section">
+						<div>
+							{{ form_row(form.currentPassword, {'attr': {'id': 'Current_Password', 'class': 'form-control'}}) }}
+							{{ form_row(form.newPassword, {'attr': {'id': 'New_Password', 'class': 'form-control'}}) }}
+							{{ form_widget(form.confirmPassword, {'attr': {'id': 'Confirm_Password', 'class': 'form-control'}}) }}
+						</div>
+					</div>
+
+
+					<div class="Section">
+						<span id="StatusMsg"></span>
+						<div>
+							<button class="Reset_BtnForm" type="reset">Cancel</button>
+							<button id="Submit_BtnForm" class="Submit_BtnForm" type="submit">Save Changes</button>
+						</div>
+					</div>
+					{{ form_end(form) }}
+
+					{# Error Msg's #}
+					<p class="Form_ErrorMsg">There appears to be an issue with the server
+						<span>💭</span>
+						Please try again at a later time.
+					</p>
+					<div class="Msg_404">
+						<img src="{{ asset('img/Msg404.webp') }}" alt="404- Still in the development process.">
+						<p>We are still in the development process.</p>
+					</div>
+				</div>
 			</div>
 		</div>
+
 		{# Footer Section #}
 		{{ include('components/Footer/Footer.html.twig') }}
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		<script src="{{ asset('js/global.js') }}"></script>
+		<script src="{{ asset('Pages/AccountPage/main.js') }}"></script>
+		<script>
+			const Status = "{{ Status }}";
+if (Status) {
+updateStatus(Status);
+}
+		</script>
 	</body>
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<script src="{{ asset('js/global.js') }}"></script>
-	<script src="{{('Pages/AccountPage/main.js')}}"></script>
 </html>
