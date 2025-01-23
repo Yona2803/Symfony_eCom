@@ -10,15 +10,28 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\Entity\Users;
 use App\Form\UsersType;
-
+use App\Service\UsersService;
 
 
 class AccountController extends AbstractController
 {
-    // GET Route to display the form
-    #[Route('/MyAccount/{User_id}', name: 'MyAccountPage', methods: ['GET'])]
-    public function getUserAccount(int $User_id, EntityManagerInterface $entityManager): Response
+    private $usersService;
+
+    public function __construct(UsersService $usersService)
     {
+        $this->usersService = $usersService;
+    }
+
+
+
+    // GET Route to display the form
+    // #[Route('/MyAccount/{User_id}', name: 'MyAccountPage', methods: ['GET'])]
+    #[Route('/MyAccount', name: 'MyAccountPage', methods: ['GET'])]
+
+    public function getUserAccount(EntityManagerInterface $entityManager): Response
+    {
+        $User_id = $this->usersService->getIdOfAuthenticatedUser();
+
         $Status = "";
         // return new Response('GET.');
         $User_Data = $entityManager->getRepository(Users::class)->find($User_id);
@@ -32,15 +45,15 @@ class AccountController extends AbstractController
     }
 
     // POST Route to handle form submission
-    #[Route('/MyAccount/{User_id}/update', name: 'UpdateAccountPage', methods: ['POST'])]
+    #[Route('/MyAccount', name: 'UpdateAccountPage', methods: ['POST'])]
     public function postUserAccount(
-        int $User_id,
         Request $request,
         EntityManagerInterface $entityManager,
         UserPasswordHasherInterface $passwordHasher
     ): Response {
-        $Status = "";
+        $User_id = $this->usersService->getIdOfAuthenticatedUser();
 
+        $Status = "";
 
         if (!$User_id) {
             $Status = "User_id"; // User Id not found

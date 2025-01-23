@@ -7,13 +7,16 @@ body {
 
 
 .container {
-    width: calc(100% - 250px);
+    width: calc(100% - 250px); 
     padding: 20px 30px;
-    border-radius: 8px;
-    max-width: 800px;
-    margin-left: 320px;
-    margin-right: auto;
+    border-radius: 8px; 
+    max-width: calc(100% - 250px);
+    margin-left: auto;
+    margin-right: auto; 
+    margin-left: 250px;
 }
+
+
 
 
 h1 {
@@ -22,7 +25,7 @@ h1 {
 }
 
 .wishlist-items {
-    width: 100%; 
+    width: 100%;
     list-style: none;
     padding: 0;
     padding-bottom: 10px;
@@ -85,3 +88,15 @@ h1 {
 .btn-delete:hover {
     background-color: #c82333;
 }
+
+
+.item-price {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #ff5722;
+    padding: 10px;
+    border-radius: 5px;
+    display: inline-block;
+}
+

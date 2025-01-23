@@ -11,13 +11,6 @@
 	<body>
 		<div
 			class="dashboard">
-			{% for label, messages in app.flashes %}
-                {% for message in messages %}
-                    <script>
-                        alert('{{ message }}');
-                    </script>
-                {% endfor %}
-            {% endfor %}
 			<div class="sidebar">
 				<h2>Dashboard</h2>
 				<ul class="nav">

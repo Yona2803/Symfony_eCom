@@ -2,80 +2,54 @@
 
 namespace App\Entity;
 
-use App\Repository\UsersRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use App\Repository\UserRepository;
+use App\Repository\UsersRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-
-
-enum Roles: string
-{
-    case ADMIN = 'ROLE_ADMIN';
-    case CUSTOMER = 'ROLE_CUSTOMER';
-}
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UsersRepository::class)]
-class Users implements PasswordAuthenticatedUserInterface
+#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+class Users implements UserInterface, PasswordAuthenticatedUserInterface
 {
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 50)]
-    private ?string $username = null;
-
-    #[ORM\Column(length: 60)]
+    #[ORM\Column(length: 180)]
     private ?string $email = null;
 
-    #[ORM\Column(length: 50)]
+    /**
+     * @var list<string> The user roles
+     */
+    #[ORM\Column]
+    private array $roles = [];
+
+    /**
+     * @var string The hashed password
+     */
+    #[ORM\Column]
     private ?string $password = null;
+
+    #[ORM\Column(length: 50)]
+    private ?string $username = null;
 
     #[ORM\Column(length: 30)]
     private ?string $phoneNumber = null;
 
-    #[ORM\Column(type: 'string', enumType: Roles::class)]
-    private ?Roles $role = null;
 
-    #[ORM\OneToMany(targetEntity: Orders::class, mappedBy: 'user', orphanRemoval: true)]
-    private Collection $orders;
 
-    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
-    private ?Carts $carts = null;
 
-    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
-    private ?WishList $wishList = null;
-
-    #[ORM\Column(length: 25)]
-    private ?string $firstName = null;
-
-    #[ORM\Column(length: 25)]
-    private ?string $lastName = null;
-
-    #[ORM\Column(length: 60)]
-    private ?string $address = null;
-
-    public function __construct()
-    {
-        $this->orders = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getUsername(): ?string
-    {
-        return $this->username;
-    }
-
-    public function setUsername(string $username): static
-    {
-        $this->username = $username;
-        return $this;
     }
 
     public function getEmail(): ?string
@@ -89,6 +63,43 @@ class Users implements PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
+    }
+
+    /**
+     * @see UserInterface
+     *
+     * @return list<string>
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_CUSTOMER';
+
+        return array_unique($roles);
+    }
+
+    /**
+     * @param list<string> $roles
+     */
+    public function setRoles(array $roles): static
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * @see PasswordAuthenticatedUserInterface
+     */
     public function getPassword(): ?string
     {
         return $this->password;
@@ -97,6 +108,53 @@ class Users implements PasswordAuthenticatedUserInterface
     public function setPassword(string $password): self
     {
         $this->password = $password;
+        return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials(): void
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
+    }
+
+    /**
+     * @var Collection<int, Orders>
+     */
+    #[ORM\OneToMany(targetEntity: Orders::class, mappedBy: 'user', orphanRemoval: true)]
+    private Collection $orders;
+
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?Carts $carts = null;
+
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?WishList $wishList = null;
+
+    #[ORM\Column(length: 30)]
+    private ?string $firstName = null;
+
+    #[ORM\Column(length: 30)]
+    private ?string $lastName = null;
+
+    #[ORM\Column(length: 60)]
+    private ?string $address = null;
+
+    public function __construct()
+    {
+        $this->orders = new ArrayCollection();
+    }
+
+    public function getUsername(): ?string
+    {
+        return $this->username;
+    }
+
+    public function setUsername(string $username): static
+    {
+        $this->username = $username;
+
         return $this;
     }
 
@@ -111,21 +169,10 @@ class Users implements PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getRole(): ?Roles
-    {
-        return $this->role;
-    }
-
-    public function setRole(?Roles $role): static
-    {
-        $this->role = $role;
-        return $this;
-    }
-
-    public function getRoles(): array
-    {
-        return [$this->role->value];
-    }
+    // public function getRoles(): array
+    // {
+    //     return [$this->role->value];
+    // }
 
     public function getOrders(): Collection
     {
@@ -209,7 +256,7 @@ class Users implements PasswordAuthenticatedUserInterface
     public function setAddress(string $address): static
     {
         $this->address = $address;
+
         return $this;
     }
-
 }

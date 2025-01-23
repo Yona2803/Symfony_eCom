@@ -1,0 +1,47 @@
+<head>
+    <link rel="stylesheet" href="{{ asset('css/FormLoginStyle.css') }}">
+</head>
+
+{% block body %}
+<div class="flex items-center justify-center min-h-screen bg-gray-100">
+    <div class="w-full max-w-md bg-white rounded-lg shadow-lg p-8">
+        <h1 class="text-3xl font-bold text-center text-blue-500 mb-8">Login</h1>
+
+        <form method="post">
+            {% if error %}
+                <div class="alert alert-danger text-red-500 mb-4">
+                    {{ error.messageKey|trans(error.messageData, 'security') }}
+                </div>
+            {% endif %}
+
+            {% if app.user %}
+                <div class="mb-3 text-center text-green-500">
+                    You are logged in as {{ app.user.email }},
+                    <a href="{{ path('app_logout') }}" class="text-blue-600 hover:underline">Logout</a>
+                </div>
+            {% endif %}
+
+            <!-- Center the inputs inside a div -->
+            <div class="input-container mb-6 text-center">
+                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="input-field" placeholder="Email" autocomplete="email" required autofocus>
+            </div>
+
+            <div class="input-container mb-6 text-center">
+                <input type="password" name="password" id="inputPassword" class="input-field" autocomplete="current-password" placeholder="Password" required>
+            </div>
+
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+            <div class="text-center">
+                <button class="submit-btn w-full" type="submit">
+                    Sign in
+                </button>
+            </div>
+        </form>
+
+        <div class="text-center mt-6">
+            <p class="text-sm text-gray-600">Don't have an account? <a href="{{ path('app_register') }}" class="text-blue-500 hover:underline">Register here</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

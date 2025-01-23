@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,14 +14,12 @@ use App\Service\ItemsService;
 
 class ItemsController extends AbstractController
 {
-
     private ItemsService $itemsService;
 
     public function __construct(ItemsService $itemsService)
     {
         $this->itemsService = $itemsService;
     }
-
 
     #[Route('/addItem', name: 'addItem')]
     public function addItem2(Request $request): Response
@@ -33,14 +30,9 @@ class ItemsController extends AbstractController
             $this->addFlash('addProduct', 'Product added successfully!');
             return $this->redirect('add-item-page');
         }
-        $this->addFlash('error', 'Failed to add product.');
+        $this->addFlash('addProductError', 'Failed to add product.');
         return new Response(null, Response::HTTP_NOT_FOUND);
     }
-
-
-
-
-
 
     #[Route('/productsPage', name: 'productsPage')]
     public function products(): Response
@@ -50,8 +42,6 @@ class ItemsController extends AbstractController
             'items' => $items
         ]);
     }
-
-
 
     #[Route('/Products', name: 'search', methods: ['GET'])]
     public function search(Request $request, ItemsRepository $itemsRepository): Response
@@ -64,8 +54,6 @@ class ItemsController extends AbstractController
         ]);
     }
 
-
-
     #[Route('/Category/{categoryName}', name: 'searchByCategory', methods: ['GET'])]
     public function searchByCategory(string $categoryName, ItemsRepository $itemsRepository): Response
     {
@@ -75,13 +63,11 @@ class ItemsController extends AbstractController
         ]);
     }
 
-
     #[Route('/dashboard', name: 'dashboard', methods: ['GET'])]
     public function toDashboard(): Response
     {
         return $this->render('items/dashBoard.html.twig');
     }
-
 
     #[Route('/add-item-page', name: 'add_item_page')]
     public function addItemPage(): Response
@@ -91,6 +77,17 @@ class ItemsController extends AbstractController
 
         return $this->render('items/addItemPage.html.twig', [
             'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/Products/{tag}', name: 'findByTag', methods: ['GET'])]
+    public function findItemsByTag(string $tag): Response
+    {
+
+        $items = $this->itemsService->findItemsByTag($tag);
+
+        return $this->render('Pages/ProductsPage/ProductsPage.html.twig', [
+            'items' => $items,
         ]);
     }
 }

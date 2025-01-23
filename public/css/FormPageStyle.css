@@ -20,16 +20,13 @@ body {
 
 
 .container {
-    height: 100vh;
-    width: calc(100% - 250px);
-    background-color: #ffffff;
-    padding: 20px 30px;
-    margin: 20px;
-    border-radius: 8px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    max-width: 800px;
-    margin-left: 320px;
+    width: calc(100% - 250px); 
+    padding: 20px 30px; 
+    border-radius: 8px; 
+    max-width: calc(100% - 250px); 
+    margin-left: auto;
     margin-right: auto;
+    margin-left: 250px;
 }
 
 
@@ -48,7 +45,8 @@ h1 {
 .custom-stock-field,
 .custom-category-field,
 .custom-description-field,
-.custom-item-image {
+.custom-item-image,
+.custom-tags-field {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
@@ -104,3 +102,16 @@ button[type="button"]:hover {
     height: 100%;
 } 
 
+
+
+
+#item_tags_1,
+#item_tags_2,
+#item_tags_3,
+#item_tags_4,
+#item_tags_5,
+#item_tags_6,
+#item_tags_7,
+#item_tags_8{
+    margin-left: 15px;
+}

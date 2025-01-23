@@ -30,6 +30,12 @@ class ItemsService
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+
+            $selectedTags = $form->get('tags')->getData();
+            $item->setTags($selectedTags);
+
+
             $imageFile = $form->get('itemImage')->getData();
 
             if ($imageFile) {
@@ -77,4 +83,18 @@ class ItemsService
     {
         return $this->entityManager->getRepository(Items::class)->findByPartialName($name);
     }
+
+
+
+    public function findItemsByTag(string $tag): array
+    {
+        if (!$tag) {
+            return [];
+        }
+
+        return $this->entityManager->getRepository(Items::class)->findByTag($tag);
+    }
+
+
+
 }

@@ -6,6 +6,7 @@ use App\Entity\Categories;
 use App\Entity\Items;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -43,6 +44,29 @@ class ItemType extends AbstractType
                 'placeholder' => 'Choose a category',
                 'required' => true,
             ])
+
+
+            ->add('tags', ChoiceType::class, [
+                'label' => 'Tags',
+                'choices' => [
+                    "Woman's Fashion" => "Woman's Fashion",
+                    "Men's Fashion" => "Men's Fashion",
+                    "Electronics" => "Electronics",
+                    "Home & Lifestyle" => "Home & Lifestyle",
+                    "Medicine" => "Medicine",
+                    "Sport & Outdoor" => "Sport & Outdoor",
+                    "Baby's & Toys" => "Baby's & Toys",
+                    "Groceries & Pets" => "Groceries & Pets",
+                    "Health & Beauty" => "Health & Beauty",
+                ],
+                'multiple' => true,
+                'expanded' => true,
+                'attr' => [
+                'class' => 'inline-checkbox-group'
+                    ],
+            ])
+
+
             ->add('description', TextareaType::class)
             ->add('itemImage', FileType::class, [
                 'mapped' => false,
@@ -56,4 +80,5 @@ class ItemType extends AbstractType
             'data_class' => Items::class,
         ]);
     }
+    
 }

@@ -6,6 +6,37 @@
 		<title>Add Item</title>
 		<link rel="stylesheet" href="{{ asset('css/FormPageStyle.css') }}">
 		<link rel="icon" type="image/x-icon" href="{{ asset('img/icon/Icon.png') }}">
+
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css">
+		<script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+
+
+		<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const tagSelector = document.querySelectorAll('.tag-selector input[type="checkbox"]');
+        const selectedTagsField = document.querySelector('.selected-tags-field');
+
+        // Update the textarea when tags are selected or deselected
+        const updateSelectedTags = () => {
+            const selectedTags = Array.from(tagSelector)
+                .filter(tag => tag.checked)
+                .map(tag => tag.labels[0].innerText);
+            selectedTagsField.value = selectedTags.join(', ');
+        };
+
+        // Add event listeners to all checkboxes
+        tagSelector.forEach(tag => {
+            tag.addEventListener('change', updateSelectedTags);
+        });
+
+        // Initialize the textarea with preselected tags if applicable
+        updateSelectedTags();
+    });
+</script>
+
+
+
+
 	</head>
 	<body>
 		{{ include('items/dashBoard.html.twig') }}
@@ -15,7 +46,12 @@
 				alert('{{ message }}');
 			</script>
 		{% endfor %}
-		
+		{% for message in app.flashes('addProductError') %}
+			<script>
+				alert('{{ message }}');
+			</script>
+		{% endfor %}
+
 		<div class="container">
 			<h1>Add Product</h1>
 			{{ form_start(form, {'action': path('addItem'), 'method': 'POST', 'attr': {'enctype': 'multipart/form-data'}}) }}
@@ -27,9 +63,17 @@
 				{{ form_row(form.stock, {'attr': {'class': 'custom-stock-field'}}) }}
 				{{ form_row(form.category, {'attr': {'class': 'custom-category-field'}}) }}
 			</div>
+
 			<div class="form-group-description">
 				{{ form_row(form.description, {'attr': {'class': 'custom-description-field'}}) }}
 			</div>
+
+
+			<div class="form-group">
+				{{ form_row(form.tags, {'attr': {'class': 'custom-tags-field'}}) }}
+			</div>
+
+
 			<div class="form-group">
 				{{ form_row(form.itemImage, {'attr': {'class': 'custom-item-image', 'onchange': 'previewImage(event)'}}) }}
 				<div class="image-preview-container">
@@ -40,7 +84,7 @@
 
 			<br>
 			<button type="submit">Add Product</button>
-			<a href="{{ path('home') }}">
+			<a href="{{ path('productsPage') }}">
 				<button type="button">View Products</button>
 			</a>
 			{{ form_end(form) }}

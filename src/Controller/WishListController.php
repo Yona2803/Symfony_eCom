@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+
 use App\Repository\UsersRepository;
+use App\Service\UsersService;
 use App\Service\WishListService;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,35 +16,37 @@ use Symfony\Component\HttpFoundation\Response;
 class WishListController extends AbstractController
 {
 
-    private $params;
-    private WishListService $wishListService;
-    private UsersRepository $usersRepository;
+    private $wishListService;
+    private $usersRepository;
+    private $usersService;
 
     public function __construct(
         WishListService $wishListService,
         UsersRepository $usersRepository,
-        ParameterBagInterface $params
+        ParameterBagInterface $params,
+        UsersService $usersService
     ) {
         $this->wishListService = $wishListService;
         $this->usersRepository = $usersRepository;
-        $this->params = $params;
+        $this->usersService = $usersService;
     }
 
 
 
-    #[Route('/addItemToWishList/{itemId}', name: 'toWishlist', methods: ['GET'])]
+    #[Route('/wishlist/add/{itemId}', name: 'toWishlist', methods: ['GET'])]
     public function addItemToWishList(int $itemId): Response
     {
-        $userId = $this->params->get('user_id');
+
+        $userId = $this->usersService->getIdOfAuthenticatedUser();
         $value = $this->wishListService->addToWishList($userId, $itemId);
 
         if ($value) {
-            $this->addFlash('success', 'Item added to wishlist successfully.');
-        } else {
-            $this->addFlash('warning', 'Item already exists in wishlist.');
+            $this->addFlash('addToWishlist', 'Product successfully added to your wishlist.');
+            return new JsonResponse(['status' => 'addToWishlist', 'message' => 'Product successfully added to your wishlist.'], Response::HTTP_OK);
         }
 
-        return $this->redirectToRoute('productsPage');
+        $this->addFlash('wishlistError', 'Product already exist in your wishlist.');
+        return new JsonResponse(['status' => 'wishlistError', 'message' => 'Product already exist in your wishlist.'], Response::HTTP_BAD_REQUEST);
     }
 
 
@@ -51,7 +55,10 @@ class WishListController extends AbstractController
     #[Route('/wishlist/delete/{itemId}', name: 'delete_item', methods: 'DELETE')]
     public function deleteItem(int $itemId): JsonResponse
     {
-        $success = $this->wishListService->removeItemFromWishlist(itemId: $itemId);
+
+        $userId = $this->usersService->getIdOfAuthenticatedUser();
+
+        $success = $this->wishListService->removeItemFromWishlist($userId, $itemId);
 
         if ($success) {
             $this->addFlash('success', 'Product successfully removed from your wishlist.');
@@ -64,17 +71,23 @@ class WishListController extends AbstractController
 
 
 
-
-
     #[Route('/wishlist', name: 'wishlistPage', methods: ['GET'])]
     public function wishList(): Response
     {
 
-        $userId = $this->params->get('user_id');
-        $wishlist = $this->usersRepository->find($userId)->getWishList();
+        $userId = $this->usersService->getIdOfAuthenticatedUser();
+        $user = $this->usersRepository->find($userId);
 
+        if (!$user) {
+            return $this->render('items/wishlistPage.html.twig', [
+                'wishlist' => [],
+            ]); 
+        }
+    
+        $wishlist = $user->getWishList();
         return $this->render('items/wishlistPage.html.twig', [
             'wishlist' => $wishlist,
         ]);
     }
+    
 }

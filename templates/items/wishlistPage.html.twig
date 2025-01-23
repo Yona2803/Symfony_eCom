@@ -6,13 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wishlist</title>
     <link rel="stylesheet" href="{{ asset('css/wishlistStyle.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('img/icon/Icon.png') }}">
 </head>
 <body>
     {{ include('items/dashBoard.html.twig') }}
 
     <div class="container">
         <h1>Wishlist</h1>
-        {% if wishlist.item|length > 0 %}
+        {% if wishlist and wishlist.item|length > 0 %}
             <ul class="wishlist-items">
                 {% for item in wishlist.item %}
                     <li class="wishlist-item" id="item-{{ item.id }}">
@@ -26,7 +27,7 @@
                         <div class="item-details">
                             <h2>{{ item.name }}</h2>
                             <p>{{ item.description }}</p>
-                            <p>Price: {{ item.price }} DHs</p>
+                            <p class="item-price">Price: {{ item.price }} DHs</p>
                             <div class="item-actions">
                                 <button type="button" class="btn-delete" onclick="deleteItem('{{ item.id }}')">Delete</button>
                                 <button class="btn-buy">Buy</button>

@@ -9,15 +9,34 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\Items;
+use App\Service\ItemsService;
 
 class HomePageController extends AbstractController
 {
-    #[Route('/', name: 'homePage')]
-    public function index(Request $request, EntityManagerInterface $entityManager)
+
+    private ItemsService $itemsService;
+
+    public function __construct(ItemsService $itemsService)
     {
-        $items = $entityManager->getRepository(Items::class)->findAll();
-        return $this->render('base.html.twig', [
+        $this->itemsService = $itemsService;
+    }
+
+
+    
+    #[Route('/home', name: 'home')]
+    public function getAll(): Response
+    {
+        $items = $this->itemsService->getAllProducts();
+        return $this->render('/base.html.twig', [
             'items' => $items
         ]);
     }
+
+
+    #[Route('/', name:'homePage')]
+    public function redirectToHomePage(){
+        return $this->redirectToRoute('home');
+    }
+
+
 }
