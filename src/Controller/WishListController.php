@@ -23,7 +23,6 @@ class WishListController extends AbstractController
     public function __construct(
         WishListService $wishListService,
         UsersRepository $usersRepository,
-        ParameterBagInterface $params,
         UsersService $usersService
     ) {
         $this->wishListService = $wishListService;
@@ -71,6 +70,7 @@ class WishListController extends AbstractController
 
 
 
+
     #[Route('/wishlist', name: 'wishlistPage', methods: ['GET'])]
     public function wishList(): Response
     {
@@ -89,5 +89,7 @@ class WishListController extends AbstractController
             'wishlist' => $wishlist,
         ]);
     }
+
+    
     
 }
