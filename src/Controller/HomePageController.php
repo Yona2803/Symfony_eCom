@@ -39,4 +39,19 @@ class HomePageController extends AbstractController
     }
 
 
+
+
+
+
+    // ========================================
+    // this function just for testing you can delele it
+    // and delete the rendered template file
+    #[Route('/mytest', name:'mytest')]
+    public function redirectTomytest(){
+        return $this->render('items/test.html.twig');
+    }
+    //==========================================
+
+
+
 }
