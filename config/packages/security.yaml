@@ -15,7 +15,6 @@ security:
             custom_authenticator: App\Security\LoginFormAuthenticator
             logout:
                 path: app_logout
-                # where to redirect after logout
                 target: app_login
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -28,8 +27,6 @@ security:
                 check_path: app_login
                 default_target_path: home
                 enable_csrf: true
-            # logout:
-            #     path: app_logout
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
