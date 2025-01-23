@@ -60,7 +60,6 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEmail(string $email): static
     {
         $this->email = $email;
-
         return $this;
     }
 
@@ -106,10 +105,9 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->password;
     }
 
-    public function setPassword(string $password): static
+    public function setPassword(string $password): self
     {
         $this->password = $password;
-
         return $this;
     }
 
@@ -121,11 +119,6 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
-
-
-
-
-
 
     /**
      * @var Collection<int, Orders>
@@ -153,7 +146,6 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
         $this->orders = new ArrayCollection();
     }
 
-
     public function getUsername(): ?string
     {
         return $this->username;
@@ -166,7 +158,6 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-
     public function getPhoneNumber(): ?string
     {
         return $this->phoneNumber;
@@ -175,15 +166,14 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPhoneNumber(string $phoneNumber): static
     {
         $this->phoneNumber = $phoneNumber;
-
         return $this;
     }
 
+    // public function getRoles(): array
+    // {
+    //     return [$this->role->value];
+    // }
 
-
-    /**
-     * @return Collection<int, Orders>
-     */
     public function getOrders(): Collection
     {
         return $this->orders;
@@ -195,19 +185,16 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
             $this->orders->add($order);
             $order->setUser($this);
         }
-
         return $this;
     }
 
     public function removeOrder(Orders $order): static
     {
         if ($this->orders->removeElement($order)) {
-            // set the owning side to null (unless already changed)
             if ($order->getUser() === $this) {
                 $order->setUser(null);
             }
         }
-
         return $this;
     }
 
@@ -218,13 +205,10 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setCarts(Carts $carts): static
     {
-        // set the owning side of the relation if necessary
         if ($carts->getUser() !== $this) {
             $carts->setUser($this);
         }
-
         $this->carts = $carts;
-
         return $this;
     }
 
@@ -235,13 +219,10 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setWishList(WishList $wishList): static
     {
-        // set the owning side of the relation if necessary
         if ($wishList->getUser() !== $this) {
             $wishList->setUser($this);
         }
-
         $this->wishList = $wishList;
-
         return $this;
     }
 
@@ -253,7 +234,6 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     public function setFirstName(string $firstName): static
     {
         $this->firstName = $firstName;
-
         return $this;
     }
 
@@ -265,7 +245,6 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLastName(string $lastName): static
     {
         $this->lastName = $lastName;
-
         return $this;
     }
 
