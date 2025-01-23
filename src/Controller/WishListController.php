@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+
 use App\Repository\UsersRepository;
+use App\Service\UsersService;
 use App\Service\WishListService;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,18 +16,19 @@ use Symfony\Component\HttpFoundation\Response;
 class WishListController extends AbstractController
 {
 
-    private $params;
-    private WishListService $wishListService;
-    private UsersRepository $usersRepository;
+    private $wishListService;
+    private $usersRepository;
+    private $usersService;
 
     public function __construct(
         WishListService $wishListService,
         UsersRepository $usersRepository,
-        ParameterBagInterface $params
+        ParameterBagInterface $params,
+        UsersService $usersService
     ) {
         $this->wishListService = $wishListService;
         $this->usersRepository = $usersRepository;
-        $this->params = $params;
+        $this->usersService = $usersService;
     }
 
 
@@ -33,7 +36,8 @@ class WishListController extends AbstractController
     #[Route('/wishlist/add/{itemId}', name: 'toWishlist', methods: ['GET'])]
     public function addItemToWishList(int $itemId): Response
     {
-        $userId = $this->params->get('user_id');
+
+        $userId = $this->usersService->getIdOfAuthenticatedUser();
         $value = $this->wishListService->addToWishList($userId, $itemId);
 
         if ($value) {
@@ -51,7 +55,10 @@ class WishListController extends AbstractController
     #[Route('/wishlist/delete/{itemId}', name: 'delete_item', methods: 'DELETE')]
     public function deleteItem(int $itemId): JsonResponse
     {
-        $success = $this->wishListService->removeItemFromWishlist(itemId: $itemId);
+
+        $userId = $this->usersService->getIdOfAuthenticatedUser();
+
+        $success = $this->wishListService->removeItemFromWishlist($userId, $itemId);
 
         if ($success) {
             $this->addFlash('success', 'Product successfully removed from your wishlist.');
@@ -67,7 +74,8 @@ class WishListController extends AbstractController
     #[Route('/wishlist', name: 'wishlistPage', methods: ['GET'])]
     public function wishList(): Response
     {
-        $userId = $this->params->get('user_id');
+
+        $userId = $this->usersService->getIdOfAuthenticatedUser();
         $user = $this->usersRepository->find($userId);
 
         if (!$user) {

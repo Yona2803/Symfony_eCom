@@ -9,29 +9,26 @@ use App\Repository\ItemsRepository;
 use App\Repository\UsersRepository;
 use App\Repository\WishListRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class WishListService
 {
 
-    private EntityManagerInterface $em;
-    private WishListRepository $wishlistRepository;
-    private ItemsRepository $itemsRepository;
-    private UsersRepository $usersRepository;
-    private $params;
+    private $em;
+    private $wishlistRepository;
+    private $itemsRepository;
+    private $usersRepository;
 
     public function __construct(
         EntityManagerInterface $em,
         WishListRepository $wishlistRepository,
         ItemsRepository $itemsRepository,
-        UsersRepository $usersRepository,
-        ParameterBagInterface $params)
+        UsersRepository $usersRepository
+        )
     {
         $this->em = $em;
         $this->wishlistRepository = $wishlistRepository;
         $this->itemsRepository = $itemsRepository;
         $this->usersRepository = $usersRepository;
-        $this->params = $params;
     }
 
 
@@ -72,10 +69,10 @@ class WishListService
     }
 
 
-    public function removeItemFromWishlist(int $itemId): bool
+    public function removeItemFromWishlist(int $userId, int $itemId): bool
     {
+        
         $item = $this->itemsRepository->find($itemId);
-        $userId = $this->params->get('user_id');
 
         if ($item) {
             $wishlist = $this->usersRepository->find($userId)->getWishList();

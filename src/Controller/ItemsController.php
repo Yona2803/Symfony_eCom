@@ -38,17 +38,6 @@ class ItemsController extends AbstractController
 
 
 
-    #[Route('/', name: 'homePage')]
-    #[Route('/home', name: 'home')]
-    public function getAll(): Response
-    {
-        $items = $this->itemsService->getAllProducts();
-        return $this->render('/base.html.twig', [
-            'items' => $items
-        ]);
-    }
-
-
 
     #[Route('/productsPage', name: 'productsPage')]
     public function products(): Response
