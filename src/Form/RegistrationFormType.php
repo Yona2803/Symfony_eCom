@@ -8,6 +8,7 @@ use App\Entity\Users;
 use PHPUnit\TextUI\XmlConfiguration\CodeCoverage\Report\Text;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -22,6 +23,7 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+
             ->add('firstName', TextType::class, [
                 'label' => 'First Name',
                 'attr' => [                    
@@ -38,10 +40,12 @@ class RegistrationFormType extends AbstractType
 
 
 
+
             ->add('email', EmailType::class, [
                 'label' => 'Email',
                 'attr' => [
                     'autocomplete' => 'email',                     
+
                     'class' => 'input sz-md variant-outlinede'
                 ],
             ])
@@ -51,6 +55,7 @@ class RegistrationFormType extends AbstractType
             //     'mapped' => false,
             //     'constraints' => [
             //         new IsTrue([
+
             //             'message' => 'You should agree to our terms.',
             //         ]),
             //     ],
@@ -65,16 +70,13 @@ class RegistrationFormType extends AbstractType
                 'attr' => [
                     'autocomplete' => 'new-password',                     
                     'class' => 'input sz-md variant-outlined'
+
                 ],
                 'constraints' => [
-                    new NotBlank([
-                        'message' => 'Please enter a password',
-                    ]),
                     new Length([
                         'min' => 6,
                         'minMessage' => 'Your password should be at least {{ limit }} characters',
-                        // max length allowed by Symfony for security reasons
-                        'max' => 4096,
+                        'max' => 27, // for Faster Hashing </> 4096 will take lot of time + Memory usage
                     ]),
                 ],
             ])

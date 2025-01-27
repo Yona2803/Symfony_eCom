@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>My Cart</title>
+		<link rel="stylesheet" href="{{ asset('Pages/CartPage/BillingDetails/Style.css') }}">
+		<link rel="icon" type="image/x-icon" href="{{ asset('img/icon/Icon.png') }}">
+	</head>
+	<body>
+		{# Header Section #}
+		{% include 'components/Header/Header.html.twig' with { 'ParentPage': 'CheckOut' } %}
+		{# Adding Products Section #}
+		<div class="Container">
+			<div class="CheckOut">
+				<p id="Route_Page">
+					<a id="Route_Path"></a>
+					<span>
+						CheckOut</span>
+				</p>
+				<div class="CheckOut_Details">
+					<div id="Left_Details">
+						<h1>Billing Details</h1>
+					</div>
+					<div id="Right_Details">
+						<div
+							class="Cart_Products">{# Here the Products will appear #}
+						</div>
+
+						<div class="Cart_Total">
+							<div>
+								<p>Subtotal:
+									<span id="HT"></span>
+								</p>
+								<span class="Seperetor_List"></span>
+								<p>Shipping:
+									<span id="ShippingStatus"></span>
+								</p>
+								<span class="Seperetor_List"></span>
+								<p>Total:
+									<span id="TTC"></span>
+								</p>
+							</div>
+							<div id="PaymentOption-bank" class="PaymentOption">
+								<input type="radio" id="BANK" name="PaymentOption" disabled/>
+								<label for="BANK">Bank</label>
+
+								<img src="{{ asset('img/icon/Visa.png') }}" alt="">
+								<img src="{{ asset('img/icon/Mastercard.png') }}" alt="">
+							</div>
+							<div id="PaymentOption-COD" class="PaymentOption">
+								<input type="radio" id="COD" name="PaymentOption" checked/>
+								<label for="COD">Cash on delivery</label>
+
+							</div>
+							<div id="Coupon">
+								<input type="text" name="coupon" placeholder="Coupon Code" min="0" max="25">
+								<button>Apply Coupon</button>
+							</div>
+							<button class="Checkout" onclick="Finalize_Checkout()">Proceed To Checkout</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{# Footer Section #}
+		{{ include('components/Footer/Footer.html.twig') }}</body>
+
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="{{ asset('js/global.js') }}"></script>
+	<script src="{{ asset('Pages/CartPage/BillingDetails/main.js') }}"></script>
+</html>

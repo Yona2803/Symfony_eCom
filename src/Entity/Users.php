@@ -34,14 +34,14 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var string The hashed password
      */
-    #[ORM\Column]
+    #[ORM\Column(length: 10000)]
     private ?string $password = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(length: 25)]
     private ?string $username = null;
 
-    #[ORM\Column(length: 30)]
-    private ?string $phoneNumber = null;
+    #[ORM\Column(length: 10, nullable:true)]
+    private ?string $phoneNumber;
 
 
 
@@ -135,10 +135,10 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 30)]
     private ?string $firstName = null;
 
-    #[ORM\Column(length: 30)]
+    #[ORM\Column(length: 30, nullable:true)]
     private ?string $lastName = null;
 
-    #[ORM\Column(length: 60)]
+    #[ORM\Column(length: 60, nullable:true)]
     private ?string $address = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -171,11 +171,6 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
         $this->phoneNumber = $phoneNumber;
         return $this;
     }
-
-    // public function getRoles(): array
-    // {
-    //     return [$this->role->value];
-    // }
 
     public function getOrders(): Collection
     {
@@ -259,7 +254,6 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     public function setAddress(string $address): static
     {
         $this->address = $address;
-
         return $this;
     }
 

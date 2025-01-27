@@ -38,6 +38,7 @@ class HomePageController extends AbstractController
     public function redirectToHomePage()
     {
         return $this->redirectToRoute('home');
+
     }
 
 

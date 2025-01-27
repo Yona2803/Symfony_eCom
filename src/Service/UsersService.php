@@ -9,9 +9,6 @@ class UsersService
 {
     private $tokenStorage;
 
-
-
-
     public function __construct(TokenStorageInterface $tokenStorage)
     {
         $this->tokenStorage = $tokenStorage;
@@ -19,6 +16,7 @@ class UsersService
 
     public function getIdOfAuthenticatedUser(): int
     {
+        // $userId = null; // Initialize with a default value 
         $token = $this->tokenStorage->getToken();
         $user = $token ? $token->getUser() : null;
 
