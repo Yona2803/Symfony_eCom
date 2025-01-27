@@ -5,7 +5,6 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
@@ -13,10 +12,7 @@ use App\Entity\Users;
 use App\Form\RegistrationFormType;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use App\Service\UsersService;
-use App\Repository\UsersRepository;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+
 
 class ConnectingPageController extends AbstractController
 {
@@ -46,7 +42,7 @@ class ConnectingPageController extends AbstractController
     }
 
     // ** SignInPage **
-    #[Route('/Connecting/SignIn', name: 'SignInPage', methods: ['POST'])]
+    #[Route('/Connecting/SignIn', name: 'SignInPage', methods: ['POST', 'GET'])]
     public function signIn(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
         $user = new Users();
@@ -81,12 +77,15 @@ class ConnectingPageController extends AbstractController
         ]);
     }
 
+
+
+
     // ** LogInPage **
     #[Route(path: '/Connecting/LogIn', name: 'LogInPage')]
     public function login(Request $request, AuthenticationUtils $authenticationUtils): Response
     {
         if ($this->getUser()) {
-            return $this->redirectToRoute('home');
+            return $this->redirectToRoute('dashboard');
         }
 
         $error = $authenticationUtils->getLastAuthenticationError();
@@ -103,6 +102,11 @@ class ConnectingPageController extends AbstractController
             'sign_in_successful' => true,
         ]);
     }
+
+
+
+
+
 
     #[Route(path: '/logout', name: 'app_logout')]
     public function logout(): void

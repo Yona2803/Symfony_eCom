@@ -82,7 +82,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_CUSTOMER';
+        // $roles[] = 'ROLE_CUSTOMER';
 
         return array_unique($roles);
     }

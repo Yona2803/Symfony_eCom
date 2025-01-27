@@ -29,13 +29,12 @@
 									</svg>
 								</button>
 							</div>
-
 							<a href="{{ path('ProductDetails', { 'id': item.id }) }}">
 								<div class="ProductImage">
 									{% if item.itemImage %}
-										<img src="data:image/jpeg;base64,{{ item.itemImage|base64_encode }}" alt="{{ item.name }}" >
+										<img src="data:image/jpeg;base64,{{ item.itemImage|base64_encode }}" alt="{{ item.name }}">
 									{% else %}
-									<img src="{{ asset('img/No_Img.png') }}" alt="{{ item.name }}">
+										<img src="{{ asset('img/No_Img.png') }}" alt="{{ item.name }}">
 									{% endif %}
 									<button type="button" onclick="addToCart( {{ item.id }}); event.preventDefault();  event.stopPropagation();">Add To Cart</button>
 								</div>

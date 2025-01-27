@@ -11,7 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
-
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class WishListController extends AbstractController
 {
@@ -32,12 +32,15 @@ class WishListController extends AbstractController
 
 
 
+
     #[Route('/wishlist/add/{itemId}', name: 'toWishlist', methods: ['GET'])]
+    #[IsGranted('ROLE_CUSTOMER')]
     public function addItemToWishList(int $itemId): Response
     {
 
         $userId = $this->usersService->getIdOfAuthenticatedUser();
         $value = $this->wishListService->addToWishList($userId, $itemId);
+
 
         if ($value) {
             $this->addFlash('addToWishlist', 'Product successfully added to your wishlist.');
@@ -81,15 +84,12 @@ class WishListController extends AbstractController
         if (!$user) {
             return $this->render('items/wishlistPage.html.twig', [
                 'wishlist' => [],
-            ]); 
+            ]);
         }
-    
+
         $wishlist = $user->getWishList();
         return $this->render('items/wishlistPage.html.twig', [
             'wishlist' => $wishlist,
         ]);
     }
-
-    
-    
 }
