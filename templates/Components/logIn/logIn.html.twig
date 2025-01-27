@@ -1,0 +1,27 @@
+	<form id="logIn-form" class="registration-form" method="POST" action="{{ path('LogInPage') }}">
+		{% if error %}
+			{{ error.messageKey|trans(error.messageData, 'security') }}
+		{% endif %}
+
+		{# {% if app.user %}
+			You are logged in as
+			{{ app.user.email }},
+			<a href="{{ path('app_logout') }}" class="text-blue-600 hover:underline">Logout</a>
+		{% endif %} #}
+		<div class="form-Group_Inputs">
+			<input type="email"  id="email" name="email" class="form-input" placeholder="Enter your email" required>
+
+			<input type="password" id="password" name="password" class="form-input" placeholder="Create a strong password" autocomplete="current-password" required>
+
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+		</div>
+		<div class="form-Group_buttons2">
+			<button type="submit" id="log-in-btn" class="btn-LogIn">
+				Log In
+			</button>
+			<button type="button" id="forget-password-btn" class="btn-forget">
+				Forget Password?
+			</button>
+		</div>
+	</form>

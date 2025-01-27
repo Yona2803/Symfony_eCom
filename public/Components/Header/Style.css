@@ -42,6 +42,7 @@ header {
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  position: relative;
 }
 
 #Header_Bottom h1 {
@@ -59,6 +60,7 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 #Header_Bottom nav {
   width: fit-content;
@@ -146,32 +148,111 @@ header {
   color: #474747;
 }
 
-#Header_Bottom div a:last-of-type {
+#Header_Bottom div button {
+  width: fit-content;
+  height: fit-content;
+  padding: 0;
   margin-left: 17px;
+  outline: 0;
+  border: 0;
+  
+  background-color: white;
+  border-radius: 16px 16px 0px 0px;
+  -webkit-border-radius: 16px 16px 0px 0px;
+  -moz-border-radius: 16px 16px 0px 0px;
 }
 
-#Header_Bottom div a {
+#Header_Bottom div a:nth-of-type(1),
+#Header_Bottom div button {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-#Header_Bottom div a svg {
+#Header_Bottom div a:nth-of-type(1) svg,
+#Header_Bottom div button svg {
   width: 32px;
   height: 32px;
 }
 
-#Header_Bottom div a svg rect {
+#Header_Bottom div a:nth-of-type(1) svg rect,
+#Header_Bottom div button svg rect {
   -webkit-transition: fill 0.32s ease-out;
   -moz-transition: fill 0.32s ease-out;
   -o-transition: fill 0.32s ease-out;
   transition: fill 0.32s ease-out;
 }
 
-#Header_Bottom div a:hover svg rect {
+#Header_Bottom div a:nth-of-type(1):hover svg rect,
+#Header_Bottom div button:hover svg rect {
   fill: #d9d9d9;
 }
 
-#Header_Bottom div a:hover svg path {
+#Header_Bottom div a:nth-of-type(1):hover svg path,
+#Header_Bottom div button:hover svg path {
   stroke: #000;
+}
+
+/* **** Drop Down Menu **** */
+#Header_Bottom #DropDown_Menu {
+  display: none;
+  flex-direction: column;
+  position: absolute;
+  z-index: 999;
+  top: 34px;
+  right: 0;
+  width: fit-content;
+  height: fit-content;
+  border-radius: 4px;
+  padding: 5px 0;
+  gap: 2px;
+
+  background: rgba(0, 0, 0, 0.4);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+
+  -webkit-transition: all 0.32s ease-out;
+  -moz-transition: all 0.32s ease-out;
+  -o-transition: all 0.32s ease-out;
+  transition: all 0.32s ease-out;
+}
+
+#Header_Bottom #DropDown_Menu a {
+  width: 216px;
+  height: 40px;
+  margin: 0 5px;
+  font-size: 14px;
+  color: white;
+  border-radius: 2px;
+  padding: 0 0 0 5px;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  outline: 0.25px solid transparent;
+  background-color: #ffffff00;
+
+  -webkit-transition: all 0.32s ease-out;
+  -moz-transition: all 0.32s ease-out;
+  -o-transition: all 0.32s ease-out;
+  transition: all 0.32s ease-out;
+}
+
+#Header_Bottom #DropDown_Menu a svg {
+  width: auto;
+  height: 24px;
+  margin: 0 16px 0 12px;
+}
+
+#Header_Bottom #DropDown_Menu a svg path {
+  stroke: #fff;
+}
+
+#Header_Bottom #DropDown_Menu a:hover {
+  background-color: #ffffff4e;
+}
+
+#Header_Bottom #DropDown_Menu a:active {
+  background-color: #ffffffa9;
 }

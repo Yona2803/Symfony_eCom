@@ -25,19 +25,19 @@
 				<div class="Left_Section">
 					<h3>Manage My Account</h3>
 					<br/>
-					<ul>
-						<li onclick="Hide_Show(Profile)" >My Profile</li>
-						<li onclick="Hide_Show(AddressBook)" >Address Book</li>
-						<li onclick="Hide_Show(Payment)" >My Payment Options</li>
+					<ul class="linksList">
+						<li id="Profile">My Profile</li>
+						<li id="AddressBook">Address Book</li>
+						<li id="Payment">My Payment Options</li>
 					</ul>
 					<br/>
 					<h3>My Orders</h3>
-					<ul>
-						<li onclick="Hide_Show(Returns)" >My Returns</li>
-						<li onclick="Hide_Show(Cancellations)" >My Cancellations</li>
+					<ul class="linksList">
+						<li id="Returns">My Returns</li>
+						<li id="Cancellations">My Cancellations</li>
 					</ul>
 					<br/>
-					<h3 onclick="Hide_Show(WishList)">My WishList</h3>
+					<h3 id="WishList">My WishList</h3>
 				</div>
 				<div class="Right_Section">
 					{{ form_start(form, {'attr': {'id': 'Edite_Profile', 'class': 'Edite_Profile'},'action': path('UpdateAccountPage'), 'method': 'POST'}) }}
@@ -76,8 +76,7 @@
 						</div>
 					</div>
 
-					<div
-						class="Section">
+					<div class="Section">
 						<div>
 							{{ form_row(form.currentPassword, {'attr': {'id': 'Current_Password', 'class': 'form-control'}}) }}
 							{{ form_row(form.newPassword, {'attr': {'id': 'New_Password', 'class': 'form-control'}}) }}
@@ -113,11 +112,10 @@
 		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 		<script src="{{ asset('js/global.js') }}"></script>
 		<script src="{{ asset('Pages/AccountPage/main.js') }}"></script>
-		<script>
-			const Status = "{{ Status }}";
-if (Status) {
-updateStatus(Status);
-}
-		</script>
+		<script> const Status = "{{ Status }}"; if (Status) {updateStatus(Status)};  </script> 
+		<script src="{{ asset('js/syncLocalStorage.js') }}"></script>
+		{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+			<script> document.addEventListener("DOMContentLoaded", function () {sendLocalStorageData()}); </script>
+		{% endif %}
 	</body>
 </html>

@@ -42,20 +42,57 @@
 						<path d="M5.25 9.75H8.25L10.5 22.5H22.5" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 						<path
 						d="M10.5 18.5H22.1925C22.2792 18.5001 22.3633 18.4701 22.4304 18.4151C22.4975 18.3601 22.5434 18.2836 22.5605 18.1986L23.9105 11.4486C23.9214 11.3942 23.92 11.338 23.9066 11.2841C23.8931 11.2303 23.8679 11.1801 23.8327 11.1372C23.7975 11.0943 23.7532 11.0597 23.703 11.036C23.6528 11.0122 23.598 11 23.5425 11H9" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-						<!-- Cart Circle (Initially visible) -->
-						<circle cx="24" cy="9" r="8" fill="#DB4444" style="display:none;" id="circle"/><!-- Initially hidden, shown based on cart -->
-						<!-- Centered Text for Cart Quantity --><text x="24" y="9" text-anchor="middle" dy="0.35em" font-size="12" fill="white" id="cart_itemQte"> </text>
+						<!-- Cart Circle && Text for Cart Quantity-->
+						<circle cx="24" cy="9" r="8" fill="#DB4444" style="display:none;" id="circle"/>
+						<text x="24" y="9" text-anchor="middle" dy="0.35em" font-size="12" fill="white" id="cart_itemQte"></text>
 					</svg>
 				</div>
 			</a>
 
-			<a href="{{ path('MyAccountPage') }}">
+			<button id="MenuOption" class="MenuOptionAction">
 				<svg width="33" height="32" viewbox="0 0 33 32" fill="none" xmlns="http://www.w3.org/2000/svg">
 					<rect x="0.5" width="32" height="32" rx="16" fill="#DB4444"/>
 					<path d="M21.5 23V21.3333C21.5 20.4493 21.191 19.6014 20.6408 18.9763C20.0907 18.3512 19.3446 18 18.5667 18H13.4333C12.6554 18 11.9093 18.3512 11.3592 18.9763C10.809 19.6014 10.5 20.4493 10.5 21.3333V23" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 					<path d="M16.5 15C18.1569 15 19.5 13.6569 19.5 12C19.5 10.3431 18.1569 9 16.5 9C14.8431 9 13.5 10.3431 13.5 12C13.5 13.6569 14.8431 15 16.5 15Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 				</svg>
-			</a>
+			</button>
+
+			<div id="DropDown_Menu">
+				<a href="{{ path('MyAccountPage') }}">
+					<svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path d="M18 23V20.3333C18 18.9188 17.5224 17.5623 16.6722 16.5621C15.8221 15.5619 14.669 15 13.4667 15H5.53333C4.33102 15 3.17795 15.5619 2.32778 16.5621C1.47762 17.5623 1 18.9188 1 20.3333V23" stroke="#FAFAFA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+						<path d="M9.5 10C11.9853 10 14 7.98528 14 5.5C14 3.01472 11.9853 1 9.5 1C7.01472 1 5 3.01472 5 5.5C5 7.98528 7.01472 10 9.5 10Z" stroke="#FAFAFA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+					</svg>
+					Manage My Account
+				</a>
+				<a href="">
+					<svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path d="M3 6.30078V20.5008C3 20.766 3.10536 21.0204 3.29289 21.2079C3.48043 21.3954 3.73478 21.5008 4 21.5008H20C20.2652 21.5008 20.5196 21.3954 20.7071 21.2079C20.8946 21.0204 21 20.766 21 20.5008V6.30078H3Z" stroke="#FAFAFA" stroke-width="1.5" stroke-linejoin="round"/>
+						<path d="M21 6.3L18.1665 2.5H5.8335L3 6.3M15.7775 9.6C15.7775 11.699 14.0865 13.4 12 13.4C9.9135 13.4 8.222 11.699 8.222 9.6" stroke="#FAFAFA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+					</svg>
+					My Order
+				</a>
+				<a href="">
+					<svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path d="M8 16L12 12M16 8L11.9992 12M11.9992 12L8 8M12 12L16 16" stroke="#FAFAFA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+						<circle cx="12" cy="12" r="11.25" stroke="white" stroke-width="1.5"/>
+					</svg>
+					My Cancellations
+				</a>
+				<a href="">
+					<svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path d="M19.8284 9.93621C20.4517 9.93621 20.7176 10.7286 20.2205 11.1046L16.8905 13.6234C16.1688 14.1693 15.8661 15.1087 16.1334 15.9732L17.3864 20.0261C17.5735 20.6312 16.8729 21.1193 16.3701 20.7341L13.3075 18.3879C12.536 17.7969 11.464 17.7969 10.6925 18.3879L7.61357 20.7466C7.11152 21.1312 6.41161 20.645 6.59677 20.0403L7.83243 16.0046C8.09532 15.146 7.79694 14.2145 7.08413 13.6684L3.73432 11.1022C3.24111 10.7244 3.50831 9.93621 4.12961 9.93621H8.12744C9.07024 9.93621 9.90305 9.32198 10.1815 8.42125L11.379 4.5479C11.5678 3.93721 12.4322 3.93722 12.621 4.5479L13.8185 8.42124C14.0969 9.32198 14.9298 9.93621 15.8726 9.93621H19.8284Z" stroke="#FAFAFA" stroke-width="1.5"/>
+					</svg>
+					My Reviews
+				</a>
+				<a href="{{ path('app_logout') }}">
+					<svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path d="M4 12H13.5M6 15L3 12L6 9M11 7V6C11 5.46957 11.2107 4.96086 11.5858 4.58579C11.9609 4.21071 12.4696 4 13 4H18C18.5304 4 19.0391 4.21071 19.4142 4.58579C19.7893 4.96086 20 5.46957 20 6V18C20 18.5304 19.7893 19.0391 19.4142 19.4142C19.0391 19.7893 18.5304 20 18 20H13C12.4696 20 11.9609 19.7893 11.5858 19.4142C11.2107 19.0391 11 18.5304 11 18V17" stroke="#FAFAFA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+					</svg>
+					Logout
+				</a>
+			</div>
+
 		</div>
 	</div>
 </header>
