@@ -5,10 +5,12 @@ namespace App\Form;
 
 
 use App\Entity\Users;
+use PHPUnit\TextUI\XmlConfiguration\CodeCoverage\Report\Text;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
@@ -20,31 +22,49 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('firstName', TextType::class, [
+                'label' => 'First Name',
+                'attr' => [                    
+                    'class' => 'input sz-md variant-outlined'
+                ],
+            ])
+            ->add('lastName', TextType::class, [
+                'label' => 'Last Name',
+                'attr' => [                    
+                    'class' => 'input sz-md variant-outlined'
+                ],
+            ])
+
+
+
+
             ->add('email', EmailType::class, [
-                'label' => false,
+                'label' => 'Email',
                 'attr' => [
                     'autocomplete' => 'email',                     
-                    'class' => 'bg-transparent block mt-10 mx-auto border-b-2 w-1/5 h-20 text-2xl outline-none',
-                    'placeholder' => 'Email'
+                    'class' => 'input sz-md variant-outlinede'
                 ],
             ])
-            ->add('agreeTerms', CheckboxType::class, [
-                'mapped' => false,
-                'constraints' => [
-                    new IsTrue([
-                        'message' => 'You should agree to our terms.',
-                    ]),
-                ],
-            ])
+
+
+            // ->add('agreeTerms', CheckboxType::class, [
+            //     'mapped' => false,
+            //     'constraints' => [
+            //         new IsTrue([
+            //             'message' => 'You should agree to our terms.',
+            //         ]),
+            //     ],
+            // ])
+
+            
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
-                'label' => false,
+                'label' => 'Password',
                 'mapped' => false,
                 'attr' => [
                     'autocomplete' => 'new-password',                     
-                    'class' => 'bg-transparent block mt-10 mx-auto border-b-2 w-1/5 h-20 text-2xl outline-none',
-                    'placeholder' => 'Password'
+                    'class' => 'input sz-md variant-outlined'
                 ],
                 'constraints' => [
                     new NotBlank([

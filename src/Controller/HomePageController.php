@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,7 +23,7 @@ class HomePageController extends AbstractController
     }
 
 
-    
+
     #[Route('/home', name: 'home')]
     public function getAll(): Response
     {
@@ -33,8 +34,9 @@ class HomePageController extends AbstractController
     }
 
 
-    #[Route('/', name:'homePage')]
-    public function redirectToHomePage(){
+    #[Route('/', name: 'homePage')]
+    public function redirectToHomePage()
+    {
         return $this->redirectToRoute('home');
     }
 
@@ -46,11 +48,13 @@ class HomePageController extends AbstractController
     // ========================================
     // this function just for testing you can delele it
     // and delete the rendered template file
-    #[Route('/mytest', name:'mytest')]
-    public function redirectTomytest(){
+    #[Route('/mytest', name: 'mytest')]
+    public function redirectTomytest()
+    {
         return $this->render('items/test.html.twig');
     }
     //==========================================
+
 
 
 

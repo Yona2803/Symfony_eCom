@@ -37,6 +37,16 @@ class UsersRepository extends ServiceEntityRepository
     }
 
 
+    public function add(Users $user, bool $flush = false): void
+    {
+        $this->getEntityManager()->persist($user);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
+
 
     //    /**
     //     * @return Users[] Returns an array of Users objects
