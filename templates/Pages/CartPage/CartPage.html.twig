@@ -2,8 +2,8 @@
 <html>
 	<head>
 		<title>My Cart</title>
-		<link rel="stylesheet" href="{{ ('Pages/CartPage/Style.css') }}">
-		<link rel="icon" type="image/x-icon" href="{{ ('img/icon/Icon.png') }}">
+		<link rel="stylesheet" href="{{ asset('Pages/CartPage/Style.css') }}">
+		<link rel="icon" type="image/x-icon" href="{{ asset('img/icon/Icon.png') }}">
 	</head>
 	<body>
 		{# Header Section #}
@@ -12,10 +12,10 @@
 		<div class="Container">
 			<div class="Cart">
 				<p id="Route_Page">
-				<a id="Route_Path"></a>
-				<span> 
-					Cart</span>
-			</p>
+					<a id="Route_Path"></a>
+					<span>
+						Cart</span>
+				</p>
 				<div class="Cart_Details">
 					<div class="Cart_Header">
 						<span>Product</span>
@@ -58,6 +58,19 @@
 		{{ include('components/Footer/Footer.html.twig') }}</body>
 
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="{{ asset('js/global.js') }}"></script>
-	<script src="{{('Pages/CartPage/main.js')}}"></script>
+	<script src="{{ asset('js/global.js') }}"></script>
+	<script src="{{ asset('Pages/CartPage/main.js') }}"></script>
+	<script>
+		// Proceed To Checkout
+function Proceed_Checkout() {
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+if (cart.length > 0) {
+calculate_All();
+window.location.href = "{{ path('CheckOut') }}";
+} else {
+alert("No products found in the cart.")
+}
+}
+	</script>
 </html>

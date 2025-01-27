@@ -23,7 +23,7 @@ class HomePageController extends AbstractController
 
 
     
-    #[Route('/home', name: 'home')]
+    #[Route('/home', name: 'homePage')]
     public function getAll(): Response
     {
         $items = $this->itemsService->getAllProducts();
@@ -33,9 +33,9 @@ class HomePageController extends AbstractController
     }
 
 
-    #[Route('/', name:'homePage')]
+    #[Route('/', name:'home')]
     public function redirectToHomePage(){
-        return $this->redirectToRoute('home');
+        return $this->redirectToRoute('homePage');
     }
 
 

@@ -28,3 +28,43 @@ function submitBtn() {
   }
 }
 submitBtn();
+
+// **** Drop Down Menu ****
+let icon = document.querySelector("#MenuOption");
+let DropDown_Menu = document.querySelector("#DropDown_Menu");
+
+// ** on hover **
+icon.addEventListener('mouseover', function() {
+    DropDown_Menu.style.display = 'flex';
+});
+
+icon.addEventListener('mouseout', function(event) {
+    if (!DropDown_Menu.contains(event.relatedTarget)) {
+        DropDown_Menu.style.display = 'none';
+    }
+});
+
+DropDown_Menu.addEventListener('mouseover', function() {
+    DropDown_Menu.style.display = 'flex';
+});
+
+DropDown_Menu.addEventListener('mouseout', function(event) {
+    if (!icon.contains(event.relatedTarget)) {
+        DropDown_Menu.style.display = 'none';
+    }
+});
+
+// ** on click **
+icon.addEventListener('click', function() {
+  if (DropDown_Menu.style.display === 'none') {
+      DropDown_Menu.style.display = 'flex';
+  } else {
+      DropDown_Menu.style.display = 'none';
+  }
+});
+
+DropDown_Menu.addEventListener('click', function() {
+  if (DropDown_Menu.style.display === 'flex') {
+      DropDown_Menu.style.display = 'none';
+  }
+});

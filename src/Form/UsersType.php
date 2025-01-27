@@ -63,6 +63,7 @@ class UsersType extends AbstractType
             'required' => true,
             'label' => 'Current Password',
             'attr' => [
+                    'autocomplete' => 'new-password',                     
                 'placeholder' => 'Current Password',
             ],
         ])

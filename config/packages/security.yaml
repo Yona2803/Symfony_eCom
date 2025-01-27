@@ -15,7 +15,8 @@ security:
             custom_authenticator: App\Security\LoginFormAuthenticator
             logout:
                 path: app_logout
-                target: app_login
+                # where to redirect after logout
+                target: home
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
@@ -23,8 +24,8 @@ security:
             lazy: true
             provider: app_user_provider
             form_login:
-                login_path: app_login
-                check_path: app_login
+                login_path: LogInPage
+                check_path: LogInPage
                 default_target_path: home
                 enable_csrf: true
 
@@ -38,7 +39,7 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         # - { path: ^/home, roles: ROLE_CUSTOMER }
-        - { path: ^/dashboard, roles: ROLE_ADMIN }
+        # - { path: ^/dashboard, roles: ROLE_ADMIN }
         - { path: ^/MyAccount, roles: [ROLE_CUSTOMER, ROLE_ADMIN] }
 
 when@test:

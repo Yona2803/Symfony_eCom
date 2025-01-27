@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\Entity\Users;
@@ -22,10 +23,7 @@ class AccountController extends AbstractController
         $this->usersService = $usersService;
     }
 
-
-
     // GET Route to display the form
-    // #[Route('/MyAccount/{User_id}', name: 'MyAccountPage', methods: ['GET'])]
     #[Route('/MyAccount', name: 'MyAccountPage', methods: ['GET'])]
 
     public function getUserAccount(EntityManagerInterface $entityManager): Response
@@ -73,7 +71,6 @@ class AccountController extends AbstractController
                             $hashedPassword = $passwordHasher->hashPassword($User_Data, $newPassword);
                             $User_Data->setPassword($hashedPassword);
                             $Status = "hashedPassword"; // New password was updated.
-
                         }
                         $entityManager->persist($User_Data);
                         $entityManager->flush();
@@ -92,14 +89,33 @@ class AccountController extends AbstractController
         ]);
     }
 
-    #[Route('/HashPasword/{Password}', name: 'test_hash')]
+    // **** Get/Set Btweeen local storage and DB ****
+    #[Route(path: '/SyncLocalStorage', name: 'SyncLocalStorage', methods: ['POST'])]
+    public function SyncLocalStorage(Request $request): JsonResponse
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        $data = json_decode($request->getContent(), true);
+
+        
+        return new JsonResponse(
+            [
+                'status' => 'success',
+                'data' => $data
+            ]
+        );
+    }
+
+
+    // **** hash passwords ****
+    #[Route('/Hash/{Password}', name: 'test_hash')]
     public function testHash(string $Password, UserPasswordHasherInterface $passwordHasher): Response
     {
-        // Create a dummy user that implements PasswordAuthenticatedUserInterface
+        // Create a dummy user
         $user = new Users(); // Replace with your user entity
-        // Hash the password '123'
+        // Hash the $Password
         $hashed = $passwordHasher->hashPassword($user, $Password);
-        // Return the hashed password in the response
+
         return new Response("Hashed Password: " . $hashed);
     }
 }

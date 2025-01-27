@@ -17,8 +17,258 @@ a {
   text-decoration: none;
 }
 
-.Container {
+.main-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 58px 0 10px 0;
+  width: 100%;
+  height: fit-content;
+
+  background: #cbe4e8;
+  background: linear-gradient(90deg, #cbe4e8 50%, #cbe4e800 50%);
+}
+
+.connection-wrapper {
+  display: flex;
+  align-items: center;
   width: 1170px;
   height: fit-content;
+}
+
+.connection-image {
+  width: 570px;
+  height: auto;
+  object-fit: cover;
+  background-color: #CBE4E8;
+}
+
+.registration-section {
+  width: 370px;
+  height: 100%;
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: white;
+  margin-left: auto;
+}
+
+.registration-header {
+  width: 370px;
+  margin-bottom: 48px;
+}
+
+.registration-header h1 {
+  color: black;
+  margin: 0;
+  padding: 0;
+  margin-bottom: 17px;
+  font-size: 36px;
+  font-weight: 600;
+}
+.registration-header p {
+  color: black;
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+  font-weight: 400;
+}
+.registration-form {
+  display: flex;
+  flex-direction: column;
+  width: 370px;
+}
+
+.form-Group_Inputs {
+  display: flex;
+  flex-direction: column;
+  width: 370px;
+  gap: 32px;
+  margin-bottom: 40px;
+}
+
+.form-input {
+  width: 370px;
+  height: 40px;
+  padding: 0;
+  font-size: 16px;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.75);
+  background-color: white;
+  outline: 0;
+  border: none;
+  border-bottom: 1px solid rgb(0, 0, 0, 0.5);
+
+  -webkit-transition: all 0.32s ease-out;
+  -moz-transition: all 0.32s ease-out;
+  -o-transition: all 0.32s ease-out;
+  transition: all 0.32s ease-out;
+}
+.form-input::placeholder {
+  font-size: 16px;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.form-input:hover {
+  border-bottom: 1px solid #fc7777;
+  color: #000;
+}
+
+.form-input:focus {
+  border-bottom: 1px solid #db4444;
+  color: #000;
+}
+
+.form-Group_buttons {
+  display: flex;
+  flex-direction: column;
+  width: 370px;
+  gap: 16px;
+}
+
+.btn {
+  width: 370px;
+  height: 56px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+
+  -webkit-transition: all 0.32s ease-out;
+  -moz-transition: all 0.32s ease-out;
+  -o-transition: all 0.32s ease-out;
+  transition: all 0.32s ease-out;
+}
+
+.btn-primary {
+  background-color: #db4444;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #ff6d6d;
+}
+
+.btn-google {
+  background-color: white;
+  border: 1px solid rgb(0, 0, 0, 0.4);
+  border-radius: 4px;
+  color: black;
+}
+
+.btn-google:hover {
+  background-color: #ff6d6d;
+  color: white;
+  border: transparent;
+}
+.btn-primary:active,
+.btn-google:active {
+  background-color: #db4444;
+}
+
+.login-redirect {
+  color: rgb(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 16px;
+  width: 100%;
+  height: 32px;
+  margin-top: 32px;
+}
+
+.btn-secondary {
+  width: fit-content;
+  height: 32px;
+  color: rgb(0, 0, 0, 0.7);
+  text-decoration: none;
+  font-weight: 500;
+  outline: 0;
+  border: 0;
+  background-color: transparent;
+  border-radius: 0;
+  border-bottom: 1px solid rgb(0, 0, 0, 0.7);
+  margin: 0;
+  padding: 0;
+}
+.btn-secondary:hover {
+  border-bottom: 1px solid #00ff66;
+}
+.btn-secondary:active {
+  color: #00ff66;
+  border-bottom: 1px solid #00ff66;
+}
+
+/* **** adds on for the logIn Form **** */
+#signIn-registration {
+  display: none;
+}
+
+.form-Group_buttons2 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 370px;
+  gap: 16px;
+}
+
+.form-Group_buttons2 button:first-of-type {
+  width: 143px;
+  height: 56px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  background-color: #db4444;
+
+  -webkit-transition: all 0.32s ease-out;
+  -moz-transition: all 0.32s ease-out;
+  -o-transition: all 0.32s ease-out;
+  transition: all 0.32s ease-out;
+
+}
+
+.form-Group_buttons2 button:last-of-type {
+  width: fit-content;
+  height: fit-content;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #db4444;
+  background-color: transparent;
+
+  -webkit-transition: all 0.32s ease-out;
+  -moz-transition: all 0.32s ease-out;
+  -o-transition: all 0.32s ease-out;
+  transition: all 0.32s ease-out;
+
+}
+.form-Group_buttons2 button:first-of-type:hover {
+  background-color: #ff6d6d;
+}
+.form-Group_buttons2 button:last-of-type:hover {
+  color: #ff6d6d;
+}
+.form-Group_buttons2 button:first-of-type:active {
+  background-color: #db4444;
+}
+.form-Group_buttons2 button:last-of-type:active {
+  color: #db4444;
 }

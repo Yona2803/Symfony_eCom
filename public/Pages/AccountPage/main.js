@@ -1,14 +1,10 @@
-// **
 // **** initialize Elements ****
-// **
 const Form_ErrorMsg = document.querySelector(".Form_ErrorMsg");
 const Msg_404 = document.querySelector(".Msg_404");
 const Form_Profile = document.querySelector("#Edite_Profile");
 const Submit_BtnForm = document.querySelector("#Submit_BtnForm");
 
-// **
 // **** Get the entire routeInfo array from LocalStorage ****
-// **
 function RoutePath() {
   let routeInfo = JSON.parse(localStorage.getItem("routeInfo")) || [];
   let Route_Path;
@@ -26,40 +22,35 @@ function RoutePath() {
 }
 RoutePath();
 
-function MyCart() {
-  // Sending by Ajax to Back-End => Show response in HTML
-  $.ajax({
-    url: `/MyAccountPage/ShowProfile?User_id=${User_id}`,
-    type: "GET",
-    success: function (response) {
-      if (response && response.length > 0) {
-        Msg_404.style.display = "none";
-        Form_Profile.style.display = "flex";
-      } else {
-        Msg_404.style.display = "flex";
-        Form_Profile.display = "none";
-      }
-    },
-    error: function (xhr, status, error) {
-      console.log("Status:", status);
-      console.log("Error:", error);
-      console.log("Response:", xhr.responseText);
-      console.log("Response JSON:", xhr.responseJSON);
-    },
-  });
-}
+// function SendLocalstorage() {
+//   // Sending by Ajax to Back-End => Show response in HTML
+//   $.ajax({
+//     url: `/MyAccountPage/ShowProfile?User_id=${User_id}`,
+//     type: "GET",
+//     success: function (response) {
+//       if (response && response.length > 0) {
+//         Msg_404.style.display = "none";
+//         Form_Profile.style.display = "flex";
+//       } else {
+//         Msg_404.style.display = "flex";
+//         Form_Profile.display = "none";
+//       }
+//     },
+//     error: function (xhr, status, error) {
+//       console.log("Status:", status);
+//       console.log("Error:", error);
+//       console.log("Response:", xhr.responseText);
+//       console.log("Response JSON:", xhr.responseJSON);
+//     },
+//   });
+// }
 
-// **
 // **** PassWords ****
-// **
 const Current_Password = document.querySelector("#users_currentPassword");
 const New_Password = document.querySelector("#users_newPassword");
 const Confirm_Password = document.querySelector("#users_confirmPassword");
 
-// **
 // **** Password Validation ****
-// **
-
 function checkPassWord(Caller) {
   console.log(Caller);
   if (Caller == "NewPass") {
@@ -83,11 +74,8 @@ function checkPassWord(Caller) {
   }
 }
 
-// **
 // **** Status Msg ****
-// **
 const statusElement = document.querySelector("#StatusMsg");
-
 function updateStatus(StatusMsg) {
   let message = "";
 
@@ -116,4 +104,33 @@ function updateStatus(StatusMsg) {
     statusElement.style.width = "0";
     statusElement.style.height = "0";
   }, 3000);
+}
+
+// hide show element based on click of a button
+document.querySelector('#Profile').classList.add('active');
+const allItems = document.querySelectorAll('.linksList li, #WishList');
+
+allItems.forEach(item => {
+  item.addEventListener('click', function() {
+    allItems.forEach(el => {
+      el.classList.remove('active');
+    });
+
+    this.classList.add('active');
+
+    Hide_Show(this.id);
+  });
+});
+
+
+function Hide_Show(element) {
+  if (element === "Profile") {
+    Edite_Profile.style.display = "flex";
+    Msg_404.style.display = "none";
+    Form_ErrorMsg.style.display = "none";
+  } else {
+    Edite_Profile.style.display = "none";
+    Msg_404.style.display = "none";
+    Msg_404.style.display = "flex";
+  }
 }
