@@ -58,6 +58,7 @@ body, html {
 }
 
 /* Input Fields */
+input[type="text"],
 input[type="email"],
 input[type="password"] {
     background-color: #f9fafb;
