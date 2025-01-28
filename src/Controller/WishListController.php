@@ -63,12 +63,12 @@ class WishListController extends AbstractController
         $success = $this->wishListService->removeItemFromWishlist($userId, $itemId);
 
         if ($success) {
-            $this->addFlash('success', 'Product successfully removed from your wishlist.');
-            return new JsonResponse(['status' => 'success', 'message' => 'Product successfully removed from your wishlist.'], Response::HTTP_OK);
+            $this->addFlash('successRemoving', 'Product successfully removed from your wishlist.');
+            return new JsonResponse(['status' => 'successRemoving', 'message' => 'Product successfully removed from your wishlist.'], Response::HTTP_OK);
         }
 
-        $this->addFlash('error', 'Product not found or could not be removed.');
-        return new JsonResponse(['status' => 'error', 'message' => 'Product not found or could not be removed.'], Response::HTTP_NOT_FOUND);
+        $this->addFlash('errorRemoving', 'Product not found or could not be removed.');
+        return new JsonResponse(['status' => 'errorRemoving', 'message' => 'Product not found or could not be removed.'], Response::HTTP_NOT_FOUND);
     }
 
 
