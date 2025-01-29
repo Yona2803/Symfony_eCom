@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Products</title>
+		<link rel="stylesheet" href="{{ asset('css/updateProductPage.css') }}">
+		<link
+		rel="stylesheet" href="{{ asset('Pages/ProductsPage/Style.css') }}">
+		<link rel="stylesheet" href="{{ asset('css/FormPageStyle.css') }}">
+		<link rel="icon" type="image/x-icon" href="{{ asset('img/icon/Icon.png') }}">
+	</head>
+	<body>
+		{# including dashboard Section #}
+		{% include 'items/dashboard.html.twig' %}
+
+        {% for message in app.flashes('updateProduct') %}
+			<script>
+				alert('{{ message }}');
+			</script>
+		{% endfor %}
+		{% for message in app.flashes('updateProductError') %}
+			<script>
+				alert('{{ message }}');
+			</script>
+		{% endfor %}
+
+		{# Adding Products Section #}
+		<div class="Container" style="margin-left: 300px;">
+			<div class="Categories">
+
+				<div class="header-search">
+					<div class="Section1">
+						<span></span>
+						<h4>Our Products</h4>
+					</div>
+						<form method="GET" action="{{ path('search-product-update') }}">
+							<div class="searching-bar">
+								<input type="text" class="searchProduct" name="searchProduct" id="searchProduct" placeholder="What are you looking for?">
+								<button type="submit" class="btn-search">
+									<svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+										<path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+										<path d="M21 21L16.65 16.65" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+									</svg>
+								</button>
+							</div>
+						</form>
+				</div>
+
+
+				{# Pop up form for update product #}
+				<div id="updatePopup" class="popup">
+					<div class="popup-content">
+						<div class="btn-close" style="margin-bottom: 20px">
+							<span class="close-btn" onclick="closePopup()">X</span>
+						</div>
+						{{ form_start(form, {'action': path('updateProduct'), 'method': 'POST', 'attr': {'enctype': 'multipart/form-data'}}) }}
+						<input type="hidden" name="productId" id="productId">
+                        <div class="form-group">
+							{{ form_row(form.name, {'attr': {'class': 'custom-name-field'}}) }}
+							{{ form_row(form.price, {'attr': {'class': 'custom-price-field'}}) }}
+						</div>
+						<div class="form-group">
+							{{ form_row(form.stock, {'attr': {'class': 'custom-stock-field'}}) }}
+							{{ form_row(form.category, {'attr': {'class': 'custom-category-field'}}) }}
+						</div>
+
+						<div class="form-group-description">
+							{{ form_row(form.description, {'attr': {'class': 'custom-description-field'}}) }}
+						</div>
+
+						<div class="form-group">
+							{{ form_row(form.tags, {'attr': {'class': 'custom-tags-field'}}) }}
+						</div>
+
+						<div class="form-group">
+							{{ form_row(form.itemImage, {'attr': {'class': 'custom-item-image', 'onchange': 'previewImage(event)'}}) }}
+							<div class="image-preview-container">
+								<img id="imagePreview" src="{{ asset('img/No_Img.png') }}" alt="Image Preview" class="image-preview"/>
+							</div>
+						</div>
+
+						<br>
+						<button type="submit" class="submit-add-product">Update Product</button>
+						{{ form_end(form) }}
+					</div>
+				</div>
+
+
+				<div class="ProductList" id="searchResults">
+					{% for item in items %}
+						<div
+							class="Product" id="{{ item.id }}">
+							{# <a href="{{ path('ProductDetails', { 'id': item.id }) }}"> #}
+							<div class="ProductImage">
+								{% if item.itemImage %}
+									<img src="data:image/jpeg;base64,{{ item.itemImage|base64_encode }}" alt="{{ item.name }}">
+								{% else %}
+									<img src="{{ asset('img/No_Img.png') }}" alt="{{ item.name }}">
+								{% endif %}
+								<button onclick="openPopup( {{ item.id }} )">Edit Product</button>
+							</div>
+							{# </a> #}
+							<h6>{{item.name}}</h6>
+							<div class="ProductInfo">
+								<span>{{item.price}}
+									DH</span>
+								<span>
+									<svg width="16" height="15" viewbox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+										<path d="M14.673 7.17173C15.7437 6.36184 15.1709 4.65517 13.8284 4.65517H11.3992C10.7853 4.65517 10.243 4.25521 10.0617 3.66868L9.33754 1.32637C8.9309 0.0110567 7.0691 0.0110564 6.66246 1.32637L5.93832 3.66868C5.75699 4.25521 5.21469 4.65517 4.60078 4.65517H2.12961C0.791419 4.65517 0.215919 6.35274 1.27822 7.16654L3.39469 8.78792C3.85885 9.1435 4.05314 9.75008 3.88196 10.3092L3.11296 12.8207C2.71416 14.1232 4.22167 15.1704 5.30301 14.342L7.14861 12.9281C7.65097 12.5432 8.34903 12.5432 8.85139 12.9281L10.6807 14.3295C11.7636 15.159 13.2725 14.1079 12.8696 12.8046L12.09 10.2827C11.9159 9.71975 12.113 9.10809 12.5829 8.75263L14.673 7.17173Z" fill="#FFAD33"/>
+									</svg>
+									<svg width="16" height="15" viewbox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+										<path d="M14.673 7.17173C15.7437 6.36184 15.1709 4.65517 13.8284 4.65517H11.3992C10.7853 4.65517 10.243 4.25521 10.0617 3.66868L9.33754 1.32637C8.9309 0.0110567 7.0691 0.0110564 6.66246 1.32637L5.93832 3.66868C5.75699 4.25521 5.21469 4.65517 4.60078 4.65517H2.12961C0.791419 4.65517 0.215919 6.35274 1.27822 7.16654L3.39469 8.78792C3.85885 9.1435 4.05314 9.75008 3.88196 10.3092L3.11296 12.8207C2.71416 14.1232 4.22167 15.1704 5.30301 14.342L7.14861 12.9281C7.65097 12.5432 8.34903 12.5432 8.85139 12.9281L10.6807 14.3295C11.7636 15.159 13.2725 14.1079 12.8696 12.8046L12.09 10.2827C11.9159 9.71975 12.113 9.10809 12.5829 8.75263L14.673 7.17173Z" fill="#FFAD33"/>
+									</svg>
+									<svg width="16" height="15" viewbox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+										<path d="M14.673 7.17173C15.7437 6.36184 15.1709 4.65517 13.8284 4.65517H11.3992C10.7853 4.65517 10.243 4.25521 10.0617 3.66868L9.33754 1.32637C8.9309 0.0110567 7.0691 0.0110564 6.66246 1.32637L5.93832 3.66868C5.75699 4.25521 5.21469 4.65517 4.60078 4.65517H2.12961C0.791419 4.65517 0.215919 6.35274 1.27822 7.16654L3.39469 8.78792C3.85885 9.1435 4.05314 9.75008 3.88196 10.3092L3.11296 12.8207C2.71416 14.1232 4.22167 15.1704 5.30301 14.342L7.14861 12.9281C7.65097 12.5432 8.34903 12.5432 8.85139 12.9281L10.6807 14.3295C11.7636 15.159 13.2725 14.1079 12.8696 12.8046L12.09 10.2827C11.9159 9.71975 12.113 9.10809 12.5829 8.75263L14.673 7.17173Z" fill="#FFAD33"/>
+									</svg>
+									<svg width="16" height="15" viewbox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+										<path d="M14.673 7.17173C15.7437 6.36184 15.1709 4.65517 13.8284 4.65517H11.3992C10.7853 4.65517 10.243 4.25521 10.0617 3.66868L9.33754 1.32637C8.9309 0.0110567 7.0691 0.0110564 6.66246 1.32637L5.93832 3.66868C5.75699 4.25521 5.21469 4.65517 4.60078 4.65517H2.12961C0.791419 4.65517 0.215919 6.35274 1.27822 7.16654L3.39469 8.78792C3.85885 9.1435 4.05314 9.75008 3.88196 10.3092L3.11296 12.8207C2.71416 14.1232 4.22167 15.1704 5.30301 14.342L7.14861 12.9281C7.65097 12.5432 8.34903 12.5432 8.85139 12.9281L10.6807 14.3295C11.7636 15.159 13.2725 14.1079 12.8696 12.8046L12.09 10.2827C11.9159 9.71975 12.113 9.10809 12.5829 8.75263L14.673 7.17173Z" fill="#FFAD33"/>
+									</svg>
+									<svg width="16" height="15" viewbox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+										<path d="M14.673 7.17173C15.7437 6.36184 15.1709 4.65517 13.8284 4.65517H11.3992C10.7853 4.65517 10.243 4.25521 10.0617 3.66868L9.33754 1.32637C8.9309 0.0110567 7.0691 0.0110564 6.66246 1.32637L5.93832 3.66868C5.75699 4.25521 5.21469 4.65517 4.60078 4.65517H2.12961C0.791419 4.65517 0.215919 6.35274 1.27822 7.16654L3.39469 8.78792C3.85885 9.1435 4.05314 9.75008 3.88196 10.3092L3.11296 12.8207C2.71416 14.1232 4.22167 15.1704 5.30301 14.342L7.14861 12.9281C7.65097 12.5432 8.34903 12.5432 8.85139 12.9281L10.6807 14.3295C11.7636 15.159 13.2725 14.1079 12.8696 12.8046L12.09 10.2827C11.9159 9.71975 12.113 9.10809 12.5829 8.75263L14.673 7.17173Z" fill="#FFAD33"/>
+									</svg>
+								</span>
+								<span>&#40;{{item.stock}}&#41;</span>
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+		<script src="{{ asset('Pages/WishlistPage/main.js') }}"></script>
+	</body>
+	<script src="{{ asset('js/global.js') }}"></script>
+	<script src="{{ asset('Pages/ProductsPage/main.js') }}"></script>
+</html>
