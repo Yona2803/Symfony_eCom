@@ -82,7 +82,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_CUSTOMER';
+        // $roles[] = 'ROLE_CUSTOMER';
 
         return array_unique($roles);
     }
@@ -140,6 +140,9 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 60, nullable: true)]
     private ?string $address = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $google_id = null;
 
     public function __construct()
     {
@@ -249,6 +252,18 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     public function setAddress(string $address): static
     {
         $this->address = $address;
+        return $this;
+    }
+
+    public function getGoogleId(): ?string
+    {
+        return $this->google_id;
+    }
+
+    public function setGoogleId(?string $google_id): static
+    {
+        $this->google_id = $google_id;
+
         return $this;
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,8 +23,8 @@ class HomePageController extends AbstractController
     }
 
 
-    
-    #[Route('/home', name: 'homePage')]
+
+    #[Route('/home', name: 'home')]
     public function getAll(): Response
     {
         $items = $this->itemsService->getAllProducts();
@@ -33,10 +34,9 @@ class HomePageController extends AbstractController
     }
 
 
-    #[Route('/', name:'home')]
-    public function redirectToHomePage(){
-        return $this->redirectToRoute('homePage');
+    #[Route('/', name: 'homePage')]
+    public function redirectToHomePage()
+    {
+        return $this->redirectToRoute('home');
     }
-
-
 }

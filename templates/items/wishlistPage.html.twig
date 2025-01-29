@@ -9,7 +9,7 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('img/icon/Icon.png') }}">
 </head>
 <body>
-    {{ include('items/dashBoard.html.twig') }}
+    {% include 'components/Header/Header.html.twig' with { 'ParentPage': 'Home' } %}
 
     <div class="container">
         <h1>Wishlist</h1>
@@ -41,5 +41,6 @@
         {% endif %}
     </div>
     <script src="{{ asset('Pages/WishlistPage/main.js') }}"></script>
+    {{ include('components/Footer/Footer.html.twig') }}
 </body>
 </html>

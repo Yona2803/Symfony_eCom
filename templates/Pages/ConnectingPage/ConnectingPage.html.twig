@@ -7,7 +7,7 @@
 	</head>
 	<body>
 		{# Header Section #}
-		{% include 'components/Header/Header.html.twig' with { 'ParentPage': 'Connecting' } %}
+		{# {% include 'components/Header/Header.html.twig' with { 'ParentPage': 'Connecting' } %} #}
 		{# Adding Content Section #}
 		<main class="main-container">
 			<div class="connection-wrapper">
@@ -42,14 +42,14 @@
 					<div class="login-redirect">
 						<label for="login-link">Don't have an account?</label>
 						<button id="login-link" class="btn btn-secondary" onclick="SwitchTo('signIn')">
-							Sign in
+							Sign up
 						</button>
 					</div>
 				</div>
 			</div>
 		</main>
 		{# Footer Section #}
-		{{ include('components/Footer/Footer.html.twig') }}
+		{# {{ include('components/Footer/Footer.html.twig') }} #}
 		<script src="{{ asset('js/global.js') }}"></script>
 		<script src="{{ asset('Pages/ConnectingPage/main.js') }}"></script>
 		<script>
@@ -58,7 +58,7 @@
 {% if sign_in_successful %}
 SwitchTo('logIn');
 {% endif %}});
- #}
+#}
 
 let sign_in_successful = {{ sign_in_successful ? sign_in_successful : false }};
 
