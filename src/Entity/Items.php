@@ -41,11 +41,6 @@ class Items
     #[ORM\OneToMany(targetEntity: OrderDetails::class, mappedBy: 'item', orphanRemoval: true)]
     private Collection $orderDetails;
 
-    /**
-     * @var Collection<int, Carts>
-     */
-    #[ORM\ManyToMany(targetEntity: Carts::class, inversedBy: 'items')]
-    private Collection $item;
 
     /**
      * @var Collection<int, WishList>
@@ -59,8 +54,8 @@ class Items
     public function __construct()
     {
         $this->orderDetails = new ArrayCollection();
-        $this->item = new ArrayCollection();
         $this->wishlist = new ArrayCollection();
+
     }
 
     public function getId(): ?int
@@ -170,29 +165,6 @@ class Items
         return $this;
     }
 
-    /**
-     * @return Collection<int, Carts>
-     */
-    public function getItem(): Collection
-    {
-        return $this->item;
-    }
-
-    public function addItem(Carts $item): static
-    {
-        if (!$this->item->contains($item)) {
-            $this->item->add($item);
-        }
-
-        return $this;
-    }
-
-    public function removeItem(Carts $item): static
-    {
-        $this->item->removeElement($item);
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, WishList>
@@ -202,7 +174,7 @@ class Items
         return $this->wishlist;
     }
 
-    public function addWishlist(WishList $wishlist): static
+    public function addWishlist(WishList $wishlist): self
     {
         if (!$this->wishlist->contains($wishlist)) {
             $this->wishlist->add($wishlist);

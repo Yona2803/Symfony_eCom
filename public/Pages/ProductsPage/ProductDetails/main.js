@@ -1,5 +1,5 @@
 // Add to cart (example in JavaScript)
-function addToCart(id, MaxStock) {
+async function addToCart_WithDetail(id, MaxStock) {
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
   const existingItem = cart.find((item) => item.id === id);
 
@@ -14,7 +14,8 @@ function addToCart(id, MaxStock) {
           : parseInt(quantity.value);
     } else {
       cart.push({ id: id, quantity: parseInt(quantity.value) });
-    }
+    };
+    addToCart_One(id)
   } else {
     alert(
       "Something is wrong : check the Qty of each item, Please fill the inputs with the arrows of input fields"

@@ -40,7 +40,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 25)]
     private ?string $username = null;
 
-    #[ORM\Column(length: 10, nullable:true)]
+    #[ORM\Column(length: 10, nullable: true)]
     private ?string $phoneNumber;
 
 
@@ -127,7 +127,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $orders;
 
     #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
-    private ?Carts $carts = null;
+    private ?Carts $cart = null;
 
     #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?WishList $wishList = null;
@@ -135,10 +135,10 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 30)]
     private ?string $firstName = null;
 
-    #[ORM\Column(length: 30, nullable:true)]
+    #[ORM\Column(length: 30, nullable: true)]
     private ?string $lastName = null;
 
-    #[ORM\Column(length: 60, nullable:true)]
+    #[ORM\Column(length: 60, nullable: true)]
     private ?string $address = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -196,19 +196,17 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getCarts(): ?Carts
+    public function getCart(): ?Carts
     {
-        return $this->carts;
+        return $this->cart;
     }
 
-    public function setCarts(Carts $carts): static
+    public function setCart(?Carts $cart): self
     {
-        if ($carts->getUser() !== $this) {
-            $carts->setUser($this);
-        }
-        $this->carts = $carts;
+        $this->cart = $cart;
         return $this;
     }
+
 
     public function getWishList(): ?WishList
     {
