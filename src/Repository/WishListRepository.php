@@ -19,16 +19,27 @@ class WishListRepository extends ServiceEntityRepository
     /**
      * @return WishList|null Returns a WishList object or null
      */
+    // public function findByUserId(int $userId): ?WishList
+    // {
+    //     return $this->createQueryBuilder('w')
+    //         ->innerJoin('w.user', 'u')
+    //         ->andWhere('u.id = :userId')
+    //         ->setParameter('userId', $userId)
+    //         ->getQuery()
+    //         ->getOneOrNullResult();
+    // }
     public function findByUserId(int $userId): ?WishList
     {
         return $this->createQueryBuilder('w')
             ->innerJoin('w.user', 'u')
+            ->leftJoin('w.item', 'wi') 
+            ->addSelect('wi') // This ensures that the items are loaded as well
             ->andWhere('u.id = :userId')
             ->setParameter('userId', $userId)
             ->getQuery()
             ->getOneOrNullResult();
     }
-
+    
 
 
      /**
@@ -40,9 +51,9 @@ class WishListRepository extends ServiceEntityRepository
      */
     public function findItemInWishList(int $wishListId, int $itemId): ?WishList
     {
-        return $this->createQueryBuilder('w')
-            ->innerJoin('w.item', 'i')
-            ->andWhere('w.id = :wishListId')
+        return $this->createQueryBuilder('wl')
+            ->innerJoin('wl.item', 'i')
+            ->andWhere('wl.id = :wishListId')
             ->andWhere('i.id = :itemId')
             ->setParameter('wishListId', $wishListId)
             ->setParameter('itemId', $itemId)

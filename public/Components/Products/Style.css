@@ -72,10 +72,17 @@
   transition: all 0.32s ease-out;
 }
 .Product .Selected_Item {
-  fill: #db4444;
+  fill: white;
 }
+.Product button.active .Selected_Item {
+  fill: white;
+}
+
 .Product .Selected_Item path {
-  stroke: #db4444;
+  stroke: black;
+}
+.Product button.active .Selected_Item path {
+  stroke: white;
 }
 
 .Product .OptionSection button:hover {
@@ -84,6 +91,10 @@
 .Categories .OptionSection button:active {
   background-color: #db4444;
 }
+.Product .OptionSection button.active {
+  background-color: #db4444;
+}
+
 .Product .OptionSection button svg {
   width: fit-content;
   height: 30px;

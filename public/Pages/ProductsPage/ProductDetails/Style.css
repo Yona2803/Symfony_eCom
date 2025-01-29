@@ -183,12 +183,24 @@ a {
 #Right div button:last-of-type:active {
   background-color: #db4444;
 }
+#Right div button:last-of-type.active {
+  background-color: #db4444;
+  border: 1px solid transparent;
+}
 
 #Right div button:last-of-type svg {
   width: fit-content;
   height: 30px;
 }
+#Right div button:last-of-type.active svg {
+  fill: white;
+}
+
 #Right div button:last-of-type:hover svg path {
+  stroke: white;
+}
+
+#Right div button:last-of-type.active svg path {
   stroke: white;
 }
 

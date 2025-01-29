@@ -12,7 +12,6 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class WishListService
 {
-
     private $em;
     private $wishlistRepository;
     private $itemsRepository;
@@ -23,40 +22,35 @@ class WishListService
         WishListRepository $wishlistRepository,
         ItemsRepository $itemsRepository,
         UsersRepository $usersRepository
-        )
-    {
+    ) {
         $this->em = $em;
         $this->wishlistRepository = $wishlistRepository;
         $this->itemsRepository = $itemsRepository;
         $this->usersRepository = $usersRepository;
     }
 
-
-
-
+    // Method to add an item to the wishlist
     public function addToWishList(int $userId, int $itemId): bool
     {
         $value = false;
-
-        $user = $this->em->getRepository(Users::class)->findOneBy(['id' => $userId]);
-        $item = $this->em->getRepository(Items::class)->findOneBy(['id' => $itemId]);
-
+        $user = $this->usersRepository->find($userId);
+        $item = $this->itemsRepository->find($itemId);
         $wishList = $user->getWishList();
 
         if ($wishList !== null) {
-            $checkAlreadyExists = $this->wishlistRepository->findItemInWishList($wishList->getId(), $itemId);
-            if (!$checkAlreadyExists) {
-                $wishList->getItem()->add($item);
+            // Check if the item is already in the wishlist
+            if (!$wishList->getItem()->contains($item)) {
+                $wishList->addItem($item);
                 $value = true;
             }
         } else {
+            // Create a new wishlist for the user if it doesn't exist
             $wishList = new Wishlist();
             $wishList->setUser($user);
             $wishList->addItem($item);
+            $user->setWishList($wishList);
             $value = true;
         }
-
-        $item->addWishlist($wishList);
 
         $this->em->persist($wishList);
         $this->em->flush();
@@ -64,28 +58,48 @@ class WishListService
     }
 
 
-    public function getWishListById(int $wishlistId){
-        return $this->wishlistRepository->find($wishlistId);
+    // Method to check if the item is in the wishlist
+    public function isItemInWishList(int $userId, int $itemId): bool
+    {
+        $user = $this->usersRepository->find($userId);
+        $wishList = $user->getWishList();
+
+        if ($wishList) {
+            $checkAlreadyExists = $this->wishlistRepository->findItemInWishList($wishList->getId(), $itemId);
+            return $checkAlreadyExists !== null;
+        }
+
+        return false;
     }
 
-
+    // Method to remove an item from the wishlist
     public function removeItemFromWishlist(int $userId, int $itemId): bool
     {
-        
+        $user = $this->usersRepository->find($userId);
+        $wishlist = $user->getWishList();
         $item = $this->itemsRepository->find($itemId);
 
-        if ($item) {
-            $wishlist = $this->usersRepository->find($userId)->getWishList();
-            if ($wishlist) {
-                $wishlist->removeItem($item);
-                $this->em->persist($wishlist);
-                $this->em->flush();
-                return true;
-            }
+        if ($wishlist && $item) {
+            $wishlist->removeItem($item);
+            $this->em->persist($wishlist);
+            $this->em->flush();
+            return true;
         }
 
         return false;
     }
 
 
+    public function getWishListById(int $wishlistId)
+    {
+        return $this->wishlistRepository->find($wishlistId);
+    }
+
+
+    public function getWishListByUserID(int $userId)
+    {
+        $wishList = $this->wishlistRepository->findByUserId($userId);
+
+        return $wishList;
+    }
 }

@@ -115,7 +115,7 @@
 		<script> const Status = "{{ Status }}"; if (Status) {updateStatus(Status)};  </script> 
 		<script src="{{ asset('js/syncLocalStorage.js') }}"></script>
 		{% if is_granted('IS_AUTHENTICATED_FULLY') %}
-			<script> document.addEventListener("DOMContentLoaded", function () {sendLocalStorageData()}); </script>
+			<script>document.addEventListener("DOMContentLoaded", function () {sendLocalStorageData();}); </script>
 		{% endif %}
 	</body>
 </html>

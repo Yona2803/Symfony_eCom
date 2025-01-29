@@ -59,6 +59,7 @@
 
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script src="{{ asset('js/global.js') }}"></script>
+	<script src="{{ asset('js/syncLocalStorage.js') }}"></script>
 	<script src="{{ asset('Pages/CartPage/main.js') }}"></script>
 	<script>
 		// Proceed To Checkout
@@ -67,6 +68,7 @@ let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 if (cart.length > 0) {
 calculate_All();
+sendLocalStorageData();
 window.location.href = "{{ path('CheckOut') }}";
 } else {
 alert("No products found in the cart.")
