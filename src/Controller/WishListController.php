@@ -59,15 +59,15 @@ class WishListController extends AbstractController
                     'message' => 'Product successfully added to your wishlist.'
                 ], Response::HTTP_OK);
             }
-
+        }
     
         // Respond with error if not authenticated
         return new JsonResponse([
             'status' => 'wishlistError',
             'message' => 'User Not Authenticated yet.'
         ], Response::HTTP_BAD_REQUEST); // Changed to HTTP_BAD_REQUEST
-    }
     
+}
     
 
 

@@ -12,11 +12,10 @@ function deleteItem(itemId) {
     })
       .then((response) => response.json())
       .then((data) => {
-        if (data.status === "success") {
+        if (data.status === "removeFromWishlist") {
           document.getElementById(`item-${itemId}`).remove();
           alert(data.message);
         } else {
-          console.error(data.message);
           alert(data.message);
         }
       })
@@ -53,6 +52,9 @@ function toggleWishlist(itemId, ClickedButton) {
   })
     .then((response) => response.json() )
     .then((data)=>{
+      if (data.status === "addToWishlist") {
+        alert(data.message);
+      }
     })
     .catch((error) => {
       console.error("Error:", error);

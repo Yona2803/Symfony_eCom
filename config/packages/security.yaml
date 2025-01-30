@@ -19,7 +19,7 @@ security:
             logout:
                 path: app_logout
 
-                target: LogInPage
+                target: home
                 invalidate_session: true
 
         # Disable security for dev assets
