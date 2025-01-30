@@ -2,12 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\CartsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: CartsRepository::class)]
+#[ORM\Entity()]
 class Carts
 {
     #[ORM\Id]
@@ -15,19 +14,19 @@ class Carts
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\OneToOne(inversedBy: 'carts', cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(targetEntity: Users::class)]
     #[ORM\JoinColumn(nullable: false)]
     private ?Users $user = null;
 
     /**
-     * @var Collection<int, Items>
+     * @var Collection<int, CartItems>
      */
-    #[ORM\ManyToMany(targetEntity: Items::class, mappedBy: 'item')]
-    private Collection $items;
+    #[ORM\OneToMany(mappedBy: "carts", targetEntity: CartItems::class, cascade: ["persist", "remove"])]
+    private Collection $cartItems;
 
     public function __construct()
     {
-        $this->items = new ArrayCollection();
+        $this->cartItems = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -43,32 +42,31 @@ class Carts
     public function setUser(Users $user): static
     {
         $this->user = $user;
-
         return $this;
     }
 
     /**
-     * @return Collection<int, Items>
+     * @return Collection<int, CartItems>
      */
-    public function getItems(): Collection
+    public function getCartItems(): Collection
     {
-        return $this->items;
+        return $this->cartItems;
     }
 
-    public function addItem(Items $item): static
+    public function addCartItem(CartItems $cartItem): static
     {
-        if (!$this->items->contains($item)) {
-            $this->items->add($item);
-            $item->addItem($this);
+        if (!$this->cartItems->contains($cartItem)) {
+            $this->cartItems->add($cartItem);
+            $cartItem->setCart($this);
         }
 
         return $this;
     }
 
-    public function removeItem(Items $item): static
+    public function removeCartItem(CartItems $cartItem): static
     {
-        if ($this->items->removeElement($item)) {
-            $item->removeItem($this);
+        if ($this->cartItems->removeElement($cartItem)) {
+            $cartItem->setCart(null);
         }
 
         return $this;

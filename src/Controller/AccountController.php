@@ -10,22 +10,31 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\Entity\Users;
+use App\Entity\Carts;
+use App\Entity\CartItems;
+use App\Entity\Items;
 use App\Form\UsersType;
 use App\Service\UsersService;
+use App\Service\WishListService;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 
 class AccountController extends AbstractController
 {
     private $usersService;
+    private $wishListService;
 
-    public function __construct(UsersService $usersService)
-    {
+    public function __construct(
+        UsersService $usersService,
+        WishListService $wishListService,
+    ) {
+        $this->wishListService = $wishListService;
         $this->usersService = $usersService;
     }
 
     // GET Route to display the form
     #[Route('/MyAccount', name: 'MyAccountPage', methods: ['GET'])]
-
     public function getUserAccount(EntityManagerInterface $entityManager): Response
     {
         $User_id = $this->usersService->getIdOfAuthenticatedUser();
@@ -89,30 +98,175 @@ class AccountController extends AbstractController
         ]);
     }
 
-    // **** Get/Set Btweeen local storage and DB ****
-    #[Route(path: '/SyncLocalStorage', name: 'SyncLocalStorage', methods: ['POST'])]
-    public function SyncLocalStorage(Request $request): JsonResponse
+    // Handle synchronization
+    #[Route('/SyncLocalStorage', name: 'SyncLocalStorage', methods: ['POST'])]
+    public function syncLocalStorage(Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        try {
+            $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
-        $data = json_decode($request->getContent(), true);
+            $data = json_decode($request->getContent(), true);
 
-        
-        return new JsonResponse(
-            [
+            if (!isset($data['cart']) && !isset($data['wishList'])) {
+                return new JsonResponse(['error' => 'Invalid data'], 400);
+            }
+
+            $userId = $this->usersService->getIdOfAuthenticatedUser();
+            $user = $entityManager->getRepository(Users::class)->find($userId);
+
+            if (!$user) {
+                throw new NotFoundHttpException('User not found');
+            }
+
+            // Handle cart synchronization
+            if ($data['cart']) {
+                $this->syncCart($user, $data['cart'], $entityManager);
+            }
+
+            // Handle wishlist synchronization
+            if ($data['wishList']) {
+                $this->syncWishList($userId, $data['wishList']);
+            }
+
+            return new JsonResponse([
                 'status' => 'success',
-                'data' => $data
-            ]
+                'message' => 'Data synced successfully',
+                'updatedWishList' => $this->prepareWishListData($userId),
+                'updatedCart' => $this->prepareCartData($user, $entityManager)
+            ]);
+        } catch (AccessDeniedException $e) {
+            return new JsonResponse([
+                'status' => 'nothing',
+                'message' => 'Not conected',
+            ], Response::HTTP_OK);
+        } catch (NotFoundHttpException $e) {
+            return new JsonResponse([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ], Response::HTTP_NOT_FOUND);
+        } catch (\Exception $e) {
+            return new JsonResponse([
+                'status' => 'error',
+                'message' => 'An error occurred while syncing data',
+            ], Response::HTTP_BAD_REQUEST);
+        }
+    }
+    private function syncCart(Users $user, array $cartItems, EntityManagerInterface $entityManager): void
+    {
+        $cart = $entityManager->getRepository(Carts::class)->findOneBy(['user' => $user]);
+
+        if (!$cart) {
+            $cart = $this->createNewCart($user, $entityManager);
+        }
+
+        foreach ($cartItems as $itemData) {
+            if (!isset($itemData['id'], $itemData['quantity'])) {
+                continue;
+            }
+
+            $this->updateCartItem($cart, $itemData, $entityManager);
+        }
+
+        $entityManager->flush();
+    }
+    private function createNewCart(Users $user, EntityManagerInterface $entityManager): Carts
+    {
+        $cart = new Carts();
+        $cart->setUser($user);
+        $entityManager->persist($cart);
+
+        return $cart;
+    }
+    private function updateCartItem(Carts $cart, array $itemData, EntityManagerInterface $entityManager): void
+    {
+        $item = $entityManager->getRepository(Items::class)->find($itemData['id']);
+        if (!$item) {
+            return;
+        }
+
+        $existingCartItem = $entityManager->getRepository(CartItems::class)
+            ->findOneBy(['cart' => $cart, 'item' => $item]);
+
+        if ($existingCartItem) {
+            $existingCartItem->setQuantity($itemData['quantity']);
+        } else {
+            $newCartItem = new CartItems();
+            $newCartItem->setCart($cart);
+            $newCartItem->setItem($item);
+            $newCartItem->setQuantity($itemData['quantity']);
+            $entityManager->persist($newCartItem);
+        }
+    }
+    private function syncWishList(int $userId, array $wishListItems): void
+    {
+        foreach ($wishListItems as $itemData) {
+            if (!isset($itemData['id'])) {
+                continue;
+            }
+            $this->wishListService->addToWishList($userId, $itemData['id']);
+        }
+    }
+    private function prepareWishListData(int $userId): array
+    {
+        $wishListItems = $this->wishListService->getWishListByUserID($userId);
+        return array_map(
+            fn($item) => ['id' => (string) $item->getId()],
+            $wishListItems->getItem()->toArray()
+        );
+    }
+    private function prepareCartData(Users $user, EntityManagerInterface $entityManager): array
+    {
+        $cartItems = $entityManager->getRepository(CartItems::class)
+            ->findBy(['cart' => $entityManager->getRepository(Carts::class)->findOneBy(['user' => $user])]);
+
+        return array_map(
+            fn($cartItem) => [
+                'id' => (string) $cartItem->getItem()->getId(),
+                'quantity' => (string) $cartItem->getQuantity(),
+            ],
+            $cartItems
         );
     }
 
+    // **** Testing ****
+    #[Route('/GetWishList/{value}', name: 'GetAll')]
+    public function index(string $value): JsonResponse
+    {
+
+        $wishlistData = $this->wishListService->getWishListByUserID($value);
+        $itemIds = [];
+
+        foreach ($wishlistData->getItem() as $item) {
+            // $itemIds[] = (string) $item->getId(); 
+            $itemIds[] = [
+                'id' => (string) $item->getId(),
+            ];
+        }
+
+        // Return the item IDs in JSON format
+        return new JsonResponse(['item_ids' => $itemIds]);
+
+        return new JsonResponse([
+            'wishlist' => [
+                'id' => $wishlistData->getId(),
+                'userId' => $wishlistData->getUser()->getId(),
+                'items' => array_map(function ($item) {
+                    return [
+                        'id' => $item->getId(),
+                        'name' => $item->getName(), // Example of item fields
+                        'description' => $item->getDescription(),
+                    ];
+                }, $wishlistData->getItem()->toArray())
+            ]
+        ]);
+    }
 
     // **** hash passwords ****
     #[Route('/Hash/{Password}', name: 'test_hash')]
     public function testHash(string $Password, UserPasswordHasherInterface $passwordHasher): Response
     {
         // Create a dummy user
-        $user = new Users(); // Replace with your user entity
+        $user = new Users();
         // Hash the $Password
         $hashed = $passwordHasher->hashPassword($user, $Password);
 

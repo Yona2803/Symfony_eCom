@@ -107,6 +107,7 @@ if (cartIds.length > 0) {
 const refreshButton = document.querySelector(".refresh");
 const refreshPage = () => {
   calculate_All();
+  sendLocalStorageData();
 };
 refreshButton.addEventListener("click", refreshPage);
 
@@ -233,6 +234,7 @@ function calculate_All() {
       })
         .format(TTC_Shipping)
         .replace(",", ".") + " Dh";
+
   } else {
     alert(
       "Something is wrong : check the Qty of each item, Please fill the inputs with the arrows of input fields"

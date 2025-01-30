@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Carts;
+use App\Entity\CartItems;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -40,4 +41,28 @@ class CartsRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+
+
+public function findCartByUserId(int $userId): ?Carts
+{
+    return $this->createQueryBuilder('c')
+        ->innerJoin('c.user', 'u')
+        ->andWhere('u.id = :userId')
+        ->setParameter('userId', $userId)
+        ->getQuery()
+        ->getOneOrNullResult();
+}
+
+public function findItemInCart(int $cartId, int $itemId): ?CartItems
+{
+    return $this->createQueryBuilder('ci')
+        ->andWhere('ci.cart = :cartId')
+        ->andWhere('ci.item = :itemId')
+        ->setParameter('cartId', $cartId)
+        ->setParameter('itemId', $itemId)
+        ->getQuery()
+        ->getOneOrNullResult();
+}
+
 }

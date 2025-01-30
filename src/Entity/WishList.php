@@ -22,8 +22,11 @@ class WishList
     /**
      * @var Collection<int, Items>
      */
-    #[ORM\ManyToMany(targetEntity: Items::class, inversedBy: 'wishlist')]
+    // #[ORM\ManyToMany(targetEntity: Items::class, inversedBy: 'wishlist')]
+    // private Collection $item;
+    #[ORM\ManyToMany(targetEntity: Items::class, fetch: 'EAGER', inversedBy: 'wishlist')]
     private Collection $item;
+
 
     public function __construct()
     {

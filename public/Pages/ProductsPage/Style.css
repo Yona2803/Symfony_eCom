@@ -143,18 +143,28 @@ body {
     transition: all 0.32s ease-out;
   }
   .Product .Selected_Item {
-    fill: #db4444;
+    fill: white;
+  }
+  .Product button.active .Selected_Item {
+    fill: white;
   }
   .Product .Selected_Item path {
-    stroke: #db4444;
+    stroke: black;
   }
   
+  .Product button.active .Selected_Item path {
+    stroke: white;
+  }
   .Product .OptionSection button:hover {
     background-color: #ff5c5c;
   }
   .Categories .OptionSection button:active {
     background-color: #db4444;
   }
+  .Product .OptionSection button.active {
+    background-color: #db4444;
+  }
+
   .Product .OptionSection button svg {
     width: fit-content;
     height: 30px;
@@ -163,6 +173,10 @@ body {
   .Product .OptionSection button:hover svg path {
     stroke: white;
   }
+  
+
+  
+
   .Product .ProductImage {
     width: 270px;
     height: 250px;
