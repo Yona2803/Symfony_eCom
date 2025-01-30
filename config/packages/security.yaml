@@ -18,9 +18,8 @@ security:
                 - App\Security\GoogleAuthenticator  # This line handles the OAuth authenticator
             logout:
                 path: app_logout
-
-                target: LogInPage
                 invalidate_session: true
+                target: home
 
         # Disable security for dev assets
 

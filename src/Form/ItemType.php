@@ -34,7 +34,8 @@ class ItemType extends AbstractType
                 'label' => 'Stock',
                 'required' => true,
                 'attr' => [
-                    'min' => 0
+                    'min' => 1,
+                    'value' => 1
                 ]
             ])
             ->add('category', EntityType::class, [

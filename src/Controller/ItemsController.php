@@ -15,9 +15,10 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ItemsController extends AbstractController
 {
-    private ItemsService $itemsService;
 
-    public function __construct(ItemsService $itemsService)
+    public function __construct(
+        private ItemsService $itemsService
+        )
     {
         $this->itemsService = $itemsService;
     }

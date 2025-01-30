@@ -1,0 +1,83 @@
+/* Reset default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 40px;
+}
+
+.main-content{
+    margin-left: 250px;
+}
+
+
+/* Center the Table */
+h1,
+table {
+    width: 100%;
+    max-width: 1000px;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+thead {
+    background-color: #007BFF;
+    color: #ffffff;
+}
+
+th, td {
+    padding: 14px 20px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+tbody tr:hover {
+    background-color: #e8f1ff;
+}
+
+th {
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+td {
+    color: #333;
+}
+
+/* Improve table row aesthetics */
+tbody td {
+    border-right: 1px solid #ddd;
+}
+
+tbody tr td:last-child {
+    border-right: none;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    table {
+        width: 100%;
+    }
+
+    th, td {
+        padding: 12px;
+    }
+}

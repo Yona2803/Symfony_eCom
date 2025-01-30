@@ -1,6 +1,6 @@
 function deleteItem(itemId) {
 
-    const userConfirmed = window.confirm("Are you sure you want to remove this product from your wishlist?");
+    const userConfirmed = window.confirm("Are you sure you want to remove this product from your wishlist ?");
 
     if (userConfirmed) {
         fetch(`/wishlist/delete/${itemId}`, {
@@ -11,7 +11,7 @@ function deleteItem(itemId) {
         })
             .then((response) => response.json())  
             .then((data) => {
-                if (data.status === "success") {
+                if (data.status === "successRemoving") {
                     document.getElementById(`item-${itemId}`).remove();
                     alert(data.message); 
                 } else {
@@ -39,10 +39,9 @@ function addProductToWishlist(itemId){
     })
     .then((response) => response.json())  
             .then((data) => {
-                if (data.status === "success") {
+                if (data.status === "addToWishlist") {
                     alert(data.message); 
                 } else {
-                    console.error(data.message);
                     alert(data.message); 
                 }
             })

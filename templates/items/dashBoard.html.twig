@@ -18,7 +18,7 @@
 						<a href="home">Home</a>
 					</li>
 					<li>
-						<a href="#users">Users</a>
+						<a href="#">Users</a>
 						<ul class="submenu">
 							<li>
 								<a href="#addUser">Add User</a>
@@ -40,29 +40,21 @@
 						</ul>
 					</li>
 					<li>
-						<a href="#orders">Orders</a>
+						<a href="#">Orders</a>
 						<ul class="submenu">
 							<li>
-								<a href="#viewOrders">View Orders</a>
+								<a href="#">View Orders</a>
 							</li>
 							<li>
-								<a href="#manageOrders">Manage Orders</a>
+								<a href="#">Manage Orders</a>
 							</li>
 						</ul>
 					</li>
 					<li>
-						<a href="#settings">Settings</a>
-						<ul class="submenu">
-							<li>
-								<a href="#generalSettings">General Settings</a>
-							</li>
-							<li>
-								<a href="#securitySettings">Security Settings</a>
-							</li>
-						</ul>
+						<a href="{{ path('customers-list') }}">Manage Customer</a>
 					</li>
 					<li>
-						<a href="#logout">Logout</a>
+						<a href="{{ path('app_logout') }}">Logout</a>
 					</li>
 				</ul>
 			</div>
