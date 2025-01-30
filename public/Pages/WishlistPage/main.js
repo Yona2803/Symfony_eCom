@@ -3,6 +3,7 @@ function deleteItem(itemId) {
     "Are you sure you want to remove this product from your wishlist?"
   );
 
+
   if (userConfirmed) {
     fetch(`/wishlist/delete/${itemId}`, {
       method: "DELETE",
@@ -12,7 +13,7 @@ function deleteItem(itemId) {
     })
       .then((response) => response.json())
       .then((data) => {
-        if (data.status === "success") {
+        if (data.status === "successRemoving") {
           document.getElementById(`item-${itemId}`).remove();
           alert(data.message);
         } else {
@@ -26,6 +27,7 @@ function deleteItem(itemId) {
   } else {
     console.log("Item deletion canceled.");
   }
+
 }
 
 function toggleWishlist(itemId, ClickedButton) {
@@ -51,13 +53,21 @@ function toggleWishlist(itemId, ClickedButton) {
       "Content-Type": "application/json",
     }
   })
-    .then((response) => response.json() )
-    .then((data)=>{
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-    });
+
+    .then((response) => response.json())  
+            .then((data) => {
+                if (data.status === "addToWishlist") {
+                    alert(data.message); 
+                } else {
+                    alert(data.message); 
+                }
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+    
 }
+
 
 // initialize wishList icon state
 function initializeIcon() {
@@ -73,3 +83,4 @@ function initializeIcon() {
   }
 }
 initializeIcon();
+

@@ -30,7 +30,7 @@
                             <p class="item-price">Price: {{ item.price }} DHs</p>
                             <div class="item-actions">
                                 <button type="button" class="btn-delete" onclick="deleteItem('{{ item.id }}')">Delete</button>
-                                <button class="btn-buy">Buy</button>
+                                <button type="button" class="btn-buy" onclick="addToCart({{ item.id }}); event.preventDefault();  event.stopPropagation();">Buy</button>
                             </div>
                         </div>
                     </li>
@@ -41,6 +41,8 @@
         {% endif %}
     </div>
     <script src="{{ asset('Pages/WishlistPage/main.js') }}"></script>
+    <script src="{{ asset('js/global.js') }}"></script>
+    <script src="{{ asset('Components/Products/main.js') }}"></script>
     {{ include('components/Footer/Footer.html.twig') }}
 </body>
 </html>
