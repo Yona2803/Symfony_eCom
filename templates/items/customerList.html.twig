@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Customer Details</title>
+        <link rel="stylesheet" href="{{ asset('css/customerListStyle.css') }}">
+
+	</head>
+	<body>
+        {{ include('items/dashBoard.html.twig') }}
+
+    <div class="main-content">
+        <div>
+            <h1>Customer Details</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for customer in customers %}
+                        <tr>
+                            <td>{{ customer.id }}</td>
+                            <td>{{ customer.firstName }}</td>
+                            <td>{{ customer.lastName }}</td>
+                            <td>{{ customer.email }}</td>
+                            <td>{{ customer.phoneNumber }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>

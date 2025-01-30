@@ -59,29 +59,40 @@ class SecurityController extends AbstractController
             throw $this->createNotFoundException();
         }
 
+        // Choise the google account you want to login with.
         return $clientRegistry
-            ->getClient($service)
-            ->redirect(self::SCOPES[$service]);
+            ->getClient('google')
+            ->redirect(['email', 'profile'], [
+                'prompt' => 'select_account',
+            ]);
+
+        // This login directly with the last login google account.
+        // return $clientRegistry
+        //     ->getClient($service)
+        //     ->redirect(self::SCOPES[$service], []);
     }
+
+
 
     // OAuth callback route (handling authentication after OAuth)
     #[Route('/oauth/check/{service}', name: 'auth_oauth_check', methods: ['GET', 'POST'])]
     public function check(string $service, ClientRegistry $clientRegistry): Response
     {
-        try {
-            // Fetch the user from the OAuth provider (Google)
-            $client = $clientRegistry->getClient($service);
-            $user = $client->fetchUser();
+        // try {
+        //     // Fetch the user from the OAuth provider (Google)
+        //     $client = $clientRegistry->getClient($service);
+        //     $user = $client->fetchUser();
 
-            // Do something with the user, such as logging them in
-            // You could save them to the database or simply authenticate them
-            $this->get('security.token_storage')->setToken($user);
+        //     // Do something with the user, such as logging them in
+        //     // You could save them to the database or simply authenticate them
+        //     $this->get('security.token_storage')->setToken($user);
 
-            // Redirect to the home page or wherever you want after a successful login
-            return $this->redirectToRoute('home');
-        } catch (AuthenticationException $e) {
-            // Handle authentication errors (e.g., invalid token, error in fetching user)
-            return $this->redirectToRoute('app_login');
-        }
+        //     // Redirect to the home page or wherever you want after a successful login
+        //     return $this->redirectToRoute('home');
+        // } catch (AuthenticationException $e) {
+        //     // Handle authentication errors (e.g., invalid token, error in fetching user)
+        //     return $this->redirectToRoute('app_login');
+        // }
+        return new Response(status: 200);
     }
 }

@@ -14,14 +14,14 @@ class Carts
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: Users::class)]
+    #[ORM\OneToOne(inversedBy: 'cart', targetEntity: Users::class)]
     #[ORM\JoinColumn(nullable: false)]
     private ?Users $user = null;
 
     /**
      * @var Collection<int, CartItems>
      */
-    #[ORM\OneToMany(mappedBy: "carts", targetEntity: CartItems::class, cascade: ["persist", "remove"])]
+    #[ORM\OneToMany(mappedBy: "cart", targetEntity: CartItems::class, cascade: ["persist", "remove"])]
     private Collection $cartItems;
 
     public function __construct()
