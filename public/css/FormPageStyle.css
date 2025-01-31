@@ -60,6 +60,7 @@ h1 {
     resize: vertical;
 }
 
+.submit-add-category, 
 .submit-add-product {
     background-color: #007bff;
     color: #fff;
@@ -72,6 +73,7 @@ h1 {
     display: inline-block;
 }
 
+.submit-add-category:hover,
 .submit-add-product:hover {
     background-color: #0056b3;
 }

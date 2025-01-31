@@ -56,14 +56,6 @@ class ItemsController extends AbstractController
         ]);
     }
 
-    #[Route('/Category/{categoryName}', name: 'searchByCategory', methods: ['GET'])]
-    public function searchByCategory(string $categoryName, ItemsRepository $itemsRepository): Response
-    {
-        $items = $itemsRepository->findByCategoryName($categoryName);
-        return $this->render('Pages/ProductsPage/ProductsPage.html.twig', [
-            'items' => $items
-        ]);
-    }
 
     #[Route('/dashboard', name: 'dashboard', methods: ['GET'])]
     public function toDashboard(): Response
