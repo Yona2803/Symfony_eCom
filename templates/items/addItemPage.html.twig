@@ -11,27 +11,29 @@
 		<script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
 
 		<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const tagSelector = document.querySelectorAll('.tag-selector input[type="checkbox"]');
-        const selectedTagsField = document.querySelector('.selected-tags-field');
+			document.addEventListener('DOMContentLoaded', function () {
+			const tagSelector = document.querySelectorAll('.tag-selector input[type="checkbox"]');
+			const selectedTagsField = document.querySelector('.selected-tags-field');
 
-        // Update the textarea when tags are selected or deselected
-        const updateSelectedTags = () => {
-            const selectedTags = Array.from(tagSelector)
-                .filter(tag => tag.checked)
-                .map(tag => tag.labels[0].innerText);
-            selectedTagsField.value = selectedTags.join(', ');
-        };
+			// Update the textarea when tags are selected or deselected
+			const updateSelectedTags = () => {
+				const selectedTags = Array.from(tagSelector)
+					.filter(tag => tag.checked)
+					.map(tag => tag.labels[0].innerText);
+					if(selectedTags.length > 0) {
+						selectedTagsField.value = selectedTags.join(', ');
+					}
+			};
 
-        // Add event listeners to all checkboxes
-        tagSelector.forEach(tag => {
-            tag.addEventListener('change', updateSelectedTags);
-        });
+			// Add event listeners to all checkboxes
+			tagSelector.forEach(tag => {
+				tag.addEventListener('change', updateSelectedTags);
+			});
 
-        // Initialize the textarea with preselected tags if applicable
-        updateSelectedTags();
-    });
-</script>
+			// Initialize the textarea with preselected tags if applicable
+			updateSelectedTags();
+			});
+		</script>
 
 	</head>
 	<body>

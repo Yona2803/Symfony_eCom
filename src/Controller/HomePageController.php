@@ -10,16 +10,19 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\Items;
+use App\Service\CategoriesService;
 use App\Service\ItemsService;
 
 class HomePageController extends AbstractController
 {
 
-    private ItemsService $itemsService;
-
-    public function __construct(ItemsService $itemsService)
+    public function __construct(
+        private ItemsService $itemsService,
+        private CategoriesService $categoriesService
+        )
     {
         $this->itemsService = $itemsService;
+        $this->categoriesService = $categoriesService;
     }
 
 
@@ -28,8 +31,10 @@ class HomePageController extends AbstractController
     public function getAll(): Response
     {
         $items = $this->itemsService->getAllProducts();
+        $categories = $this->categoriesService->getAllCategories();
         return $this->render('/base.html.twig', [
-            'items' => $items
+            'items' => $items,
+            'categories' => $categories
         ]);
     }
 
