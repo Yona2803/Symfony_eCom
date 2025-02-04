@@ -13,7 +13,7 @@ function deleteItem(itemId) {
     })
       .then((response) => response.json())
       .then((data) => {
-        if (data.status === "removeFromWishlist") {
+        if (data.status === "successRemoving") {
           document.getElementById(`item-${itemId}`).remove();
           alert(data.message);
         } else {
@@ -26,7 +26,6 @@ function deleteItem(itemId) {
   } else {
     console.log("Item deletion canceled.");
   }
-
 }
 
 function toggleWishlist(itemId, ClickedButton) {

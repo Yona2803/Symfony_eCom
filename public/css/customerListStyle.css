@@ -56,6 +56,7 @@ tbody tr:hover {
 th {
     text-transform: uppercase;
     font-weight: bold;
+    text-align: center;
 }
 
 td {
@@ -80,4 +81,43 @@ tbody tr td:last-child {
     th, td {
         padding: 12px;
     }
+}
+
+
+
+
+
+
+
+
+
+
+.customer-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+
+.btn-delete,
+.btn-something {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.btn-delete:hover,
+.btn-something:hover {
+    background-color: #0056b3;
+}
+
+.btn-delete {
+    background-color: #dc3545;
+}
+
+.btn-delete:hover {
+    background-color: #c82333;
 }
