@@ -12,15 +12,17 @@ use App\Repository\ItemsRepository;
 use App\Service\ItemsService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Mime\MimeTypes;
 
 class ItemsController extends AbstractController
 {
 
     public function __construct(
-        private ItemsService $itemsService
-        )
-    {
+        private ItemsService $itemsService,
+        private ItemsRepository $itemsRepository
+    ) {
         $this->itemsService = $itemsService;
+        $this->itemsRepository = $itemsRepository;
     }
 
     #[Route('/addItem', name: 'addItem')]
@@ -146,6 +148,7 @@ class ItemsController extends AbstractController
         ]);
     }
 
+
     #[Route('/updateProduct', name: 'updateProduct')]
     public function updateProduct(Request $request)
     {
@@ -159,6 +162,30 @@ class ItemsController extends AbstractController
     }
 
 
+    #[Route('/products/{productId}', name: 'find-product', methods: ['GET'])]
+    public function findProductById(int $productId): JsonResponse
+    {
+        $item = $this->itemsRepository->findOneBy(['id' => $productId]);
 
+        if (!$item) {
+            return new JsonResponse(['error' => 'Product not found'], 404);
+        }
 
+        if ($item->getItemImage()) {
+            $imageData = base64_encode(stream_get_contents($item->getItemImage()));
+        } else {
+            $imageData = null;
+        }
+        
+        return new JsonResponse([
+            'name' => $item->getName(),
+            'price' => $item->getPrice(),
+            'stock' => $item->getStock(),
+            'description' => $item->getDescription(),
+            'tags' => $item->getTags(),
+            'category' => $item->getCategory()->getId(),
+            'image' => $imageData,
+        ]);
+                
+    }
 }

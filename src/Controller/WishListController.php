@@ -44,7 +44,7 @@ class WishListController extends AbstractController
         if ($this->isGranted('IS_AUTHENTICATED_FULLY')) {
             $userId = $this->usersService->getIdOfAuthenticatedUser();
             $isInWishlist = $this->wishListService->isItemInWishList($userId, $itemId);
-    
+
             if ($isInWishlist) {
                 // Remove item from wishlist
                 $this->wishListService->removeItemFromWishlist($userId, $itemId);
@@ -61,15 +61,15 @@ class WishListController extends AbstractController
                 ], Response::HTTP_OK);
             }
         }
-    
+
         // Respond with error if not authenticated
         return new JsonResponse([
             'status' => 'wishlistError',
             'message' => 'User Not Authenticated yet.'
         ], Response::HTTP_BAD_REQUEST); // Changed to HTTP_BAD_REQUEST
-    
-}
-    
+
+    }
+
 
 
 
@@ -82,10 +82,22 @@ class WishListController extends AbstractController
         $success = $this->wishListService->removeItemFromWishlist($userId, $itemId);
 
         if ($success) {
-            return new JsonResponse(['status' => 'successRemoving', 'message' => 'Product successfully removed from your wishlist.'], Response::HTTP_OK);
+            return new JsonResponse(
+                [
+                    'status' => 'successRemoving',
+                    'message' => 'Product successfully removed from your wishlist.'
+                ],
+                Response::HTTP_OK
+            );
         }
-        
-        return new JsonResponse(['status' => 'errorRemoving', 'message' => 'Product not found or could not be removed.'], Response::HTTP_NOT_FOUND);
+
+        return new JsonResponse(
+            [
+                'status' => 'errorRemoving',
+                'message' => 'Product not found or could not be removed.'
+            ],
+            Response::HTTP_NOT_FOUND
+        );
     }
 
 
@@ -95,18 +107,23 @@ class WishListController extends AbstractController
     public function wishList(): Response
     {
 
-        $userId = $this->usersService->getIdOfAuthenticatedUser();
-        $user = $this->usersRepository->find($userId);
-
-        if (!$user) {
+        if($this->getUser()){
+            $userId = $this->usersService->getIdOfAuthenticatedUser();
+            $user = $this->usersRepository->find($userId);
+            
+            if (!$user) {
+                return $this->render('items/wishlistPage.html.twig', [
+                    'wishlist' => [],
+                ]);
+            }
+            
+            $wishlist = $user->getWishList();
             return $this->render('items/wishlistPage.html.twig', [
-                'wishlist' => [],
+                'wishlist' => $wishlist,
             ]);
         }
-
-        $wishlist = $user->getWishList();
-        return $this->render('items/wishlistPage.html.twig', [
-            'wishlist' => $wishlist,
-        ]);
+        return $this->redirect('Connecting/LogIn');
     }
+
+
 }

@@ -3,8 +3,7 @@
 	<head>
 		<title>Products</title>
 		<link rel="stylesheet" href="{{ asset('css/updateProductPage.css') }}">
-		<link
-		rel="stylesheet" href="{{ asset('Pages/ProductsPage/Style.css') }}">
+		<link rel="stylesheet" href="{{ asset('Pages/ProductsPage/Style.css') }}">
 		<link rel="stylesheet" href="{{ asset('css/FormPageStyle.css') }}">
 		<link rel="icon" type="image/x-icon" href="{{ asset('img/icon/Icon.png') }}">
 	</head>
@@ -12,7 +11,7 @@
 		{# including dashboard Section #}
 		{% include 'items/dashboard.html.twig' %}
 
-        {% for message in app.flashes('updateProduct') %}
+		{% for message in app.flashes('updateProduct') %}
 			<script>
 				alert('{{ message }}');
 			</script>
@@ -32,17 +31,17 @@
 						<span></span>
 						<h4>Our Products</h4>
 					</div>
-						<form method="GET" action="{{ path('search-product-update') }}">
-							<div class="searching-bar">
-								<input type="text" class="searchProduct" name="searchProduct" id="searchProduct" placeholder="What are you looking for?">
-								<button type="submit" class="btn-search">
-									<svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-										<path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-										<path d="M21 21L16.65 16.65" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-									</svg>
-								</button>
-							</div>
-						</form>
+					<form method="GET" action="{{ path('search-product-update') }}">
+						<div class="searching-bar">
+							<input type="text" class="searchProduct" name="searchProduct" id="searchProduct" placeholder="What are you looking for?">
+							<button type="submit" class="btn-search">
+								<svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+									<path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+									<path d="M21 21L16.65 16.65" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+								</svg>
+							</button>
+						</div>
+					</form>
 				</div>
 
 
@@ -54,7 +53,7 @@
 						</div>
 						{{ form_start(form, {'action': path('updateProduct'), 'method': 'POST', 'attr': {'enctype': 'multipart/form-data'}}) }}
 						<input type="hidden" name="productId" id="productId">
-                        <div class="form-group">
+						<div class="form-group">
 							{{ form_row(form.name, {'attr': {'class': 'custom-name-field'}}) }}
 							{{ form_row(form.price, {'attr': {'class': 'custom-price-field'}}) }}
 						</div>
@@ -74,6 +73,7 @@
 						<div class="form-group">
 							{{ form_row(form.itemImage, {'attr': {'class': 'custom-item-image', 'onchange': 'previewImage(event)'}}) }}
 							<div class="image-preview-container">
+								{# <img id="imagePreview" src="#" alt="Image Preview" class="image-preview"/> #}
 								<img id="imagePreview" src="{{ asset('img/No_Img.png') }}" alt="Image Preview" class="image-preview"/>
 							</div>
 						</div>
@@ -130,5 +130,5 @@
 		<script src="{{ asset('Pages/WishlistPage/main.js') }}"></script>
 	</body>
 	<script src="{{ asset('js/global.js') }}"></script>
-	<script src="{{ asset('Pages/ProductsPage/main.js') }}"></script>
+	<script src="{{ asset('Pages/ProductsPage/main.js') }}" defer></script>
 </html>
