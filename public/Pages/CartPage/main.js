@@ -17,7 +17,7 @@ function RoutePath() {
 }
 RoutePath();
 
-function MyCart_Products() {
+async function MyCart_Products() {
   let container = document.querySelector(".Cart_Products");
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
@@ -40,8 +40,12 @@ function MyCart_Products() {
       if (response && response.length > 0) {
         response.forEach(function (productArray) {
           productArray.forEach(function (product) {
-            let productHTML = `<div class="Product" id="${product.id}">
+            let productHTML = `<div class="Product" id="Product${product.id}">
                                       <div>
+                                      <svg class="DeleteBtn" id="DeleteItemId${product.id}" onclick="deleteCartItem(${product.id})"  width="18" height="18" viewBox="0 0 18 18" fill="none">
+<circle cx="9" cy="9" r="9" fill="#DB4444"/>
+<path d="M6 12L9 9M12 6L8.99943 9M8.99943 9L6 6M9 9L12 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
                                        ${
                                          product.itemImage &&
                                          product.itemImage !==
@@ -105,9 +109,9 @@ if (cartIds.length > 0) {
 
 // Update Cart : Refresh Page
 const refreshButton = document.querySelector(".refresh");
-const refreshPage = () => {
+const refreshPage = async () => {
   calculate_All();
-  sendLocalStorageData();
+  await sendLocalStorageData();
 };
 refreshButton.addEventListener("click", refreshPage);
 
@@ -162,11 +166,14 @@ function calculate_All() {
 
   let total = 0;
   let ErrorExist = false;
+
   if (cart.length > 0) {
     cart.forEach((item) => {
       let quantity = document.getElementById("quantity" + item.id);
 
       let price = document.getElementById("price" + item.id).innerText;
+
+      // console.log(price); return
 
       let cleanPrice = parseFloat(price.replace(/\s/g, "").replace(",", "."));
 
@@ -234,10 +241,44 @@ function calculate_All() {
       })
         .format(TTC_Shipping)
         .replace(",", ".") + " Dh";
-
   } else {
     alert(
       "Something is wrong : check the Qty of each item, Please fill the inputs with the arrows of input fields"
     );
   }
 }
+
+async function deleteCartItem(itemId) {
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  const existingItem = cart.find((item) => item.id === itemId);
+
+  if (!existingItem) {
+    console.log("Item not found");
+    return;
+  }
+
+  // Remove the item with the specified ID
+  cart = cart.filter((item) => item.id !== itemId);
+  localStorage.setItem("cart", JSON.stringify(cart));
+  // Remove the item with the specified ID
+  document.getElementById("Product"+itemId).remove();
+
+  const url = `/MyCartItems/Delete?item=${itemId}`;
+  fetch(url, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      "X-Requested-With": "XMLHttpRequest",
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.status === "success") {
+        console.log("Item deleted successfully");
+      } else {
+        console.error("Error:", data.message);
+      }
+    })
+    .catch((error) => console.error("Error:", error));
+}
+

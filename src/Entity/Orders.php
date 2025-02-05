@@ -85,6 +85,7 @@ class Orders
     {
         return $this->orderDetails;
     }
+    
 
     public function addOrderDetail(OrderDetails $orderDetail): static
     {

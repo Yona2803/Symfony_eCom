@@ -8,21 +8,16 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use App\Entity\Items;
-use App\Entity\Users;
 use App\Entity\Carts;
 use App\Entity\CartItems;
+use App\Entity\Users;
 use App\Service\UsersService;
-use App\Service\CartService;
-use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use App\DTO\SyncStorageRequest;
 
 class MyCartPageController extends AbstractController
 {
     private $usersService;
-    private $CartService;
 
     public function __construct(
         UsersService $usersService,
@@ -117,7 +112,6 @@ class MyCartPageController extends AbstractController
                 'message' => 'Data synced successfully',
                 'updatedCart' => $this->prepareCartData($user, $entityManager)
             ]);
-        
         } catch (NotFoundHttpException $e) {
             return new JsonResponse([
                 'status' => 'error',
@@ -190,6 +184,76 @@ class MyCartPageController extends AbstractController
         );
     }
 
+    // **** Delete Single item ****
+    #[Route('/MyCartItems/Delete', name: 'myCartDelete', methods: ['DELETE'])]
+public function myCartDelete(Request $request, EntityManagerInterface $entityManager): JsonResponse
+{
+    try {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        // Get the item ID from the query parameter
+        $itemId = (int) $request->query->get('item');
+
+        if (!$itemId) {
+            return new JsonResponse(['error' => 'Invalid item ID'], 400);
+        }
+
+        // Get the authenticated user
+        $userId = $this->usersService->getIdOfAuthenticatedUser();
+        $user = $entityManager->getRepository(Users::class)->find($userId);
+
+        if (!$user) {
+            throw new NotFoundHttpException('User not found');
+        }
+
+        // Delete the single item from the cart
+        $this->deleteSingleItem($user, $itemId, $entityManager);
+
+        return new JsonResponse([
+            'status' => 'success',
+            'message' => 'Item deleted successfully',
+        ]);
+    } catch (NotFoundHttpException $e) {
+        return new JsonResponse([
+            'status' => 'error',
+            'message' => $e->getMessage(),
+        ], Response::HTTP_NOT_FOUND);
+    } catch (\Exception $e) {
+        return new JsonResponse([
+            'status' => 'error',
+            'message' => 'An error occurred while deleting the item: ' . $e->getMessage(),
+        ], Response::HTTP_BAD_REQUEST);
+    }
+}
+
+    private function deleteSingleItem(Users $user, int $itemId, EntityManagerInterface $entityManager): void
+    {
+        try {
+            // Find the user's cart
+            $cart = $entityManager->getRepository(Carts::class)->findOneBy(['user' => $user]);
+    
+            if (!$cart) {
+                throw new \Exception("Cart not found for user ID: " . $user->getId());
+            }
+    
+            // Find the CartItems entry for the given cart and item
+            $cartItem = $entityManager->getRepository(CartItems::class)
+                ->findOneBy(['cart' => $cart, 'item' => $itemId]);
+    
+            if (!$cartItem) {
+                throw new \Exception("CartItem not found for cart ID: " . $cart->getId() . " and item ID: " . $itemId);
+            }
+    
+            // Remove the CartItems entry
+            $entityManager->remove($cartItem);
+            $entityManager->flush();
+        } catch (\Exception $e) {
+            // Log the error
+            error_log("Error in deleteSingleItem: " . $e->getMessage());
+            throw $e; // Re-throw the exception to be handled by the controller
+        }
+    }
+    
     // **** Testing ****
     #[Route('/GetCart/{userId}', name: 'GetCartAll')]
     public function getCartAll(int $userId, EntityManagerInterface $entityManager): JsonResponse
@@ -278,24 +342,5 @@ class MyCartPageController extends AbstractController
         $entityManager->flush();
 
         return new JsonResponse(['message' => 'Item added to cart successfully']);
-    }
-
-    #[Route('/testSend', name: 'testSend', methods: ['POST'])]
-    public function index(
-        Request $request,
-        EntityManagerInterface $entityManager,
-        #[MapRequestPayload] SyncStorageRequest $data
-    ): JsonResponse {
-
-        $test[] =  [
-            ["id" => "1", "quantity" => "1"],
-            ["id" => "2", "quantity" => "2"]
-        ];
-
-        return new JsonResponse([
-            'status' => 'success',
-            'message' => 'Data synced successfully',
-            'updatedCart' => $test,
-        ]);
     }
 }
