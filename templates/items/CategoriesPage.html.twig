@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Document</title>
+		<link rel="icon" type="image/x-icon" href="{{ asset('img/icon/Icon.png') }}">
+		<link rel="stylesheet" href="{{ asset('css/updateCategoryStyle.css') }}">
+		<link rel="stylesheet" href="{{ asset('css/FormPageStyle.css') }}">
+	</head>
+	<body>
+		{{ include('items/dashBoard.html.twig') }}
+
+
+        {% set updateCategoryMessage = app.flashes('updateCategory') %}
+		{% set updateCategoryErrorMessage = app.flashes('updateCategoryError') %}
+
+		{% if updateCategoryMessage %}
+			<script>
+				alert('{{ updateCategoryMessage[0] }}');
+			</script>
+		{% endif %}
+
+		{% if updateCategoryErrorMessage %}
+			<script>
+				alert('{{ updateCategoryErrorMessage[0] }}');
+			</script>
+		{% endif %}
+
+
+
+		<div id="updateCategoryPopup" class="popup">
+			<div class="popup-content">
+				<div class="btn-close" style="margin-bottom: 20px">
+					<span class="close-btn" onclick="closePopupUpdateCategory()">X</span>
+				</div>
+				{{ form_start(form, {'action': path('update-category'), 'method': 'POST', 'attr': {'enctype': 'multipart/form-data'}}) }}
+				<input type="hidden" name="categoryId" id="categoryId">
+                <div class="form-group">
+					{{ form_row(form.name, {'attr': {'class': 'custom-name-field'}}) }}
+				</div>
+
+				<div class="form-group">
+					{{ form_row(form.categoryImage, {'attr': {'class': 'custom-category-image', 'onchange': 'previewImage(event)'}}) }}
+					<div class="image-preview-container">
+						<img id="imagePreview" src="{{ asset('img/No_Img.png') }}" alt="Image Preview" class="image-preview"/>
+					</div>
+				</div>
+
+				<br>
+				<button type="submit" class="submit-add-category">Save</button>
+				{{ form_end(form) }}
+			</div>
+		</div>
+
+
+		<div class="main-content">
+			<table id="categoriesTable">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Name</th>
+						<th>Image</th>
+						<th>Options</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for category in categories %}
+						<tr id="category-{{ category.id}}">
+							<td id="categories-id">{{ category.id }}</td>
+							<td id="categories-name">{{ category.name }}</td>
+							<td id="categories-image">
+								{% if category.image %}
+									<img src="data:image/jpeg;base64,{{ category.image }}" alt="{{ category.name }}" style="width: 50px; height: 50px;"/>
+								{% else %}
+									No Image
+								{% endif %}
+							</td>
+							<td id="categories-options">
+								<div class="categories-actions">
+									<button type="button" onclick="openPopupUpdateCategory({{ category.id }})" class="btn-edit">Edit</button>
+									<button type="button" onclick="deleteCategoryById({{ category.id }})" class="btn-delete">Delete</button>
+								</div>
+							</td>
+						</tr>
+					{% else %}
+						<tr>
+							<td colspan="4">No categories found.
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</body>
+    <script src="{{ asset('Pages/CategoriesPage/main.js') }}" defer></script>
+</html>

@@ -16,6 +16,29 @@ class CategoriesRepository extends ServiceEntityRepository
         parent::__construct($registry, Categories::class);
     }
 
+
+
+    public function deleteCategoryById($id): bool
+    {
+        $query = $this->createQueryBuilder('c')
+            ->delete()
+            ->andWhere('c.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery();
+
+        $result = $query->execute();
+
+        return $result > 0 ? true : false;
+    }
+
+
+
+
+
+
+
+
+
     //    /**
     //     * @return Categories[] Returns an array of Categories objects
     //     */

@@ -4,7 +4,9 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Document</title>
+
 		<link rel="stylesheet" href="{{ asset('css/FormPageStyle.css') }}">
+		<link rel="stylesheet" href="{{ asset('css/updateCategoryStyle.css') }}">
 		<link rel="icon" type="image/x-icon" href="{{ asset('img/icon/Icon.png') }}">
 	</head>
 	<body>
@@ -33,7 +35,8 @@
 		{% endif %}
 
 
-		<div class="container">
+
+		<div id="updateCategory" class="container">
 			<h1>Add Category</h1>
 			{{ form_start(form, {'action': path('add-category'), 'method': 'POST', 'attr': {'enctype': 'multipart/form-data'}}) }}
 			<div class="form-group">
@@ -50,7 +53,12 @@
 			<br>
 			<button type="submit" class="submit-add-category">Add Category</button>
 			{{ form_end(form) }}
+			<div id="btn-openPopup">
+				<button onclick="openPopupUpdateCategory()">View Category</button>
+			</div>
 		</div>
 
 	</body>
+	<script src="{{ asset('Pages/CategoriesPage/main.js') }}" defer></script>
+
 </html>

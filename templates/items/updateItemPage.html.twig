@@ -11,16 +11,21 @@
 		{# including dashboard Section #}
 		{% include 'items/dashboard.html.twig' %}
 
-		{% for message in app.flashes('updateProduct') %}
+		{% set updateProductMessage = app.flashes('updateProduct') %}
+		{% set updateProductErrorMessage = app.flashes('updateProductError') %}
+
+		{% if updateProductMessage %}
 			<script>
-				alert('{{ message }}');
+				alert('{{ updateProductMessage[0] }}');
 			</script>
-		{% endfor %}
-		{% for message in app.flashes('updateProductError') %}
+		{% endif %}
+
+		{% if updateProductErrorMessage %}
 			<script>
-				alert('{{ message }}');
+				alert('{{ updateProductErrorMessage[0] }}');
 			</script>
-		{% endfor %}
+		{% endif %}
+
 
 		{# Adding Products Section #}
 		<div class="Container" style="margin-left: 300px;">
@@ -45,8 +50,7 @@
 				</div>
 
 
-				{# Pop up form for update product #}
-				<div id="updatePopup" class="popup">
+				<div id="updateProduct" class="popup">
 					<div class="popup-content">
 						<div class="btn-close" style="margin-bottom: 20px">
 							<span class="close-btn" onclick="closePopup()">X</span>
@@ -73,7 +77,6 @@
 						<div class="form-group">
 							{{ form_row(form.itemImage, {'attr': {'class': 'custom-item-image', 'onchange': 'previewImage(event)'}}) }}
 							<div class="image-preview-container">
-								{# <img id="imagePreview" src="#" alt="Image Preview" class="image-preview"/> #}
 								<img id="imagePreview" src="{{ asset('img/No_Img.png') }}" alt="Image Preview" class="image-preview"/>
 							</div>
 						</div>
