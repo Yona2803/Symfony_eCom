@@ -28,11 +28,8 @@ function deleteItem(itemId) {
   }
 }
 
+// Add wishlist item to localStorage and DB
 function toggleWishlist(itemId, ClickedButton) {
-  // Add wishlist item to localStorage
-  console.log(itemId); console.log(ClickedButton)
-
-  
   let wishList = JSON.parse(localStorage.getItem("wishList")) || [];
   const existingItemIndex = wishList.findIndex((item) => item.id === itemId);
 

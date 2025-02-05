@@ -41,7 +41,7 @@ class WishListController extends AbstractController
         if ($this->isGranted('IS_AUTHENTICATED_FULLY')) {
             $userId = $this->usersService->getIdOfAuthenticatedUser();
             $isInWishlist = $this->wishListService->isItemInWishList($userId, $itemId);
-    
+
             if ($isInWishlist) {
                 // Remove item from wishlist
                 $this->wishListService->removeItemFromWishlist($userId, $itemId);
@@ -58,17 +58,9 @@ class WishListController extends AbstractController
                 ], Response::HTTP_OK);
             }
         }
-    
-        // Respond with error if not authenticated
-        return new JsonResponse([
-            'status' => 'wishlistError',
-            'message' => 'User Not Authenticated yet.'
-        ], Response::HTTP_BAD_REQUEST); // Changed to HTTP_BAD_REQUEST
+        // Empty Response if not authenticated
+        return new JsonResponse([], Response::HTTP_OK);
     }
-    
-    
-
-
 
     #[Route('/wishlist/delete/{itemId}', name: 'delete_item', methods: 'DELETE')]
     public function deleteItem(int $itemId): JsonResponse
@@ -86,8 +78,6 @@ class WishListController extends AbstractController
         $this->addFlash('error', 'Product not found or could not be removed.');
         return new JsonResponse(['status' => 'error', 'message' => 'Product not found or could not be removed.'], Response::HTTP_NOT_FOUND);
     }
-
-
 
     #[Route('/wishlist', name: 'wishlistPage', methods: ['GET'])]
     public function wishList(): Response

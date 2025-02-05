@@ -11,36 +11,36 @@ function SwitchTo(Form) {
   }
 }
 
-function SendLocalstorage() {
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+// function SendLocalstorage() {
+//   let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-  if (cart) {
-     console.log("Cart: ".cart) 
-     return;
-  } else {
-    console.log("no Carte")
-    return ;
-  }
-  let queryParams = encodeURIComponent(JSON.stringify(cart));
+//   if (cart) {
+//      console.log("Cart: ".cart) 
+//      return;
+//   } else {
+//     console.log("no Carte")
+//     return ;
+//   }
+//   let queryParams = encodeURIComponent(JSON.stringify(cart));
 
-  // Sending by Ajax to Back-End => Show response in HTML
-  $.ajax({
-    url: `/MyCart/ShowProducts?items_ids=${queryParams}`,
-    type: "POST",
-    success: function (response) {
-      if (response && response.length > 0) {
-        Msg_404.style.display = "none";
-        Form_Profile.style.display = "flex";
-      } else {
-        Msg_404.style.display = "flex";
-        Form_Profile.display = "none";
-      }
-    },
-    error: function (xhr, status, error) {
-      console.log("Status:", status);
-      console.log("Error:", error);
-      console.log("Response:", xhr.responseText);
-      console.log("Response JSON:", xhr.responseJSON);
-    },
-  });
-}
+//   // Sending by Ajax to Back-End => Show response in HTML
+//   $.ajax({
+//     url: `/MyCart/ShowProducts?items_ids=${queryParams}`,
+//     type: "POST",
+//     success: function (response) {
+//       if (response && response.length > 0) {
+//         Msg_404.style.display = "none";
+//         Form_Profile.style.display = "flex";
+//       } else {
+//         Msg_404.style.display = "flex";
+//         Form_Profile.display = "none";
+//       }
+//     },
+//     error: function (xhr, status, error) {
+//       console.log("Status:", status);
+//       console.log("Error:", error);
+//       console.log("Response:", xhr.responseText);
+//       console.log("Response JSON:", xhr.responseJSON);
+//     },
+//   });
+// }

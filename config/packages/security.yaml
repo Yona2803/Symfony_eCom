@@ -41,6 +41,7 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         # - { path: ^/home, roles: ROLE_CUSTOMER }
+        - { path: ^/CheckOut, roles: ROLE_CUSTOMER }
         # - { path: ^/dashboard, roles: ROLE_ADMIN }
         - { path: ^/MyAccount, roles: [ROLE_CUSTOMER, ROLE_ADMIN] }
 

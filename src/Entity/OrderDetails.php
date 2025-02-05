@@ -27,6 +27,7 @@ class OrderDetails
     #[ORM\JoinColumn(nullable: false)]
     private ?Orders $orderFk = null;
 
+    
     public function getId(): ?int
     {
         return $this->id;

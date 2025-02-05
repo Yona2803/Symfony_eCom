@@ -31,6 +31,15 @@ function MyCart_Products() {
         response.forEach(function (productArray) {
           productArray.forEach(function (product) {
             let productHTML = `<div class="Product" id="${product.id}">
+    <input id="id${product.id}" type="hidden" name="cartItems[${
+              product.id
+            }][id]" value="${product.id}">
+    <input id="quantity${product.id}" type="hidden" name="cartItems[${
+              product.id
+            }][quantity]">
+    <input id="price${product.id}" type="hidden" name="cartItems[${
+              product.id
+            }][price]" >
                                         <div>
                                          ${
                                            product.itemImage &&
@@ -103,6 +112,8 @@ function calculateTotale_forEach(id, price) {
           .replace(",", ".") + " Dh";
 
       document.getElementById("itemTotale" + id).innerText = returnedValue;
+      document.getElementById("price" + id).value = total;
+      document.getElementById("quantity" + id).value = quantity;
     }
   } catch (error) {
     console.error(`Error calculating total for item ${id}:`, error);
@@ -128,10 +139,10 @@ function calculate_All() {
   let TTC_Shipping;
 
   if (!ErrorExist) {
-    if (TTC >= 250) {
+    if (TTC >= 450) {
       ShippingStatus = "Free";
       TTC_Shipping = TTC;
-    } else if (TTC >= 100) {
+    } else if (TTC >= 200) {
       ShippingStatus =
         new Intl.NumberFormat("fr-FR", {
           style: "decimal",
@@ -163,6 +174,8 @@ function calculate_All() {
 
     document.getElementById("ShippingStatus").innerText = ShippingStatus;
 
+    document.getElementById("TTCValue").value = TTC_Shipping.toFixed(2);
+
     document.getElementById("TTC").innerText =
       new Intl.NumberFormat("fr-FR", {
         style: "decimal",
@@ -179,6 +192,6 @@ function calculate_All() {
 }
 
 // **** Finalize Checkout ****
-function Finalize_Checkout() {
-  console.log("We aren't ready yet,..");
-}
+// async function Finalize_Checkout() {
+//   console.log("We aren't ready yet,..");
+// }

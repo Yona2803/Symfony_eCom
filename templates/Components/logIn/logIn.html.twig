@@ -2,12 +2,6 @@
 		{% if error %}
 			{{ error.messageKey|trans(error.messageData, 'security') }}
 		{% endif %}
-
-		{# {% if app.user %}
-			You are logged in as
-			{{ app.user.email }},
-			<a href="{{ path('app_logout') }}" class="text-blue-600 hover:underline">Logout</a>
-		{% endif %} #}
 		<div class="form-Group_Inputs">
 			<input type="email"  id="email" name="email" class="form-input" placeholder="Enter your email" required>
 
