@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\CategoriesRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CategoriesRepository::class)]
@@ -15,8 +16,11 @@ class Categories
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 30)]
+    #[ORM\Column(length: 30, unique: true)]
     private ?string $name = null;
+
+    #[ORM\Column(type: Types::BLOB, nullable: true)]
+    private $categoryImage;
 
     /**
      * @var Collection<int, Items>
@@ -42,6 +46,18 @@ class Categories
     public function setName(string $name): static
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getCategoryImage()
+    {
+        return $this->categoryImage;
+    }
+
+    public function setCategoryImage($categoryImage): static
+    {
+        $this->categoryImage = $categoryImage;
 
         return $this;
     }

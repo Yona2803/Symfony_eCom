@@ -37,6 +37,16 @@ class UsersRepository extends ServiceEntityRepository
     }
 
 
+    public function add(Users $user, bool $flush = false): void
+    {
+        $this->getEntityManager()->persist($user);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
+
 
     //    /**
     //     * @return Users[] Returns an array of Users objects
@@ -53,13 +63,38 @@ class UsersRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-       public function findOneById($value): ?Users
-       {
-           return $this->createQueryBuilder('u')
-               ->andWhere('u.id = :val')
-               ->setParameter('val', $value)
-               ->getQuery()
-               ->getOneOrNullResult()
-           ;
-       }
+    public function findOneById($value): ?Users
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.id = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+
+    public function findCustomerByRoles(string $role)
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.roles LIKE :role')
+            ->setParameter('role', (string)'%'.$role.'%')
+            ->getQuery()
+            ->getResult();
+    }
+
+
+
+
+    public function deleteById($id): bool
+    {
+        $query = $this->createQueryBuilder('u')
+            ->delete()
+            ->andWhere('u.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery();
+
+        $result = $query->execute();
+
+        return $result > 0 ? true : false;
+    }
 }

@@ -14,6 +14,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
+//use Symfony\Component\Security\Http\Attribute\IsGranted;
+
 
 class WishListController extends AbstractController
 {
@@ -25,7 +27,6 @@ class WishListController extends AbstractController
     public function __construct(
         WishListService $wishListService,
         UsersRepository $usersRepository,
-        ParameterBagInterface $params,
         UsersService $usersService
     ) {
         $this->wishListService = $wishListService;
@@ -35,9 +36,11 @@ class WishListController extends AbstractController
 
 
 
+
     #[Route('/toggleWishlist/{itemId}', name: 'toWishlist')]
     public function toggleWishlist(int $itemId): JsonResponse
     {
+
         if ($this->isGranted('IS_AUTHENTICATED_FULLY')) {
             $userId = $this->usersService->getIdOfAuthenticatedUser();
             $isInWishlist = $this->wishListService->isItemInWishList($userId, $itemId);
@@ -71,30 +74,45 @@ class WishListController extends AbstractController
         $success = $this->wishListService->removeItemFromWishlist($userId, $itemId);
 
         if ($success) {
-            $this->addFlash('success', 'Product successfully removed from your wishlist.');
-            return new JsonResponse(['status' => 'success', 'message' => 'Product successfully removed from your wishlist.'], Response::HTTP_OK);
+            return new JsonResponse(
+                [
+                    'status' => 'successRemoving',
+                    'message' => 'Product successfully removed from your wishlist.'
+                ],
+                Response::HTTP_OK
+            );
         }
 
-        $this->addFlash('error', 'Product not found or could not be removed.');
-        return new JsonResponse(['status' => 'error', 'message' => 'Product not found or could not be removed.'], Response::HTTP_NOT_FOUND);
+        return new JsonResponse(
+            [
+                'status' => 'errorRemoving',
+                'message' => 'Product not found or could not be removed.'
+            ],
+            Response::HTTP_NOT_FOUND
+        );
     }
 
     #[Route('/wishlist', name: 'wishlistPage', methods: ['GET'])]
     public function wishList(): Response
     {
 
-        $userId = $this->usersService->getIdOfAuthenticatedUser();
-        $user = $this->usersRepository->find($userId);
-
-        if (!$user) {
+        if($this->getUser()){
+            $userId = $this->usersService->getIdOfAuthenticatedUser();
+            $user = $this->usersRepository->find($userId);
+            
+            if (!$user) {
+                return $this->render('items/wishlistPage.html.twig', [
+                    'wishlist' => [],
+                ]);
+            }
+            
+            $wishlist = $user->getWishList();
             return $this->render('items/wishlistPage.html.twig', [
-                'wishlist' => [],
+                'wishlist' => $wishlist,
             ]);
         }
-
-        $wishlist = $user->getWishList();
-        return $this->render('items/wishlistPage.html.twig', [
-            'wishlist' => $wishlist,
-        ]);
+        return $this->redirect('Connecting/LogIn');
     }
+
+
 }

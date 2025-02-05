@@ -2,44 +2,103 @@
 <html>
 	<head>
 		<title>Products</title>
+		<link rel="stylesheet" href="{{ asset('css/updateProductPage.css') }}">
 		<link rel="stylesheet" href="{{ asset('Pages/ProductsPage/Style.css') }}">
+		<link rel="stylesheet" href="{{ asset('css/FormPageStyle.css') }}">
 		<link rel="icon" type="image/x-icon" href="{{ asset('img/icon/Icon.png') }}">
 	</head>
 	<body>
-		{# Header Section #}
-		{% include 'components/Header/Header.html.twig' with { 'ParentPage': 'Products' } %}
+		{# including dashboard Section #}
+		{% include 'items/dashboard.html.twig' %}
+
+		{% for message in app.flashes('updateProduct') %}
+			<script>
+				alert('{{ message }}');
+			</script>
+		{% endfor %}
+		{% for message in app.flashes('updateProductError') %}
+			<script>
+				alert('{{ message }}');
+			</script>
+		{% endfor %}
+
 		{# Adding Products Section #}
-		<div class="Container">
+		<div class="Container" style="margin-left: 300px;">
 			<div class="Categories">
-				<div class="Section1">
-					<span></span>
-					<h4>Our Products</h4>
+
+				<div class="header-search">
+					<div class="Section1">
+						<span></span>
+						<h4>Our Products</h4>
+					</div>
+					<form method="GET" action="{{ path('search-product-update') }}">
+						<div class="searching-bar">
+							<input type="text" class="searchProduct" name="searchProduct" id="searchProduct" placeholder="What are you looking for?">
+							<button type="submit" class="btn-search">
+								<svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+									<path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+									<path d="M21 21L16.65 16.65" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+								</svg>
+							</button>
+						</div>
+					</form>
 				</div>
-				<div class="Section2">
-					<h5>Explore Our Products</h5>
+
+
+				{# Pop up form for update product #}
+				<div id="updatePopup" class="popup">
+					<div class="popup-content">
+						<div class="btn-close" style="margin-bottom: 20px">
+							<span class="close-btn" onclick="closePopup()">X</span>
+						</div>
+						{{ form_start(form, {'action': path('updateProduct'), 'method': 'POST', 'attr': {'enctype': 'multipart/form-data'}}) }}
+						<input type="hidden" name="productId" id="productId">
+						<div class="form-group">
+							{{ form_row(form.name, {'attr': {'class': 'custom-name-field'}}) }}
+							{{ form_row(form.price, {'attr': {'class': 'custom-price-field'}}) }}
+						</div>
+						<div class="form-group">
+							{{ form_row(form.stock, {'attr': {'class': 'custom-stock-field'}}) }}
+							{{ form_row(form.category, {'attr': {'class': 'custom-category-field'}}) }}
+						</div>
+
+						<div class="form-group-description">
+							{{ form_row(form.description, {'attr': {'class': 'custom-description-field'}}) }}
+						</div>
+
+						<div class="form-group">
+							{{ form_row(form.tags, {'attr': {'class': 'custom-tags-field'}}) }}
+						</div>
+
+						<div class="form-group">
+							{{ form_row(form.itemImage, {'attr': {'class': 'custom-item-image', 'onchange': 'previewImage(event)'}}) }}
+							<div class="image-preview-container">
+								{# <img id="imagePreview" src="#" alt="Image Preview" class="image-preview"/> #}
+								<img id="imagePreview" src="{{ asset('img/No_Img.png') }}" alt="Image Preview" class="image-preview"/>
+							</div>
+						</div>
+
+						<br>
+						<button type="submit" class="submit-add-product">Update Product</button>
+						{{ form_end(form) }}
+					</div>
 				</div>
+
+
 				<div class="ProductList" id="searchResults">
 					{% for item in items %}
-						<div class="Product" id="{{ item.id }}">
-							<div class="OptionSection">
-								<button type="button" id="WishlistPrd{{ item.id }}" onclick="toggleWishlist('{{ item.id }}', this)">
-									<svg class="Selected_Item" width="34" height="34" viewbox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-										<circle cx="17" cy="17" r="17" fill="transparent"/>
-										<path d="M13 11C10.7912 11 9 12.7396 9 14.8859C9 16.6185 9.7 20.7305 16.5904 24.8873C16.7138 24.961 16.8555 25 17 25C17.1445 25 17.2862 24.961 17.4096 24.8873C24.3 20.7305 25 16.6185 25 14.8859C25 12.7396 23.2088 11 21 11C18.7912 11 17 13.3551 17 13.3551C17 13.3551 15.2088 11 13 11Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-									</svg>
-								</button>
+						<div
+							class="Product" id="{{ item.id }}">
+							{# <a href="{{ path('ProductDetails', { 'id': item.id }) }}"> #}
+							<div class="ProductImage">
+								{% if item.itemImage %}
+									<img src="data:image/jpeg;base64,{{ item.itemImage|base64_encode }}" alt="{{ item.name }}">
+								{% else %}
+									<img src="{{ asset('img/No_Img.png') }}" alt="{{ item.name }}">
+								{% endif %}
+								<button onclick="openPopup( {{ item.id }} )">Edit Product</button>
 							</div>
-							<a href="{{ path('ProductDetails', { 'id': item.id }) }}">
-								<div class="ProductImage">
-									{% if item.itemImage %}
-										<img src="data:image/jpeg;base64,{{ item.itemImage|base64_encode }}" alt="{{ item.name }}">
-									{% else %}
-										<img src="{{ asset('img/No_Img.png') }}" alt="{{ item.name }}">
-									{% endif %}
-									<button type="button" onclick="addToCart_One( {{ item.id }} ); event.preventDefault();  event.stopPropagation();">Add To Cart</button>
-								</div>
-							</a>
-
+							{# </a> #}
 							<h6>{{item.name}}</h6>
 							<div class="ProductInfo">
 								<span>{{item.price}}
@@ -64,18 +123,12 @@
 								<span>&#40;{{item.stock}}&#41;</span>
 							</div>
 						</div>
-
 					{% endfor %}
 				</div>
-
-				<button id="ShowMoreProducts" type="button">View ll Products</button>
-
 			</div>
 		</div>
-		{# Footer Section #}
-		{{ include('Components/Footer/Footer.html.twig') }}
-		<script src="{{ asset('js/global.js') }}"></script>
 		<script src="{{ asset('Pages/WishlistPage/main.js') }}"></script>
-		<script src="{{ asset('Pages/ProductsPage/main.js') }}"></script>
 	</body>
+	<script src="{{ asset('js/global.js') }}"></script>
+	<script src="{{ asset('Pages/ProductsPage/main.js') }}" defer></script>
 </html>

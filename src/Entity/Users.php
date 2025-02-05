@@ -34,7 +34,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var string The hashed password
      */
-    #[ORM\Column(length: 10000)]
+    #[ORM\Column(type: "text")]
     private ?string $password = null;
 
     #[ORM\Column(length: 25)]
@@ -82,7 +82,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_CUSTOMER';
+        // $roles[] = 'ROLE_CUSTOMER';
 
         return array_unique($roles);
     }
@@ -126,7 +126,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Orders::class, mappedBy: 'user', orphanRemoval: true)]
     private Collection $orders;
 
-    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'], targetEntity: Carts::class)]
     private ?Carts $cart = null;
 
     #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
@@ -140,6 +140,9 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 60, nullable: true)]
     private ?string $address = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $google_id = null;
 
     public function __construct()
     {
@@ -249,6 +252,18 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     public function setAddress(string $address): static
     {
         $this->address = $address;
+        return $this;
+    }
+
+    public function getGoogleId(): ?string
+    {
+        return $this->google_id;
+    }
+
+    public function setGoogleId(?string $google_id): static
+    {
+        $this->google_id = $google_id;
+
         return $this;
     }
 }

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Document</title>
+		<link rel="stylesheet" href="{{ asset('css/FormPageStyle.css') }}">
+		<link rel="icon" type="image/x-icon" href="{{ asset('img/icon/Icon.png') }}">
+	</head>
+	<body>
+		{{ include('items/dashBoard.html.twig') }}
+
+		{% set addCategoryMessage = app.flashes('addCategory') %}
+		{% set addCategoryErrorMessage = app.flashes('addCategoryError') %}
+		{% set dublicateNameErrorMessage = app.flashes('duplicateName') %}
+
+		{% if addCategoryMessage %}
+			<script>
+				alert('{{ addCategoryMessage[0] }}');
+			</script>
+		{% endif %}
+
+		{% if addCategoryErrorMessage %}
+			<script>
+				alert('{{ addCategoryErrorMessage[0] }}');
+			</script>
+		{% endif %}
+
+		{% if dublicateNameErrorMessage %}
+			<script>
+				alert('{{ dublicateNameErrorMessage[0] }}');
+			</script>
+		{% endif %}
+
+
+		<div class="container">
+			<h1>Add Category</h1>
+			{{ form_start(form, {'action': path('add-category'), 'method': 'POST', 'attr': {'enctype': 'multipart/form-data'}}) }}
+			<div class="form-group">
+				{{ form_row(form.name, {'attr': {'class': 'custom-name-field'}}) }}
+			</div>
+
+			<div class="form-group">
+				{{ form_row(form.categoryImage, {'attr': {'class': 'custom-category-image', 'onchange': 'previewImage(event)'}}) }}
+				<div class="image-preview-container">
+					<img id="imagePreview" src="{{ asset('img/No_Img.png') }}" alt="Image Preview" class="image-preview"/>
+				</div>
+			</div>
+
+			<br>
+			<button type="submit" class="submit-add-category">Add Category</button>
+			{{ form_end(form) }}
+		</div>
+
+	</body>
+</html>

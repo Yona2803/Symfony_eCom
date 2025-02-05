@@ -10,32 +10,30 @@
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css">
 		<script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
 
-
 		<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const tagSelector = document.querySelectorAll('.tag-selector input[type="checkbox"]');
-        const selectedTagsField = document.querySelector('.selected-tags-field');
+			document.addEventListener('DOMContentLoaded', function () {
+			const tagSelector = document.querySelectorAll('.tag-selector input[type="checkbox"]');
+			const selectedTagsField = document.querySelector('.selected-tags-field');
 
-        // Update the textarea when tags are selected or deselected
-        const updateSelectedTags = () => {
-            const selectedTags = Array.from(tagSelector)
-                .filter(tag => tag.checked)
-                .map(tag => tag.labels[0].innerText);
-            selectedTagsField.value = selectedTags.join(', ');
-        };
+			// Update the textarea when tags are selected or deselected
+			const updateSelectedTags = () => {
+				const selectedTags = Array.from(tagSelector)
+					.filter(tag => tag.checked)
+					.map(tag => tag.labels[0].innerText);
+					if(selectedTags.length > 0) {
+						selectedTagsField.value = selectedTags.join(', ');
+					}
+			};
 
-        // Add event listeners to all checkboxes
-        tagSelector.forEach(tag => {
-            tag.addEventListener('change', updateSelectedTags);
-        });
+			// Add event listeners to all checkboxes
+			tagSelector.forEach(tag => {
+				tag.addEventListener('change', updateSelectedTags);
+			});
 
-        // Initialize the textarea with preselected tags if applicable
-        updateSelectedTags();
-    });
-</script>
-
-
-
+			// Initialize the textarea with preselected tags if applicable
+			updateSelectedTags();
+			});
+		</script>
 
 	</head>
 	<body>
@@ -68,11 +66,9 @@
 				{{ form_row(form.description, {'attr': {'class': 'custom-description-field'}}) }}
 			</div>
 
-
 			<div class="form-group">
 				{{ form_row(form.tags, {'attr': {'class': 'custom-tags-field'}}) }}
 			</div>
-
 
 			<div class="form-group">
 				{{ form_row(form.itemImage, {'attr': {'class': 'custom-item-image', 'onchange': 'previewImage(event)'}}) }}
@@ -81,12 +77,8 @@
 				</div>
 			</div>
 
-
 			<br>
-			<button type="submit">Add Product</button>
-			<a href="{{ path('productsPage') }}">
-				<button type="button">View Products</button>
-			</a>
+			<button type="submit" class="submit-add-product">Add Product</button>
 			{{ form_end(form) }}
 		</div>
 	</body>

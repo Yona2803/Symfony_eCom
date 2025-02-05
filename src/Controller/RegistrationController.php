@@ -23,15 +23,15 @@ class RegistrationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var string $plainPassword */
             $plainPassword = $form->get('plainPassword')->getData();
+            $firstName = $form->get('firstName')->getData();
+            $lastName = $form->get('lastName')->getData();
 
             // encode the plain password
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
             $user->setRoles(['ROLE_CUSTOMER']);
-            $user->setUsername('youness');
-            $user->setPhoneNumber('0610111213');
-            $user->setFirstName('youness');
-            $user->setLastName('najeh');
-            $user->setAddress('chi blassa');
+            $user->setFirstName($firstName);
+            $user->setLastName($lastName);
+            $user->setUsername((string)$firstName . ' ' . $lastName);
 
 
             $entityManager->persist($user);

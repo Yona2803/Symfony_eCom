@@ -60,8 +60,8 @@ h1 {
     resize: vertical;
 }
 
-button[type="submit"],
-button[type="button"] {
+.submit-add-category, 
+.submit-add-product {
     background-color: #007bff;
     color: #fff;
     border: none;
@@ -73,17 +73,9 @@ button[type="button"] {
     display: inline-block;
 }
 
-button[type="submit"]:hover,
-button[type="button"]:hover {
+.submit-add-category:hover,
+.submit-add-product:hover {
     background-color: #0056b3;
-}
-
-button[type="button"] {
-    background-color: #6c757d;
-}
-
-button[type="button"]:hover {
-    background-color: #5a6268;
 }
 
 
