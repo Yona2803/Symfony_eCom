@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Invoice Email</title>
+    <style type="text/css">
+        /* Client-specific styles */
+        body, table, td, a { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+        table, td { mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+        img { -ms-interpolation-mode: bicubic; }
+
+        /* Reset styles */
+        img { border: 0; height: auto; line-height: 100%; outline: none; text-decoration: none; }
+        table { border-collapse: collapse !important; }
+        body { height: 100% !important; margin: 0 !important; padding: 0 !important; width: 100% !important; }
+    </style>
+</head>
+<body style="margin: 0; padding: 0; background-color: #f3f3f3;">
+    <!-- Main table -->
+    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f3f3f3;">
+        <tr>
+            <td align="center" style="padding: 20px 0;">
+                <!-- Content table -->
+                <table border="0" cellpadding="0" cellspacing="0" width="600" style="background-color: #ffffff; border-radius: 4px;">
+                    <!-- Header -->
+                    <tr>
+                        <td align="center" style="padding: 40px 0;">
+                        <h1 style="font-family: Arial, sans-serif; font-size: 28px; color: #333333;">Exclusive.</h1>
+                        </td>
+                    </tr>
+                    
+                    <!-- Content -->
+                    <tr>
+                        <td style="padding: 0 40px;">
+                            <p style="font-family: Arial, sans-serif; font-size: 16px; line-height: 24px; color: #333333;">
+                                Dear {{ data.Client.firstName }} <span style="text-transform: uppercase;">{{ data.Client.lastName }}</span>,
+                            </p>
+                            
+                            <p style="font-family: Arial, sans-serif; font-size: 16px; line-height: 24px; color: #333333;">
+                                Thank you for your recent purchase. Please find your invoice attached to this email.
+                            </p>
+                            
+                            <p style="font-family: Arial, sans-serif; font-size: 16px; line-height: 24px; color: #333333;">
+                                Invoice Details:
+                            </p>
+                            
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f8f9fa; margin: 20px 0; padding: 20px;">
+                                <tr>
+                                    <td style="font-family: Arial, sans-serif; font-size: 14px; line-height: 24px; color: #333333;">
+                                        <strong>Invoice Number:</strong> #{{ '%04d'|format(data.data.order_id) }}<br>
+                                        <strong>Date:</strong> {{ data.data.order_date|date('F j, Y') }}<br>
+                                        <strong>Total Amount:</strong> {{ data.Client.TTCValue|number_format(2, '.', ',') }} DH
+                                    </td>
+                                </tr>
+                            </table>
+                            
+                            <p style="font-family: Arial, sans-serif; font-size: 16px; line-height: 24px; color: #333333;">
+                                If you have any questions about your invoice, please don't hesitate to contact our support team.
+                            </p>
+                            
+                            <p style="font-family: Arial, sans-serif; font-size: 16px; line-height: 24px; color: #333333; margin-top: 30px;">
+                                Best regards,<br> Exclusive.
+                            </p>
+                        </td>
+                    </tr>
+                    
+                    <!-- Footer -->
+                    <tr>
+                        <td style="padding: 40px; text-align: center; border-top: 1px solid #eeeeee; margin-top: 40px;">
+                            <p style="font-family: Arial, sans-serif; font-size: 12px; line-height: 18px; color: #666666; margin: 0;">
+                                © {{ "now"|date('Y') }} Exclusive SARL. All rights reserved.
+                            </p>
+                            <p style="font-family: Arial, sans-serif; font-size: 12px; line-height: 18px; color: #666666; margin: 10px 0 0 0;">
+                                20 RUE AYADA LOT BOUREHAL BERRECHID, 26 100
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
