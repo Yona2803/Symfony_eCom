@@ -20,7 +20,7 @@ class UsersController extends AbstractController
 
 
 
-    #[Route('/Users/customers', name: 'customers-list')]
+    #[Route('/Users', name: 'customers-list')]
     public function index(): Response
     {
         $customers = $this->usersRepository->findCustomerByRoles('ROLE_CUSTOMER');
