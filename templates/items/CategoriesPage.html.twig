@@ -6,13 +6,13 @@
 		<title>Document</title>
 		<link rel="icon" type="image/x-icon" href="{{ asset('img/icon/Icon.png') }}">
 		<link rel="stylesheet" href="{{ asset('css/updateCategoryStyle.css') }}">
-		<link rel="stylesheet" href="{{ asset('css/FormPageStyle.css') }}">
+		<link rel="stylesheet" href="{{ asset('css/FormCategoryStyle.css') }}">
 	</head>
 	<body>
 		{{ include('items/dashBoard.html.twig') }}
 
 
-        {% set updateCategoryMessage = app.flashes('updateCategory') %}
+		{% set updateCategoryMessage = app.flashes('updateCategory') %}
 		{% set updateCategoryErrorMessage = app.flashes('updateCategoryError') %}
 
 		{% if updateCategoryMessage %}
@@ -28,7 +28,6 @@
 		{% endif %}
 
 
-
 		<div id="updateCategoryPopup" class="popup">
 			<div class="popup-content">
 				<div class="btn-close" style="margin-bottom: 20px">
@@ -36,7 +35,7 @@
 				</div>
 				{{ form_start(form, {'action': path('update-category'), 'method': 'POST', 'attr': {'enctype': 'multipart/form-data'}}) }}
 				<input type="hidden" name="categoryId" id="categoryId">
-                <div class="form-group">
+				<div class="form-group">
 					{{ form_row(form.name, {'attr': {'class': 'custom-name-field'}}) }}
 				</div>
 
@@ -51,6 +50,7 @@
 				<button type="submit" class="submit-add-category">Save</button>
 				{{ form_end(form) }}
 			</div>
+
 		</div>
 
 
@@ -92,6 +92,11 @@
 				</tbody>
 			</table>
 		</div>
+		<a href="{{ path('add-category-page') }}">
+			<button class="sticky-button">+</button>
+		</a>
+		{# <button class="sticky-button" onclick="scrollToTop()">↑</button> #}
 	</body>
-    <script src="{{ asset('Pages/CategoriesPage/main.js') }}" defer></script>
+	<script src="{{ asset('Pages/CategoriesPage/main.js') }}" defer></script>
+
 </html>
