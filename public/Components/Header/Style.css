@@ -101,11 +101,12 @@ header {
 #Header_Bottom div {
   width: fit-content;
   height: calc(100%);
+  gap: 16px;
 }
 
 #Header_Bottom div .search-bar {
   position: relative;
-  margin-right: 24px;
+  margin-right:8px;
 }
 #Header_Bottom div .search-bar button {
   position: absolute;
@@ -152,7 +153,6 @@ header {
   width: fit-content;
   height: fit-content;
   padding: 0;
-  margin-left: 17px;
   outline: 0;
   border: 0;
   
@@ -169,11 +169,11 @@ header {
   align-items: center;
 }
 
-#Header_Bottom div a:nth-of-type(1) svg,
-#Header_Bottom div button svg {
-  width: 32px;
+/* #Header_Bottom .Icons a:nth-of-type(1) svg,
+#Header_Bottom .Icons button svg {
+  width: auto;
   height: 32px;
-}
+} */
 
 #Header_Bottom div a:nth-of-type(1) svg rect,
 #Header_Bottom div button svg rect {
@@ -239,13 +239,21 @@ header {
   transition: all 0.32s ease-out;
 }
 
-#Header_Bottom #DropDown_Menu a svg {
-  width: auto;
-  height: 24px;
-  margin: 0 16px 0 12px;
+
+#Header_Bottom #DropDown_Menu a .iconSpacer{
+  width: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 8px 0 4px;
 }
 
-#Header_Bottom #DropDown_Menu a svg path {
+#Header_Bottom #DropDown_Menu a .iconSpacer svg {
+  width: auto;
+  height: 24px;
+}
+
+#Header_Bottom #DropDown_Menu a .iconSpacer svg path {
   stroke: #fff;
 }
 

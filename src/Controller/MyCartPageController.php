@@ -89,18 +89,19 @@ class MyCartPageController extends AbstractController
         try {
             $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
-            $data = json_decode($request->getContent(), true);
-
-            if (!isset($data['cart'])) {
-                return new JsonResponse(['error' => 'Invalid data'], 400);
-            }
-
             $userId = $this->usersService->getIdOfAuthenticatedUser();
             $user = $entityManager->getRepository(Users::class)->find($userId);
 
             if (!$user) {
                 throw new NotFoundHttpException('User not found');
             }
+
+            $data = json_decode($request->getContent(), true);
+
+            if (!isset($data['cart'])) {
+                return new JsonResponse(['error' => 'Invalid data'], 400);
+            }
+
 
             // Handle cart synchronization
             if ($data['cart']) {
@@ -186,64 +187,64 @@ class MyCartPageController extends AbstractController
 
     // **** Delete Single item ****
     #[Route('/MyCartItems/Delete', name: 'myCartDelete', methods: ['DELETE'])]
-public function myCartDelete(Request $request, EntityManagerInterface $entityManager): JsonResponse
-{
-    try {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+    public function myCartDelete(Request $request, EntityManagerInterface $entityManager): JsonResponse
+    {
+        try {
+            $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
-        // Get the item ID from the query parameter
-        $itemId = (int) $request->query->get('item');
+            // Get the item ID from the query parameter
+            $itemId = (int) $request->query->get('item');
 
-        if (!$itemId) {
-            return new JsonResponse(['error' => 'Invalid item ID'], 400);
+            if (!$itemId) {
+                return new JsonResponse(['error' => 'Invalid item ID'], 400);
+            }
+
+            // Get the authenticated user
+            $userId = $this->usersService->getIdOfAuthenticatedUser();
+            $user = $entityManager->getRepository(Users::class)->find($userId);
+
+            if (!$user) {
+                throw new NotFoundHttpException('User not found');
+            }
+
+            // Delete the single item from the cart
+            $this->deleteSingleItem($user, $itemId, $entityManager);
+
+            return new JsonResponse([
+                'status' => 'success',
+                'message' => 'Item deleted successfully',
+            ]);
+        } catch (NotFoundHttpException $e) {
+            return new JsonResponse([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ], Response::HTTP_NOT_FOUND);
+        } catch (\Exception $e) {
+            return new JsonResponse([
+                'status' => 'error',
+                'message' => 'An error occurred while deleting the item: ' . $e->getMessage(),
+            ], Response::HTTP_BAD_REQUEST);
         }
-
-        // Get the authenticated user
-        $userId = $this->usersService->getIdOfAuthenticatedUser();
-        $user = $entityManager->getRepository(Users::class)->find($userId);
-
-        if (!$user) {
-            throw new NotFoundHttpException('User not found');
-        }
-
-        // Delete the single item from the cart
-        $this->deleteSingleItem($user, $itemId, $entityManager);
-
-        return new JsonResponse([
-            'status' => 'success',
-            'message' => 'Item deleted successfully',
-        ]);
-    } catch (NotFoundHttpException $e) {
-        return new JsonResponse([
-            'status' => 'error',
-            'message' => $e->getMessage(),
-        ], Response::HTTP_NOT_FOUND);
-    } catch (\Exception $e) {
-        return new JsonResponse([
-            'status' => 'error',
-            'message' => 'An error occurred while deleting the item: ' . $e->getMessage(),
-        ], Response::HTTP_BAD_REQUEST);
     }
-}
 
     private function deleteSingleItem(Users $user, int $itemId, EntityManagerInterface $entityManager): void
     {
         try {
             // Find the user's cart
             $cart = $entityManager->getRepository(Carts::class)->findOneBy(['user' => $user]);
-    
+
             if (!$cart) {
                 throw new \Exception("Cart not found for user ID: " . $user->getId());
             }
-    
+
             // Find the CartItems entry for the given cart and item
             $cartItem = $entityManager->getRepository(CartItems::class)
                 ->findOneBy(['cart' => $cart, 'item' => $itemId]);
-    
+
             if (!$cartItem) {
                 throw new \Exception("CartItem not found for cart ID: " . $cart->getId() . " and item ID: " . $itemId);
             }
-    
+
             // Remove the CartItems entry
             $entityManager->remove($cartItem);
             $entityManager->flush();
@@ -253,7 +254,7 @@ public function myCartDelete(Request $request, EntityManagerInterface $entityMan
             throw $e; // Re-throw the exception to be handled by the controller
         }
     }
-    
+
     // **** Testing ****
     #[Route('/GetCart/{userId}', name: 'GetCartAll')]
     public function getCartAll(int $userId, EntityManagerInterface $entityManager): JsonResponse

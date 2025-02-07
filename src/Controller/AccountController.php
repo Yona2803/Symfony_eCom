@@ -206,14 +206,40 @@ class AccountController extends AbstractController
             $this->wishListService->addToWishList($userId, $itemData['id']);
         }
     }
+    // private function prepareWishListData(int $userId): array
+    // {
+    //     $wishListItems = $this->wishListService->getWishListByUserID($userId);
+    //     return array_map(
+    //         fn($item) => ['id' => (string) $item->getId()],
+    //         $wishListItems->getItem()->toArray()
+    //     );
+    // }
     private function prepareWishListData(int $userId): array
     {
-        $wishListItems = $this->wishListService->getWishListByUserID($userId);
-        return array_map(
-            fn($item) => ['id' => (string) $item->getId()],
-            $wishListItems->getItem()->toArray()
-        );
+        try {
+            $wishListItems = $this->wishListService->getWishListByUserID($userId);
+
+            if ($wishListItems === null) {
+                return [];
+            }
+
+            $items = $wishListItems->getItem();
+
+            if ($items === null) {
+                return [];
+            }
+
+            return array_map(
+                fn($item) => [
+                    'id' => (string) $item->getId(),
+                ],
+                $items->toArray()
+            );
+        } catch (\Exception $e) {
+            return [];
+        }
     }
+
     private function prepareCartData(Users $user, EntityManagerInterface $entityManager): array
     {
         $cartItems = $entityManager->getRepository(CartItems::class)

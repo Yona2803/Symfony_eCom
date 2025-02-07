@@ -7,15 +7,60 @@
 <div class="Container" id="HeroSection">
 	<div class="left_container">
 		<ul>
-			<li><ahref="{{ path('findByTag', {'tag': "Woman's Fashion"}) }}">Woman&apos;s Fashion<span></span></a></li>
-			<li><ahref="{{ path('findByTag', {'tag': "Men's Fashion"}) }}">Men&apos;s Fashion<span></span></ahref=></li>
-			<li><ahref="{{ path('findByTag', {'tag': "Electronics"}) }}">Electronics<span></span></ahref=></li>
-			<li><ahref="{{ path('findByTag', {'tag': "Home & Lifestyle"}) }}">Home &amp; Lifestyle<span></span></ahref=></li>
-			<li><ahref="{{ path('findByTag', {'tag': "Medicine"}) }}">Medicine<span></span></ahref=></li>
-			<li><ahref="{{ path('findByTag', {'tag': "Sport & Outdoor"}) }}">Sports &amp; Outdoor<span></span></ahref=></li>
-			<li><ahref="{{ path('findByTag', {'tag': "Baby's & Toys"}) }}">Baby&apos;s &amp; Toys<span></span></ahref=></li>
-			<li><ahref="{{ path('findByTag', {'tag': "Groceries & Pets"}) }}">Groceries &amp; Pets<span></span></ahref=></li>
-			<li><ahref="{{ path('findByTag', {'tag': "Health & Beauty"}) }}">Health &amp; Beauty<span></span></ahref=></li>
+			<li>
+				<a href="{{ path('findByTag', {'tag': "Woman's Fashion"}) }}">
+					Woman&apos;s Fashion
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="{{ path('findByTag', {'tag': "Men's Fashion"}) }}">
+					Men&apos;s Fashion
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="{{ path('findByTag', {'tag': "Electronics"}) }}">
+					Electronics
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="{{ path('findByTag', {'tag': "Home & Lifestyle"}) }}">
+					Home &amp; Lifestyle
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="{{ path('findByTag', {'tag': "Medicine"}) }}">
+					Medicine
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="{{ path('findByTag', {'tag': "Sport & Outdoor"}) }}">
+					Sports &amp; Outdoor
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="{{ path('findByTag', {'tag': "Baby's & Toys"}) }}">
+					Baby&apos;s &amp; Toys
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="{{ path('findByTag', {'tag': "Groceries & Pets"}) }}">
+					Groceries &amp; Pets
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="{{ path('findByTag', {'tag': "Health & Beauty"}) }}">
+					Health &amp; Beauty
+					<span></span>
+				</a>
+			</li>
 		</ul>
 	</div>
 	<div class="right_container">
@@ -32,11 +77,22 @@
 		</div>
 		<div class="Section2">
 			<h5>Browse By Category</h5>
+			<div Style="display:flex; gap: 8px">
+				<button class="slider-arrow left-arrow" onclick="scrollCategoriesLeft()">
+					<svg width="19" height="16" viewbox="0 0 19 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path d="M18 8L1.5 8M1.5 8L8.5 15M1.5 8L8.5 0.999999" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+					</svg>
+				</button>
+
+				<button class="slider-arrow right-arrow" onclick="scrollCategoriesRight()">
+					<svg width="19" height="16" viewbox="0 0 19 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path d="M1.5 8H18M18 8L11 1M18 8L11 15" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+					</svg>
+				</button>
+			</div>
 		</div>
 		<div class="Section3">
-
 			<div class="category-slider-wrapper">
-				<button class="slider-arrow left-arrow" onclick="scrollCategoriesLeft()">&lt;</button>
 				<div class="category-container" id="category-scroll">
 					{% for category in categories %}
 						<a href="{{ path('searchByCategory', {'categoryName': category.name }) }}" class="category-card">
@@ -51,7 +107,6 @@
 						</a>
 					{% endfor %}
 				</div>
-				<button class="slider-arrow right-arrow" onclick="scrollCategoriesRight()">&gt;</button>
 			</div>
 
 
@@ -117,11 +172,10 @@
 <script src="{{('Pages/LandingPage/main.js')}}"></script>
 <script>
 	function scrollCategoriesLeft() {
-    document.getElementById('category-scroll').scrollBy({ left: -200, behavior: 'smooth' });
+document.getElementById('category-scroll').scrollBy({left: -217, behavior: 'smooth'});
 }
 
 function scrollCategoriesRight() {
-    document.getElementById('category-scroll').scrollBy({ left: 200, behavior: 'smooth' });
+document.getElementById('category-scroll').scrollBy({left: 217, behavior: 'smooth'});
 }
-
 </script>

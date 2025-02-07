@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>My Wishlist</title>
+		<link rel="stylesheet" href="{{ asset('Pages/WishlistPage/Style.css') }}">
+		<link rel="icon" type="image/x-icon" href="{{ asset('img/icon/Icon.png') }}">
+	</head>
+	<body>
+		{# Header Section #}
+		{% include 'components/Header/Header.html.twig' with { 'ParentPage': 'My Wishlist' } %}
+		{# Adding Products Section #}
+		<div class="Container">
+			<div class="Wishlist_Header">
+				<h1>Wishlist <span id="Counter"></span></h1>
+				<button class="To_Cart" onclick="moveAllToCart()">Move All To Cart</button>
+            </div>
+			<div class="Wishlist_Products">
+            {# Here the Products will appear #}
+            </div>		
+		</div>
+		{# Footer Section #}
+		{{ include('components/Footer/Footer.html.twig') }}</body>
+
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="{{ asset('js/global.js') }}"></script>
+	<script src="{{ asset('js/syncLocalStorage.js') }}"></script>
+	<script src="{{ asset('Pages/WishlistPage/main.js') }}"></script>
+</html>

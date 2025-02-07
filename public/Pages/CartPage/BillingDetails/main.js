@@ -191,7 +191,49 @@ function calculate_All() {
   }
 }
 
-// **** Finalize Checkout ****
-// async function Finalize_Checkout() {
-//   console.log("We aren't ready yet,..");
-// }
+// **
+// **** Using Ajax with Form ****
+// **
+let ContainerMsg = document.getElementById("Validation_Container");
+document
+  .getElementById("CheckOut-form")
+  .addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    let form = event.target;
+    let formData = new FormData(form);
+
+    fetch(form.action, {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.status === "success") {
+          let ContainerMsg = document.getElementById("Validation_Container");
+          let pdfLink = document.getElementById("pdf-link");
+          pdfLink.href = data.filePath;
+          ContainerMsg.style.display = "flex";
+          document.body.classList.add("no-scroll");
+          localStorage.removeItem("cart");
+          updateCartIcon();
+        } else {
+          alert("An error occurred: " + data.message);
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  });
+
+let ValidationWindow = document.getElementById("Validation_Window");
+
+ContainerMsg.addEventListener("click", function (event) {
+  ContainerMsg.style.display = "none";
+  document.body.classList.remove("no-scroll");
+  window.location.href = "/";
+});
+
+ValidationWindow.addEventListener("click", function (event) {
+  event.stopPropagation();
+});

@@ -42,7 +42,11 @@ async function MyCart_Products() {
           productArray.forEach(function (product) {
             let productHTML = `<div class="Product" id="Product${product.id}">
                                       <div>
-                                      <svg class="DeleteBtn" id="DeleteItemId${product.id}" onclick="deleteCartItem(${product.id})"  width="18" height="18" viewBox="0 0 18 18" fill="none">
+                                      <svg class="DeleteBtn" id="DeleteItemId${
+                                        product.id
+                                      }" onclick="deleteCartItem(${
+              product.id
+            })"  width="18" height="18" viewBox="0 0 18 18" fill="none">
 <circle cx="9" cy="9" r="9" fill="#DB4444"/>
 <path d="M6 12L9 9M12 6L8.99943 9M8.99943 9L6 6M9 9L12 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
@@ -110,6 +114,18 @@ if (cartIds.length > 0) {
 // Update Cart : Refresh Page
 const refreshButton = document.querySelector(".refresh");
 const refreshPage = async () => {
+  const container = document.querySelector(".Cart_Products");
+  if (
+    !container ||
+    container.children.length === 0 ||
+    (container.children.length === 1 && container.querySelector("p"))
+  ) {
+    document.getElementById("HT").innerText = "";
+    document.getElementById("TTC").innerText = "";
+    document.getElementById("ShippingStatus").innerText = "";
+    return;
+  }
+
   calculate_All();
   await sendLocalStorageData();
 };
@@ -172,8 +188,6 @@ function calculate_All() {
       let quantity = document.getElementById("quantity" + item.id);
 
       let price = document.getElementById("price" + item.id).innerText;
-
-      // console.log(price); return
 
       let cleanPrice = parseFloat(price.replace(/\s/g, "").replace(",", "."));
 
@@ -261,7 +275,10 @@ async function deleteCartItem(itemId) {
   cart = cart.filter((item) => item.id !== itemId);
   localStorage.setItem("cart", JSON.stringify(cart));
   // Remove the item with the specified ID
-  document.getElementById("Product"+itemId).remove();
+  document.getElementById("Product" + itemId).remove();
+  calculate_All();
+  updateCartIcon();
+  checkEmptyContainer();
 
   const url = `/MyCartItems/Delete?item=${itemId}`;
   fetch(url, {
@@ -282,3 +299,15 @@ async function deleteCartItem(itemId) {
     .catch((error) => console.error("Error:", error));
 }
 
+/**
+ * Checks if the wishlist container is empty and updates UI accordingly
+ */
+function checkEmptyContainer() {
+  const container = document.querySelector(".Cart_Products");
+  if (container && container.children.length === 0) {
+    container.innerHTML = "<p>No products found in the cart.</p>";
+    document.getElementById("HT").innerText = "";
+    document.getElementById("TTC").innerText = "";
+    document.getElementById("ShippingStatus").innerText = "";
+  }
+}

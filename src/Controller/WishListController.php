@@ -13,7 +13,13 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-
+use Symfony\Component\HttpFoundation\Request;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Items;
+use App\Entity\WishList;
+use App\Entity\CartItems;
+use App\Entity\Users;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 //use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 
@@ -35,12 +41,58 @@ class WishListController extends AbstractController
     }
 
 
+    #[Route('/wishlist', name: 'wishlist', methods: 'GET')]
+    public function index()
+    {
+        return $this->render('Pages/WishlistPage/WishlistPage.html.twig');
+    }
 
+    #[Route('/wishlist/ShowItems', name: 'ShowItems_Wishlist', methods: ['GET'])]
+    public function ShowItems(Request $request, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $itemsIds = $request->query->get('items_ids');
+
+        if (!$itemsIds) {
+            return new Response('No items in the URL', 200);
+        }
+
+        $decodedItems = json_decode($itemsIds, true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            return new Response('Invalid JSON format', 400);
+        }
+
+        // Fetching products from database
+        $products = $entityManager->getRepository(Items::class)->findBy(['id' => $decodedItems]);
+
+        if (!$products) {
+            return new Response('DB: no data', 404);
+        }
+
+        // Building response array
+        $productDetails = [];
+
+        foreach ($products as $product) {
+            $itemImage = $product->getItemImage();
+            if (is_resource($itemImage)) {
+                $itemImage = stream_get_contents($itemImage);
+            }
+
+            $base64Image = $itemImage ? 'data:image/jpg;base64,' . base64_encode($itemImage) : null;
+
+            $productDetails[] = [
+                'id' => $product->getId(),
+                'itemImage' => $base64Image,
+                'name' => $product->getName(),
+                'price' => $product->getPrice(),
+            ];
+        }
+
+        return new JsonResponse($productDetails);
+    }
 
     #[Route('/toggleWishlist/{itemId}', name: 'toWishlist')]
     public function toggleWishlist(int $itemId): JsonResponse
     {
-
         if ($this->isGranted('IS_AUTHENTICATED_FULLY')) {
             $userId = $this->usersService->getIdOfAuthenticatedUser();
             $isInWishlist = $this->wishListService->isItemInWishList($userId, $itemId);
@@ -61,10 +113,52 @@ class WishListController extends AbstractController
                 ], Response::HTTP_OK);
             }
         }
-        // Empty Response if not authenticated
         return new JsonResponse([], Response::HTTP_OK);
     }
 
+    // **** Delete Single item ****
+    #[Route('/wishlist/Delete', name: 'myWishlistDelete', methods: ['DELETE'])]
+    public function mywWishlistDelete(Request $request, EntityManagerInterface $entityManager): JsonResponse
+    {
+        try {
+            $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+            // Get the item ID from the query parameter
+            $itemId = (int) $request->query->get('item');
+
+            if (!$itemId) {
+                return new JsonResponse(['error' => 'Invalid item ID'], 400);
+            }
+
+            // Get the authenticated user
+            $userId = $this->usersService->getIdOfAuthenticatedUser();
+            $user = $entityManager->getRepository(Users::class)->find($userId);
+
+            if (!$user) {
+                throw new NotFoundHttpException('User not found');
+            }
+
+            // Delete the single item from the cart
+            $this->wishListService->removeItemFromWishlist($userId, $itemId);
+
+            return new JsonResponse([
+                'status' => 'success',
+                'message' => 'Item deleted successfully',
+            ]);
+        } catch (NotFoundHttpException $e) {
+            return new JsonResponse([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ], Response::HTTP_NOT_FOUND);
+        } catch (\Exception $e) {
+            return new JsonResponse([
+                'status' => 'error',
+                'message' => 'An error occurred while deleting the item: ' . $e->getMessage(),
+            ], Response::HTTP_BAD_REQUEST);
+        }
+    }
+
+    // Hassan Code : below
     #[Route('/wishlist/delete/{itemId}', name: 'delete_item', methods: 'DELETE')]
     public function deleteItem(int $itemId): JsonResponse
     {
@@ -96,16 +190,16 @@ class WishListController extends AbstractController
     public function wishList(): Response
     {
 
-        if($this->getUser()){
+        if ($this->getUser()) {
             $userId = $this->usersService->getIdOfAuthenticatedUser();
             $user = $this->usersRepository->find($userId);
-            
+
             if (!$user) {
                 return $this->render('items/wishlistPage.html.twig', [
                     'wishlist' => [],
                 ]);
             }
-            
+
             $wishlist = $user->getWishList();
             return $this->render('items/wishlistPage.html.twig', [
                 'wishlist' => $wishlist,
@@ -113,6 +207,4 @@ class WishListController extends AbstractController
         }
         return $this->redirect('Connecting/LogIn');
     }
-
-
 }
