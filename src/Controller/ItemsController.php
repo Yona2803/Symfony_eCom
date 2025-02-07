@@ -173,10 +173,8 @@ class ItemsController extends AbstractController
 
         if ($item->getItemImage()) {
             $imageData = base64_encode(stream_get_contents($item->getItemImage()));
-        } else {
-            $imageData = null;
         }
-        
+
         return new JsonResponse([
             'name' => $item->getName(),
             'price' => $item->getPrice(),

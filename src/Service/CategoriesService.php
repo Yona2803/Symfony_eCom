@@ -52,8 +52,46 @@ class CategoriesService
     }
 
 
-    public function getAllCategories(){
+    public function getAllCategories(): array
+    {
         return $this->categoriesRepository->findAll();
     }
+
+
+    public function deleteCategoryById($categoryId): bool
+    {
+        return $this->categoriesRepository->deleteCategoryById($categoryId);
+    }
+
+
+
+    public function handleUpdateCategory(Request $request): bool
+    {
+        $categoryId = $request->request->get('categoryId'); 
+        $category = $this->categoriesRepository->findOneBy(['id' => $categoryId]);
+        $form = $this->formFactory->create(CategoriesType::class, $category);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $imageFile = $form->get('categoryImage')->getData();
+
+            if ($imageFile) {
+                $binaryData = file_get_contents($imageFile->getPathname());
+                $category->setCategoryImage($binaryData);
+            }
+            $categoryName = $form->get('name')->getData();
+            $category->setName($categoryName);
+
+            $this->em->persist($category);
+            $this->em->flush();
+            
+            return true;
+        }
+
+        return false;
+    }
+
+
 
 }

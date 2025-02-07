@@ -6,7 +6,6 @@ async function openPopup(productId) {
 
   try {
     const productData = await getProductData(productId);
-    console.log("Product Data:", productData);
 
     if (productData) {
       document.querySelector(".custom-name-field").value = productData.name;
@@ -30,9 +29,7 @@ async function openPopup(productId) {
         }
       });
 
-      document.getElementById("updatePopup").style.display = "block";
-    } else {
-      console.error("Product data or 'name' field is missing");
+      document.getElementById("updateProduct").style.display = "block";
     }
   } catch (error) {
     console.error("Error opening popup:", error);
@@ -40,7 +37,7 @@ async function openPopup(productId) {
 }
 
 function closePopup() {
-  document.getElementById("updatePopup").style.display = "none";
+  document.getElementById("updateProduct").style.display = "none";
 }
 
 async function getProductData(productId) {

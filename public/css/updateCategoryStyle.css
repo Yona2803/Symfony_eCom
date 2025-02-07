@@ -1,3 +1,44 @@
+
+.popup {
+    display: none;
+    position: fixed;
+    z-index: 9000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.popup-content {
+    width: calc(100% - 250px); /* Maintain dynamic width */
+    max-width: 600px;
+    padding: 30px;
+    background-color: #ffffff;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    margin: 50px auto;
+    position: relative;
+    transform: translateX(125px); /* Center the form accounting for 250px side offset */
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 20px;
+    cursor: pointer;
+    color: red;
+    font-size: larger;
+    font-weight: bold;
+}
+
+
+
+
+
+
 /* Reset default styles */
 * {
     margin: 0;
@@ -85,26 +126,37 @@ tbody tr td:last-child {
 
 
 
-
-.customer-actions {
+td#categories-image {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
+    align-items: center;
+}
+
+
+#categories-options{
+    width: 0px;
+}
+
+.categories-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
     margin-top: 10px;
+    width: 200px;
 }
 
 .btn-delete,
-.btn-something {
+.btn-edit {
     background-color: #007bff;
     color: #fff;
     border: none;
     padding: 10px 20px;
     border-radius: 4px;
     cursor: pointer;
-    margin-left: 10px;
 }
 
 .btn-delete:hover,
-.btn-something:hover {
+.btn-edit:hover {
     background-color: #0056b3;
 }
 
@@ -114,4 +166,32 @@ tbody tr td:last-child {
 
 .btn-delete:hover {
     background-color: #c82333;
+}
+
+
+
+
+
+.sticky-button {
+    position: fixed; 
+    bottom: 20px; 
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background-color: #ff5722; 
+    color: white;
+    border: none;
+    border-radius: 50%; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    font-size: 24px;
+    z-index: 1000; 
+}
+
+.sticky-button:hover {
+    background-color: #e64a19;
+    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.4);
 }
