@@ -15,7 +15,7 @@ async function addToCart_WithDetail(id, MaxStock) {
     } else {
       cart.push({ id: id, quantity: parseInt(quantity.value) });
     };
-    addToCart_One(id)
+    await addToCart_One(id)
   } else {
     alert(
       "Something is wrong : check the Qty of each item, Please fill the inputs with the arrows of input fields"
@@ -27,6 +27,8 @@ async function addToCart_WithDetail(id, MaxStock) {
   // call to update the icon page
   updateCartIcon();
 }
+
+
 
 function update_LocalStorages(id, MaxStock) {
   let cart = JSON.parse(localStorage.getItem("cart")) || [];

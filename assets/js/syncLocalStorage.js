@@ -68,7 +68,6 @@ async function sendLocalStorageData() {
       if (responseData.updatedWishList) {
         const updatedWishList = responseData.updatedWishList.map((item) => ({
           id: Number(item.id),
-          quantity: Number(item.quantity),
         }));
 
         localStorage.setItem("wishList", JSON.stringify(updatedWishList));

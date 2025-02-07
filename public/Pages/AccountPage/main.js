@@ -22,29 +22,6 @@ function RoutePath() {
 }
 RoutePath();
 
-// function SendLocalstorage() {
-//   // Sending by Ajax to Back-End => Show response in HTML
-//   $.ajax({
-//     url: `/MyAccountPage/ShowProfile?User_id=${User_id}`,
-//     type: "GET",
-//     success: function (response) {
-//       if (response && response.length > 0) {
-//         Msg_404.style.display = "none";
-//         Form_Profile.style.display = "flex";
-//       } else {
-//         Msg_404.style.display = "flex";
-//         Form_Profile.display = "none";
-//       }
-//     },
-//     error: function (xhr, status, error) {
-//       console.log("Status:", status);
-//       console.log("Error:", error);
-//       console.log("Response:", xhr.responseText);
-//       console.log("Response JSON:", xhr.responseJSON);
-//     },
-//   });
-// }
-
 // **** PassWords ****
 const Current_Password = document.querySelector("#users_currentPassword");
 const New_Password = document.querySelector("#users_newPassword");

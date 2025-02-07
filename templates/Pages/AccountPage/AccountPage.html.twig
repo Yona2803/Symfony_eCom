@@ -37,6 +37,7 @@
 						<li id="Cancellations">My Cancellations</li>
 					</ul>
 					<br/>
+					<a href="{{ path('wishlist') }}"><h3 class="linksList" id="Cancellations">My WishList</h3></a>
 				</div>
 				<div class="Right_Section">
 					{{ form_start(form, {'attr': {'id': 'Edite_Profile', 'class': 'Edite_Profile'},'action': path('UpdateAccountPage'), 'method': 'POST'}) }}
