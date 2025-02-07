@@ -63,16 +63,17 @@
 	<script src="{{ asset('Pages/CartPage/main.js') }}"></script>
 	<script>
 		// Proceed To Checkout
-function Proceed_Checkout() {
+ async function Proceed_Checkout() {
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 if (cart.length > 0) {
 calculate_All();
-sendLocalStorageData();
-window.location.href = "{{ path('CheckOut') }}";
+await sendLocalStorageData();
+
+ window.location.href = "{{ path('CheckOut') }}";
 } else {
 alert("No products found in the cart.")
 }
-}
+} 
 	</script>
 </html>

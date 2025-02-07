@@ -48,8 +48,8 @@ class Items
     #[ORM\ManyToMany(targetEntity: WishList::class, mappedBy: 'item')]
     private Collection $wishlist;
 
-    #[ORM\Column(length: 60)]
-    private ?array $tags = [];
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+private ?array $tags = [];
 
     public function __construct()
     {
