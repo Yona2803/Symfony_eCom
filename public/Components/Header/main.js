@@ -1,14 +1,29 @@
 function updateCartIcon() {
   const cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-  const cartCircle = document.querySelector("#circle");
+  const wishList = JSON.parse(localStorage.getItem("wishList")) || [];
+
+  const cartCircle = document.querySelector("#cartCircle");
   const cart_itemQte = document.querySelector("#cart_itemQte");
+
+  const wishlistCircle = document.querySelector("#wishlistCircle");
+  const wishlist_itemQte = document.querySelector("#wishlist_itemQte");
+
 
   if (cart.length > 0) {
     cartCircle.style.display = "block";
     cart_itemQte.textContent = cart.length;
   } else {
     cartCircle.style.display = "none";
+    cart_itemQte.textContent = "";
+  }
+
+  if (wishList.length > 0) {
+    wishlistCircle.style.display = "block";
+    wishlist_itemQte.textContent = wishList.length;
+  } else {
+    wishlistCircle.style.display = "none";
+    wishlist_itemQte.textContent = "";
   }
 }
 updateCartIcon();

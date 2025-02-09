@@ -19,8 +19,6 @@ function addRoute(Route_Path, Route_Text) {
 }
 
 // Add to cart
-function addToCart(id) {}
-
 async function addToCart_One(id) {
     try {
       let cartData = [];
@@ -79,8 +77,58 @@ async function addToCart_One(id) {
   
       return responseData;
     } catch (error) {
-      console.error("Error in addToCart_One:", error);
+      console.error("Error: ", error);
       throw error;
     }
   }
   
+
+  // Add wishlist item to localStorage and DB
+function toggleWishlist(itemId, ClickedButton) {
+  let wishList = JSON.parse(localStorage.getItem("wishList")) || [];
+  const existingItemIndex = wishList.findIndex((item) => item.id === itemId);
+
+  if (existingItemIndex !== -1) {
+    wishList.splice(existingItemIndex, 1);
+    ClickedButton.classList.remove("active");
+  } else {
+    ClickedButton.classList.toggle("active");
+    wishList.push({ id: itemId });
+  }
+  localStorage.setItem("wishList", JSON.stringify(wishList));
+  updateCartIcon();
+
+  fetch(`/toggleWishlist/${itemId}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.status === "addToWishlist") {
+        console.log(data.message);
+      } else {
+        console.log(data.message);
+      }
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+}
+
+// initialize wishList icon state
+function initializeIcon() {
+  let wishList = JSON.parse(localStorage.getItem("wishList")) || [];
+
+  if (wishList !== undefined || wishList.length !== 0) {
+    wishList.forEach((Product) => {
+      let productElement = document.querySelector("#WishlistPrd" + Product.id);
+      if (productElement) {
+        productElement.classList.add("active");
+      }
+    });
+  }
+}
+initializeIcon();
+

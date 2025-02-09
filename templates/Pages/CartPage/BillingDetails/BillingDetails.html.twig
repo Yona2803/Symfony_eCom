@@ -127,50 +127,7 @@
 		<script src="{{ asset('js/global.js') }}"></script>
 		<script src="{{ asset('Pages/CartPage/BillingDetails/main.js') }}"></script>
 		<script>
-			let ContainerMsg = document.getElementById('Validation_Container');
-document.getElementById('CheckOut-form').addEventListener('submit', function (event) {
-event.preventDefault(); // Prevent the default form submission
-
-let form = event.target;
-let formData = new FormData(form);
-
-// Send the form data using Fetch API
-fetch(form.action, {
-method: 'POST',
-body: formData
-}).then(response => response.json()).then(data => {
-if (data.status === 'success') {
-let ContainerMsg = document.getElementById('Validation_Container');
-let pdfLink = document.getElementById('pdf-link');
-pdfLink.href = data.filePath;
-ContainerMsg.style.display = "flex";
-document.body.classList.add('no-scroll');
-localStorage.removeItem("cart");
-updateCartIcon();
-} else {
-alert('An error occurred: ' + data.message);
-}
-}).catch(error => {
-console.error('Error:', error);
-});
-});
-
-
-let ValidationWindow = document.getElementById('Validation_Window');
-
-// Add the click listener to the container
-ContainerMsg.addEventListener('click', function (event) {
-  // This will only trigger if the click is outside the Validation_Window
-  ContainerMsg.style.display = "none";
-  document.body.classList.remove('no-scroll');
-  window.location.href = "{{ path('home') }}";
-});
-
-// Stop event propagation when clicking inside the Validation_Window
-ValidationWindow.addEventListener('click', function (event) {
-  event.stopPropagation(); // Prevent click event from reaching the container
-});
-
+			
 		</script>
 
 	</body>

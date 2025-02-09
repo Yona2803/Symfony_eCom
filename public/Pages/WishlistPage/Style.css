@@ -1,112 +1,75 @@
 body {
-    width: 100%;
-    height: 100%;
-    font-family: "Segoe UI", Tahoma, Verdana, sans-serif;
-    font-weight: 400;
-    color: #000;
-    margin: 0;
-    padding: 0;
-    background-color: #fff;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  a {
-    text-decoration: none;
-  }
-  .Container {
-    width: 1170px;
-    height: fit-content;
-    display: flex;
-  }
+  width: 100%;
+  height: 100%;
+  font-family: "Segoe UI", Tahoma, Verdana, sans-serif;
+  font-weight: 400;
+  color: #000;
+  margin: 0;
+  padding: 0;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 
+a {
+  text-decoration: none;
+}
 
-/* Category Section */
-.Categories {
-  display: block;
+.Container {
+  width: 1170px;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+}
+
+.Wishlist_Header {
   width: 100%;
   height: fit-content;
-  margin-top: 30px;
-}
-
-.Categories .Section1 {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  width: 100%;
-  height: 40px;
+  margin: 80px 0 60px 0;
 }
-.Categories .Section1 h4 {
-  margin: 0;
-  padding: 0;
+.Wishlist_Header h1 {
+  font-size: 20px;
+  font-weight: 500;
+
+}
+.Wishlist_Header .To_Cart {
   font-size: 16px;
-  font-weight: 600;
-  color: #db4444;
-}
-
-.Categories .Section1 span {
-  width: 20px;
-  height: 40px;
+  font-weight: 500;
+  height: 100%;
+  padding: 16px 48px;
+  border: 1px solid rgb(0, 0, 0, 0.5);
   border-radius: 4px;
+  background-color: white;
+
+  -webkit-transition: all 0.32s ease-out;
+  -moz-transition: all 0.32s ease-out;
+  -o-transition: all 0.32s ease-out;
+  transition: all 0.32s ease-out;
+}
+.Wishlist_Header .To_Cart:hover {
+  background-color: #ff5c5c;
+  color: white;
+}
+.Wishlist_Header .To_Cart:active {
   background-color: #db4444;
-  margin-right: 16px;
-}
-.Categories .Section2 {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  min-height: 48px;
-  height: 48px;
-  margin: 20px 0 60px 0;
 }
 
-.Categories .Section2 h5 {
-  margin: 0;
-  padding: 0;
-  font-size: 36px;
-  font-weight: 600;
-  color: #000;
-}
-
-
-.ProductList {
+/* Products / items */
+.Wishlist_Products{
     display: flex;
     width: 100%;
     height: fit-content;
     flex-wrap: wrap;
     row-gap: 60px;
     column-gap: 30px;
-  }
-  
-  .Categories #ShowMoreProducts {
-    display: block;
-    align-items: center;
-    justify-content: center;
-    width: 234px;
-    height: 56px;
-    background-color: #db4444;
-    color: white;
-    font-size: 16px;
-    font-weight: 500;
-    outline: none;
-    border: none;
-    padding: 0;
-    margin: 76px auto 0 auto;
-    border-radius: 4px;
-    -webkit-transition: all 0.32s ease-out;
-    -moz-transition: all 0.32s ease-out;
-    -o-transition: all 0.32s ease-out;
-    transition: all 0.32s ease-out;
-  }
-  
-  .Categories #ShowMoreProducts:hover {
-    background-color: #ff5c5c;
-  }
-  .Categories #ShowMoreProducts:active {
-    background-color: #db4444;
-  }
-  
-  .Product {
+}
+
+.Product {
     max-width: 270px;
     height: fit-content;
     display: block;
@@ -167,16 +130,13 @@ body {
 
   .Product .OptionSection button svg {
     width: fit-content;
-    height: 30px;
+    height: 20px;
   }
-  
+
   .Product .OptionSection button:hover svg path {
     stroke: white;
   }
   
-
-  
-
   .Product .ProductImage {
     width: 270px;
     height: 250px;
@@ -272,4 +232,3 @@ body {
     font-size: 14px;
     font-weight: 600;
   }
-  
