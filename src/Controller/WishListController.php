@@ -47,6 +47,8 @@ class WishListController extends AbstractController
         return $this->render('Pages/WishlistPage/WishlistPage.html.twig');
     }
 
+
+
     #[Route('/wishlist/ShowItems', name: 'ShowItems_Wishlist', methods: ['GET'])]
     public function ShowItems(Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
@@ -90,6 +92,8 @@ class WishListController extends AbstractController
         return new JsonResponse($productDetails);
     }
 
+
+
     #[Route('/toggleWishlist/{itemId}', name: 'toWishlist')]
     public function toggleWishlist(int $itemId): JsonResponse
     {
@@ -115,6 +119,8 @@ class WishListController extends AbstractController
         }
         return new JsonResponse([], Response::HTTP_OK);
     }
+
+
 
     // **** Delete Single item ****
     #[Route('/wishlist/Delete', name: 'myWishlistDelete', methods: ['DELETE'])]
@@ -158,6 +164,8 @@ class WishListController extends AbstractController
         }
     }
 
+
+
     // Hassan Code : below
     #[Route('/wishlist/delete/{itemId}', name: 'delete_item', methods: 'DELETE')]
     public function deleteItem(int $itemId): JsonResponse
@@ -186,6 +194,8 @@ class WishListController extends AbstractController
         );
     }
 
+
+    
     #[Route('/wishlist', name: 'wishlistPage', methods: ['GET'])]
     public function wishList(): Response
     {
