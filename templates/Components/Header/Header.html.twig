@@ -16,7 +16,7 @@
 		<h1>Exclusive.</h1>
 		<nav>
 			<ul>
-				<li><ahref="{{path('home')}}" class="ParentPage_{{ ParentPage == 'Home' ? 'True' : 'False' }}">Home</ahref=></li>
+				<li><a href="{{path('home')}}" class="ParentPage_{{ ParentPage == 'Home' ? 'True' : 'False' }}">Home</a></li>
 				<li><a href="" class="ParentPage_{{ ParentPage == 'Contact' ? 'True' : 'False' }}">Contact</a></li>
 				<li><a href="" class="ParentPage_{{ ParentPage == 'About' ? 'True' : 'False' }}">About</a></li>
 			</ul>
@@ -72,22 +72,21 @@
 				{% if app.user %}
 					{% if is_granted('ROLE_ADMIN') %}
 						<a href="{{ path('dashboard') }}">
-							<svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-								<path d="M3 3H10V10H3V3Z" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-								<path d="M14 3H21V7H14V3Z" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-								<path d="M14 10H21V21H14V10Z" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-								<path d="M3 14H10V21H3V14Z" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+						<div class="iconSpacer">
+							<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path d="M3 3H10V10H3V3Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+								<path d="M14 3H21V7H14V3Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+								<path d="M14 10H21V21H14V10Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+								<path d="M3 14H10V21H3V14Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
 							</svg>
+						</div>
+
 							Dashboard
 						</a>
 
 					{% elseif is_granted('ROLE_CUSTOMER') %}
 						<a
 							href="{{ path('MyAccountPage') }}">
-							{# <svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-																<path d="M18 23V20.3333C18 18.9188 17.5224 17.5623 16.6722 16.5621C15.8221 15.5619 14.669 15 13.4667 15H5.53333C4.33102 15 3.17795 15.5619 2.32778 16.5621C1.47762 17.5623 1 18.9188 1 20.3333V23" stroke="#FAFAFA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-																<path d="M9.5 10C11.9853 10 14 7.98528 14 5.5C14 3.01472 11.9853 1 9.5 1C7.01472 1 5 3.01472 5 5.5C5 7.98528 7.01472 10 9.5 10Z" stroke="#FAFAFA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-															</svg> #}
 							<div class="iconSpacer">
 								<svg width="19" height="22" viewbox="0 0 19 22" fill="none" xmlns="http://www.w3.org/2000/svg">
 									<path d="M18 21V18.3333C18 16.9188 17.5224 15.5623 16.6722 14.5621C15.8221 13.5619 14.669 13 13.4667 13H5.53333C4.33102 13 3.17795 13.5619 2.32778 14.5621C1.47762 15.5623 1 16.9188 1 18.3333V21" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -99,12 +98,6 @@
 						</a>
 						<a
 							href="{{ path('MyCartPage') }}">
-							{# <svg width="27" height="26" viewbox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
-																																											<path d="M7 26.25C7.41421 26.25 7.75 25.9142 7.75 25.5C7.75 25.0858 7.41421 24.75 7 24.75C6.58579 24.75 6.25 25.0858 6.25 25.5C6.25 25.9142 6.58579 26.25 7 26.25Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-																																											<path d="M17.5 26.25C17.9142 26.25 18.25 25.9142 18.25 25.5C18.25 25.0858 17.9142 24.75 17.5 24.75C17.0858 24.75 16.75 25.0858 16.75 25.5C16.75 25.9142 17.0858 26.25 17.5 26.25Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-																																											<path d="M1 9.75H4L6.25 22.5H18.25" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-																																											<path d="M6.25 18.5H17.9425C18.0292 18.5001 18.1133 18.4701 18.1804 18.4151C18.2475 18.3601 18.2934 18.2836 18.3105 18.1986L19.6605 11.4486C19.6714 11.3942 19.67 11.338 19.6566 11.2841C19.6431 11.2303 19.6179 11.1801 19.5827 11.1372C19.5475 11.0943 19.5032 11.0597 19.453 11.036C19.4028 11.0122 19.348 11 19.2925 11H4.75" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-																																										</svg> #}
 							<div class="iconSpacer">
 								<svg width="22" height="20" viewbox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 									<path d="M7.42852 19C7.8723 19 8.23205 18.6337 8.23205 18.1818C8.23205 17.7299 7.8723 17.3636 7.42852 17.3636C6.98475 17.3636 6.625 17.7299 6.625 18.1818C6.625 18.6337 6.98475 19 7.42852 19Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>

@@ -1,6 +1,9 @@
 // Add Route to Local storage
 addRoute("/Products", "Products &#x2f; ");
 
+
+
+
 async function openPopup(productId) {
   document.getElementById("productId").value = productId;
 
