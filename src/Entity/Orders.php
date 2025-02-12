@@ -32,6 +32,10 @@ class Orders
     #[ORM\OneToMany(targetEntity: OrderDetails::class, mappedBy: 'orderFk', orphanRemoval: true)]
     private Collection $orderDetails;
 
+    #[ORM\ManyToOne(inversedBy: 'orderId')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?OrderStatus $orderStatus = null;
+
     public function __construct()
     {
         $this->orderDetails = new ArrayCollection();
@@ -105,6 +109,18 @@ class Orders
                 $orderDetail->setOrderFk(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getOrderStatus(): ?OrderStatus
+    {
+        return $this->orderStatus;
+    }
+
+    public function setOrderStatus(?OrderStatus $orderStatus): static
+    {
+        $this->orderStatus = $orderStatus;
 
         return $this;
     }

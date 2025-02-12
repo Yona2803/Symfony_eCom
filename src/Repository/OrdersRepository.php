@@ -16,6 +16,28 @@ class OrdersRepository extends ServiceEntityRepository
         parent::__construct($registry, Orders::class);
     }
 
+
+
+
+    public function findOrderDetails()
+    {
+        return $this->createQueryBuilder('o')
+            ->select(
+                'o.id AS orderId, o.orderDate, o.totalAmount,
+            u.id AS userId, u.username, u.firstName, u.lastName, u.email,
+            os.statusName'
+            )
+            ->join('o.orderStatus', 'os')
+            ->join('o.user', 'u')
+            ->orderBy('orderId', 'ASC')
+            ->getQuery()
+            ->getArrayResult(); // Using getArrayResult for better handling in the view
+    }
+
+
+
+
+
     //    /**
     //     * @return Orders[] Returns an array of Orders objects
     //     */

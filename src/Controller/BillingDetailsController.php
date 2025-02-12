@@ -17,6 +17,7 @@ use App\Entity\OrderDetails;
 use App\Entity\Users;
 use App\Service\UsersService;
 use App\Repository\OrderDetailsRepository;
+use App\Repository\OrderStatusRepository;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
@@ -34,11 +35,13 @@ class BillingDetailsController extends AbstractController
     public function __construct(
         ItemsService $itemsService,
         UsersService $usersService,
-        MailerInterface $mailer
+        MailerInterface $mailer,
+        private OrderStatusRepository $orderStatusRepository
     ) {
         $this->itemsService = $itemsService;
         $this->usersService = $usersService;
         $this->mailer = $mailer;
+        $this->orderStatusRepository = $orderStatusRepository;
     }
 
     #[Route('/CheckOut', name: 'CheckOut', methods: ['GET'])]
@@ -178,6 +181,10 @@ class BillingDetailsController extends AbstractController
         $Order->setUser($user);
         $Order->setTotalAmount($TTCValue);
         $Order->setOrderDate(new \DateTime());
+
+        // get order status "PREPARING" and asign it to the new order
+        $orderStatus = $this->orderStatusRepository->findOneBy(['statusName' => 'PREPARING']); 
+        $Order->setOrderStatus($orderStatus);
 
         $entityManager->persist($Order);
         $entityManager->flush();

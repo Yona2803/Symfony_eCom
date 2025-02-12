@@ -1,0 +1,367 @@
+/* Reset default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 40px;
+}
+
+.main-content {
+    margin-left: 250px;
+}
+
+
+/* Center the Table */
+table {
+    width: 100%;
+    /* max-width: 1000px; */
+    margin: 20px auto;
+    border-collapse: collapse;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+thead {
+    background-color: #007BFF;
+    color: #ffffff;
+}
+
+th,
+td {
+    padding: 14px 20px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+tbody tr:hover {
+    background-color: #e8f1ff;
+}
+
+th {
+    text-transform: uppercase;
+    font-weight: bold;
+    text-align: center;
+}
+
+td {
+    color: #333;
+}
+
+/* Improve table row aesthetics */
+tbody td {
+    border-right: 1px solid #ddd;
+}
+
+tbody tr td:last-child {
+    border-right: none;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    table {
+        width: 100%;
+    }
+
+    th,
+    td {
+        padding: 12px;
+    }
+}
+
+
+
+
+.order-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.btn-delete,
+.btn-details {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.btn-delete:hover,
+.btn-details:hover {
+    background-color: #0056b3;
+}
+
+.btn-delete {
+    background-color: #dc3545;
+}
+
+.btn-delete:hover {
+    background-color: #c82333;
+}
+
+
+
+.btn-mark-Complete:hover {
+    background-color: rgba(42, 158, 79, 0.616);
+}
+
+.btn-mark-Complete {
+    margin-top: 30px;
+    background-color: rgb(42, 158, 79);
+    border: none;
+    color: white;
+    padding: 6px;
+    cursor: pointer;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+}
+
+
+
+.sectionTest {
+    display: flex;
+    align-items: center;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    position: relative;
+    width: 100%;
+    height: 100px;
+    margin: 10px auto;
+    margin-bottom: 20px;
+    /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+}
+
+.sectionTest span {
+    width: 20px;
+    height: 40px;
+    background-color: #db4444;
+    border-radius: 10%;
+    margin: 0px 15px;
+    -webkit-border-radius: 10%;
+    -moz-border-radius: 10%;
+    -ms-border-radius: 10%;
+    -o-border-radius: 10%;
+}
+
+.sectionTest h4 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #db4444;
+}
+
+
+v
+.cellOrderStatus {
+    text-align: center;
+}
+
+
+
+
+.popup {
+    display: none;
+    position: fixed;
+    z-index: 9000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.popup-content {
+    background-color: white;
+    padding: 10px 20px;
+    border-radius: 10px;
+    max-width: 95%;
+    margin: 0 auto;
+    position: relative;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 20px;
+    cursor: pointer;
+    color: red;
+    font-size: larger;
+    font-weight: bold;
+}
+
+
+
+
+.dropdown {
+    position: relative;
+}
+
+/**** DropDown Menu *****/
+/* Dropdown Button */
+.dropbtn {
+    background-color: transparent;
+    color: rgb(24, 74, 72, 0.7);
+    width: 150px;
+    height: 28px;
+    border-radius: 2px;
+    padding: 0 12px;
+    margin-top: auto;
+    font-size: 12px;
+    font-weight: 300;
+    border: 1px solid rgb(24, 74, 72, 0.5);
+}
+
+.dropbtn svg {
+    margin-left: 12px;
+}
+
+.dropdown-content {
+    display: none;
+    flex-direction: column;
+
+    /* position: absolute; */
+
+    background-color: rgb(24, 74, 72, 0.5);
+    -webkit-backdrop-filter: blur(7px);
+    backdrop-filter: blur(7px);
+
+    border: 1px solid rgb(24, 74, 72, 0.5);
+
+    width: 148px;
+    height: fit-content;
+    padding: 6px 0;
+
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+
+    gap: 5px;
+    border-radius: 2px;
+}
+
+.dropdown-content button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    border-radius: 2px;
+    padding: 5px 0;
+    background-color: transparent;
+    color: white;
+    outline: 0;
+    border: 0;
+}
+
+.dropdown-content button svg {
+    margin: 0 12px 0 13px;
+}
+
+.dropdown-content button:hover {
+    background-color: #dddddd3c;
+}
+
+.dropbtn:hover {
+    background-color: rgb(24, 74, 72, 0.5);
+    color: white;
+}
+
+.dropbtn:active {
+    background-color: rgb(24, 74, 72, 0.7);
+    color: white;
+}
+
+.dropbtn:hover svg path {
+    stroke: white;
+}
+
+
+
+
+
+
+
+
+#overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+.popup-content h2 {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.close-btn {
+    background: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.close-btn:hover {
+    background: #cc0000;
+}
+
+/* Détails du client */
+#customer-details {
+    background: #f9f9f9;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+#customer-details p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #444;
+}
+
+
+/* Responsive */
+@media (max-width: 600px) {
+    #ordersDetails {
+        width: 95%;
+        max-width: 500px;
+        padding: 15px;
+    }
+
+    table th, table td {
+        font-size: 13px;
+        padding: 8px;
+    }
+}
