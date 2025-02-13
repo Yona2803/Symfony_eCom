@@ -233,7 +233,7 @@ class BillingDetailsController extends AbstractController
     {
         $orderData = [
             'order_id' => $Order->getId(),
-            'order_date' => $Order->getOrderDate()->format('d/m/Y'),
+            'order_date' => $Order->getOrderDate()->format('Y-m-d'),
             'TTC' => $Order->getTotalAmount(),
             'HT' => $Ht,
             'items' => [],
@@ -387,7 +387,7 @@ class BillingDetailsController extends AbstractController
     private function sendEmail($pdfFilePath, $data)
     {
         $subject = "OrderSummary";
-        $Email_From = 'najehy2803@gmail.com';
+        $Email_From = 'hassan10saadaoui@gmail.com';
         $Email_to = $data['Client']['email'];
 
         $renderedHtml = $this->renderView('Email/Order.html.twig', [
