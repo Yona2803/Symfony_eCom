@@ -29,9 +29,9 @@ class OrdersRepository extends ServiceEntityRepository
             )
             ->join('o.orderStatus', 'os')
             ->join('o.user', 'u')
-            ->orderBy('orderId', 'ASC')
+            ->orderBy('orderId', 'DESC')
             ->getQuery()
-            ->getArrayResult(); // Using getArrayResult for better handling in the view
+            ->getArrayResult(); 
     }
 
 

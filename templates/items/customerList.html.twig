@@ -9,7 +9,13 @@
 		<link rel="stylesheet" href="{{ asset('css/customerListStyle.css') }}">
 	</head>
 	<body>
+
+		{# include dashboard page #}
 		{{ include('items/dashBoard.html.twig') }}
+
+		{# include loading message page #}
+		{{ include('items/LoadingMessage.html.twig') }}
+
 
 		<div class="main-content">
 			<div class="sectionTest">
