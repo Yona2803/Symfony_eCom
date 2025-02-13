@@ -132,10 +132,32 @@ async function getOrderDetailsByOrderId(orderId) {
     }
 }
 
+
+
+
+
 async function openPopupOrderDetails(orderId) {
+    const loadingMessage = document.getElementById("loadingMessage"); // Add a loading message element in your HTML
+    const ordersDetailsPopup = document.getElementById("ordersDetails");
+
     try {
+        // Show loading message
+        if (loadingMessage) {
+            loadingMessage.style.display = "flex";
+        }
+
+        // Hide the popup initially (in case it was already open)
+        ordersDetailsPopup.style.display = "none";
+
+        // Fetch order details
         const data = await getOrderDetailsByOrderId(orderId);
 
+        // Hide loading message
+        if (loadingMessage) {
+            loadingMessage.style.display = "none";
+        }
+
+        // Check if data is valid
         if (
             !data ||
             !Array.isArray(data.orderDetails) ||
@@ -143,7 +165,7 @@ async function openPopupOrderDetails(orderId) {
         ) {
             document.getElementById("order-details-body").innerHTML =
                 '<tr><td colspan="4">No order details found.</td></tr>';
-            document.getElementById("ordersDetails").style.display = "block";
+            ordersDetailsPopup.style.display = "block";
             return;
         }
 
@@ -167,9 +189,7 @@ async function openPopupOrderDetails(orderId) {
             <p><strong>Email:</strong> ${orderInfo.email}</p>
             <p><strong>Order N°:</strong> ${orderInfo.orderId}</p>
             <p><strong>Date:</strong> ${formattedDate}</p>
-            <p><strong>Montant Total:</strong> ${orderInfo.totalAmount.toFixed(
-                2
-            )} DH</p>
+            <p><strong>Montant Total:</strong> ${orderInfo.totalAmount.toFixed(2)} DH</p>
         `;
 
         // Génération du tableau des détails de commande
@@ -188,12 +208,20 @@ async function openPopupOrderDetails(orderId) {
             .join("");
 
         // Afficher la popup
-        document.getElementById("ordersDetails").style.display = "block";
+        ordersDetailsPopup.style.display = "block";
     } catch (error) {
         console.error("Error:", error);
+
+        // Hide loading message in case of error
+        if (loadingMessage) {
+            loadingMessage.style.display = "none";
+        }
+
+        // Show error message to the user
         alert("Unable to load order details. Please try again later.");
     }
 }
+
 
 function closePopupOrderDetails() {
     document.getElementById("ordersDetails").style.display = "none";

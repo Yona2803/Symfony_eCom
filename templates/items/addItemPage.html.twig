@@ -38,7 +38,10 @@
 
 	</head>
 	<body>
+
+		{# include dashboard page #}
 		{{ include('items/dashBoard.html.twig') }}
+
 
 		{% set addProductMessage = app.flashes('addProduct') %}
 		{% set addProductErrorMessage = app.flashes('addProductError') %}

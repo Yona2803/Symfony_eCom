@@ -24,13 +24,13 @@ body {
 /* Center the Table */
 table {
     width: 100%;
-    /* max-width: 1000px; */
+    /*max-width: 1000px;*/
     margin: 20px auto;
     border-collapse: collapse;
     background-color: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 thead {
@@ -175,7 +175,7 @@ tbody tr td:last-child {
 }
 
 
-v
+
 .cellOrderStatus {
     text-align: center;
 }
@@ -217,9 +217,12 @@ v
 
 
 
+.dropdown-container {
+    position: relative;
+}
 
 .dropdown {
-    position: relative;
+    position: absolute;
 }
 
 /**** DropDown Menu *****/
@@ -235,6 +238,7 @@ v
     font-size: 12px;
     font-weight: 300;
     border: 1px solid rgb(24, 74, 72, 0.5);
+    /* position: absolute; */
 }
 
 .dropbtn svg {
@@ -245,7 +249,7 @@ v
     display: none;
     flex-direction: column;
 
-    /* position: absolute; */
+    position: relative;
 
     background-color: rgb(24, 74, 72, 0.5);
     -webkit-backdrop-filter: blur(7px);
@@ -258,7 +262,7 @@ v
     padding: 6px 0;
 
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    z-index: 1;
+    z-index: 999;
 
     gap: 5px;
     border-radius: 2px;
@@ -360,8 +364,11 @@ v
         padding: 15px;
     }
 
-    table th, table td {
+    table th,
+    table td {
         font-size: 13px;
         padding: 8px;
     }
 }
+
+

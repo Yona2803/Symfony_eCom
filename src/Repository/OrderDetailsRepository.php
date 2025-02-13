@@ -32,7 +32,7 @@ class OrderDetailsRepository extends ServiceEntityRepository
             ->where('o.id = :orderId')
             ->setParameter('orderId', $orderId)
             ->getQuery()
-            ->getArrayResult(); // Using getArrayResult for better handling in the view
+            ->getArrayResult(); 
     }
     
 

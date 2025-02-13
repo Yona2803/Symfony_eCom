@@ -28,13 +28,26 @@ function deleteCategoryById(categoryId) {
 }
 
 async function openPopupUpdateCategory(categoryId) {
+    const loadingMessage = document.getElementById("loadingMessage"); // Add a loading message element in your HTML
     document.getElementById("categoryId").value = categoryId;
+
+    // Show loading message
+    if (loadingMessage) {
+        loadingMessage.style.display = "flex";
+    }
+
     const category = await getCategoryById(categoryId);
+    // Show loading message
 
     if (category) {
+        if (loadingMessage) {
+            loadingMessage.style.display = "none";
+        }
         document.querySelector(".custom-name-field").value = category.name;
         if (category.image) {
-            document.querySelector(".image-preview").src = `data:image/jpeg;base64,${category.image}`;
+            document.querySelector(
+                ".image-preview"
+            ).src = `data:image/jpeg;base64,${category.image}`;
         }
     }
 

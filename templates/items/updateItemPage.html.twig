@@ -8,8 +8,13 @@
 		<link rel="icon" type="image/x-icon" href="{{ asset('img/icon/Icon.png') }}">
 	</head>
 	<body>
-		{# including dashboard Section #}
-		{% include 'items/dashboard.html.twig' %}
+	
+		{# include dashboard page #}
+		{{ include('items/dashBoard.html.twig') }}
+
+		{# include loading message page #}
+		{{ include('items/LoadingMessage.html.twig') }}
+
 
 		{% set updateProductMessage = app.flashes('updateProduct') %}
 		{% set updateProductErrorMessage = app.flashes('updateProductError') %}

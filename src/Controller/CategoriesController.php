@@ -7,6 +7,7 @@ use App\Form\CategoriesType;
 use App\Repository\CategoriesRepository;
 use App\Repository\ItemsRepository;
 use App\Service\CategoriesService;
+use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -96,9 +97,11 @@ class CategoriesController extends AbstractController
     #[Route('/categories/delete/{categoryId}', name: 'delete-categories')]
     public function deleteCategory(int $categoryId): JsonResponse
     {
-        $result = $this->categoriesService->deleteCategoryById($categoryId);
+        try {
+            // Attempt to delete the customer
+            $result = $this->categoriesService->deleteCategoryById($categoryId);
 
-        if ($result) {
+            if ($result) {
             return new JsonResponse(
                 [
                     'status' => 'successRemoving',
@@ -114,6 +117,24 @@ class CategoriesController extends AbstractController
             ],
             Response::HTTP_OK
         );
+        
+        } catch (ForeignKeyConstraintViolationException $e) {
+            return new JsonResponse(
+                [
+                    'status' => 'errorRemoving',
+                    'message' => 'This category cannot be deleted because it contains associated items. Please remove or reassign the items before deleting the category.'
+                ],
+                Response::HTTP_CONFLICT
+            );
+        } catch (\Exception $e) {
+            return new JsonResponse(
+                [
+                    'status' => 'errorRemoving',
+                    'message' => 'An error occurred while trying to delete the category.'
+                ],
+                Response::HTTP_INTERNAL_SERVER_ERROR 
+            );
+        }
     }
 
 

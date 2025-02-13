@@ -9,7 +9,13 @@
 		<link rel="stylesheet" href="{{ asset('css/FormCategoryStyle.css') }}">
 	</head>
 	<body>
+
+		{# include dashboard page #}
 		{{ include('items/dashBoard.html.twig') }}
+
+		{# include loading message page #}
+		{{ include('items/LoadingMessage.html.twig') }}
+
 
 
 		{% set updateCategoryMessage = app.flashes('updateCategory') %}
