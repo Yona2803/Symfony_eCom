@@ -27,17 +27,17 @@
 					<br/>
 					<ul class="linksList">
 						<li id="Profile">My Profile</li>
-						<li id="AddressBook">Address Book</li>
 						<li id="Payment">My Payment Options</li>
 					</ul>
 					<br/>
 					<h3>My Orders</h3>
 					<ul class="linksList">
+						<li id="Orders">My Ordes</li>
 						<li id="Returns">My Returns</li>
-						<li id="Cancellations">My Cancellations</li>
+						<li id="Cancellations">Cancellations</li>
 					</ul>
 					<br/>
-					<a href="{{ path('wishlist') }}"><h3 class="linksList" id="Cancellations">My WishList</h3></a>
+					<a href="{{ path('wishlist') }}"><h3 id="WishList">My WishList</h3></a>
 				</div>
 				<div class="Right_Section">
 					{{ form_start(form, {'attr': {'id': 'Edite_Profile', 'class': 'Edite_Profile'},'action': path('UpdateAccountPage'), 'method': 'POST'}) }}
@@ -93,6 +93,7 @@
 						</div>
 					</div>
 					{{ form_end(form) }}
+
 
 					{# Error Msg's #}
 					<p class="Form_ErrorMsg">There appears to be an issue with the server

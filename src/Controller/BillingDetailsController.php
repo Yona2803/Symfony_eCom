@@ -22,23 +22,26 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Dompdf\Dompdf;
 use Dompdf\Options;
-use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use SebastianBergmann\Environment\Console;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class BillingDetailsController extends AbstractController
 {
     private ItemsService $itemsService;
     private $usersService;
     private $mailer;
+    private $params;
 
     public function __construct(
         ItemsService $itemsService,
         UsersService $usersService,
-        MailerInterface $mailer
+        MailerInterface $mailer,
+        ParameterBagInterface $params
     ) {
         $this->itemsService = $itemsService;
         $this->usersService = $usersService;
         $this->mailer = $mailer;
+        $this->params = $params;
     }
 
     #[Route('/CheckOut', name: 'CheckOut', methods: ['GET'])]
@@ -195,10 +198,36 @@ class BillingDetailsController extends AbstractController
         $OrderDetail = new OrderDetails();
         $OrderDetail->setOrderFk($Order);
         $OrderDetail->setItem($item);
-        $OrderDetail->setQuantity($itemData['quantity']);
-        $OrderDetail->setTotalPrice($itemData['price']);
+
+        $UpdateItemQte = $this->UpdateItemQte($item, $itemData['quantity'], $entityManager);
+
+        $OrderDetail->setQuantity($UpdateItemQte['Qte']);
+        $OrderDetail->setTotalPrice($UpdateItemQte['TotalPrice']);
 
         $entityManager->persist($OrderDetail);
+    }
+    private function UpdateItemQte($item, $Qte, EntityManagerInterface $entityManager): array
+    {
+        $FinalQte = 0;
+        $itemStock = $item->getStock();
+
+        if ($itemStock >= $Qte) {
+            $item->setStock($itemStock - $Qte);
+            $FinalQte = $Qte;
+        } else {
+            $item->setStock(0);
+            $FinalQte = $itemStock;
+        }
+
+        $entityManager->persist($item);
+        $entityManager->flush();
+
+        $ReturnedValue = [
+            'Qte' => $FinalQte,
+            'TotalPrice' => $FinalQte * $item->getPrice(),
+        ];
+
+        return $ReturnedValue;
     }
     private function prepareResponse(Orders $Order, array $OrderDetails, $Ht, EntityManagerInterface $entityManager): array
     {
@@ -258,31 +287,31 @@ class BillingDetailsController extends AbstractController
     private function generatePdf($data)
     {
         $publicDir = $this->getParameter('kernel.project_dir') . '/public/Pdf/Orders/';
-                // Add logging to debug
-                error_log("Attempting to delete files from directory: " . $publicDir);
-        
-                if (is_dir($publicDir)) {
-                    $files = glob($publicDir . '*');
-                    error_log("Found " . count($files) . " files");
-                    
-                    foreach ($files as $file) {
-                        if (is_file($file)) {
-                            try {
-                                if (unlink($file)) {
-                                    error_log("Successfully deleted: " . $file);
-                                } else {
-                                    error_log("Failed to delete: " . $file);
-                                }
-                            } catch (\Exception $e) {
-                                error_log("Error deleting file " . $file . ": " . $e->getMessage());
-                            }
-                        }
-                    }
-                } else {
-                    error_log("Directory does not exist: " . $publicDir);
-                }
+        // Add logging to debug
+        error_log("Attempting to delete files from directory: " . $publicDir);
 
-                
+        if (is_dir($publicDir)) {
+            $files = glob($publicDir . '*');
+            error_log("Found " . count($files) . " files");
+
+            foreach ($files as $file) {
+                if (is_file($file)) {
+                    try {
+                        if (unlink($file)) {
+                            error_log("Successfully deleted: " . $file);
+                        } else {
+                            error_log("Failed to delete: " . $file);
+                        }
+                    } catch (\Exception $e) {
+                        error_log("Error deleting file " . $file . ": " . $e->getMessage());
+                    }
+                }
+            }
+        } else {
+            error_log("Directory does not exist: " . $publicDir);
+        }
+
+
         $pdfFileName = 'ORDER ' . $data['data']['order_id'] . '.pdf';
         $pdfFilePath = $publicDir . $pdfFileName;
 
@@ -358,7 +387,8 @@ class BillingDetailsController extends AbstractController
     private function sendEmail($pdfFilePath, $data)
     {
         $subject = "OrderSummary";
-        $Email_From = 'najehy2803@gmail.com';
+        // Access the sender from the parameters
+        $Email_From = $_ENV['MAILER_SENDER'];
         $Email_to = $data['Client']['email'];
 
         $renderedHtml = $this->renderView('Email/Order.html.twig', [
@@ -375,20 +405,20 @@ class BillingDetailsController extends AbstractController
 
         $this->mailer->send($email);
     }
-    private function deleteUserCart(Users $user, EntityManagerInterface $entityManager): void 
+    private function deleteUserCart(Users $user, EntityManagerInterface $entityManager): void
     {
         $cart = $entityManager->getRepository(Carts::class)->findOneBy(['user' => $user]);
-        
+
         if (!$cart) {
             return;
         }
-        
+
         $cartItems = $entityManager->getRepository(CartItems::class)->findBy(['cart' => $cart]);
-        
+
         foreach ($cartItems as $cartItem) {
             $entityManager->remove($cartItem);
         }
-        
+
         $entityManager->remove($cart);
         $entityManager->flush();
     }

@@ -28,3 +28,4 @@ services:
 # config/services.yaml
 parameters:
     user_id: '%env(USER_ID)%'
+    mailer_sender_address: '%env(resolve:MAILER_DSN)%'
