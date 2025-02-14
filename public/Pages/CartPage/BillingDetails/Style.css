@@ -325,7 +325,7 @@ a {
   display: none;
   justify-content: center;
   align-items: center;
-  
+
   -webkit-transition: all 0.32s ease-out;
   -moz-transition: all 0.32s ease-out;
   -o-transition: all 0.32s ease-out;
@@ -359,18 +359,14 @@ body.no-scroll {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-
-  /* gap: 24px; */
 }
 
 #Validation_Window img {
   width: 210px;
   height: 210px;
-  /* margin-bottom: 49px; */
 }
 #Validation_Window h1 {
   margin: 0;
-  /* margin-top: 63px; */
   padding: 0;
   width: 403px;
   text-align: left;
@@ -382,13 +378,6 @@ body.no-scroll {
   font-size: 16px;
   font-weight: 400;
   text-align: left;
-}
-#Validation_Window p:nth-of-type(1) {
-  /* margin-top: 24px; */
-  color: #000;
-}
-#Validation_Window p:nth-of-type(2) {
-  /* margin-top: 0; */
   color: #000;
 }
 
@@ -412,7 +401,7 @@ body.no-scroll {
   width: fit-content;
 }
 
-#Validation_Window #pdf-link {
+#Validation_Window #DivOrder #pdf-link {
   width: 95px;
   color: #872727;
   text-align: left;
@@ -423,7 +412,7 @@ body.no-scroll {
   transition: all 0.32s ease-out;
 }
 
-#Validation_Window span {
+#Validation_Window #DivOrder span {
   width: 0px;
   height: 1px;
   background-color: #db4444;
@@ -437,23 +426,22 @@ body.no-scroll {
   transition: all 0.32s ease-out;
 }
 
-#Validation_Window #pdf-link:hover {
+#Validation_Window #DivOrder #pdf-link:hover {
   color: #db4444;
 }
 
-#Validation_Window #pdf-link:hover + span {
+#Validation_Window #DivOrder #pdf-link:hover + span {
   width: 60px;
   transition: width 0.3s ease;
 }
 
-#Validation_Window #pdf-link:active {
+#Validation_Window #DivOrder #pdf-link:active {
   color: #872727;
 }
 
-#Validation_Window #pdf-link:active + span {
+#Validation_Window #DivOrder #pdf-link:active + span {
   width: 0;
 }
-
 
 #Validation_Window #Section_Bottom {
   position: relative;
@@ -465,20 +453,28 @@ body.no-scroll {
   height: fit-content;
   margin-bottom: 43px;
 }
-#Validation_Window #Section_Bottom span{
+#Validation_Window #Section_Bottom span {
   position: relative;
   width: 100%;
   height: 14px;
   background-color: #db4444;
+  border-radius: 0;
+
+  -webkit-transition: all 0.32s ease-out;
+  -moz-transition: all 0.32s ease-out;
+  -o-transition: all 0.32s ease-out;
+  transition: all 0.32s ease-out;
 }
-#Validation_Window #GoHome {
+#Validation_Window #Section_Bottom #GoHome {
   position: absolute;
+  z-index: 1;
   right: 64px;
   margin: 0;
   padding: 16px 30px;
   background-color: #db4444;
   color: white;
-  border: 1px solid #db4444;
+  border: 0;
+  outline: 0;
   border-radius: 4px;
   font-size: 16px;
   font-weight: 400;
@@ -489,9 +485,13 @@ body.no-scroll {
   transition: all 0.32s ease-out;
 }
 
-#Validation_Window #GoHome:hover {
+#Validation_Window #Section_Bottom #GoHome:hover,
+#Validation_Window #Section_Bottom #GoHome:hover ~ span {
   background-color: #ff5c5c;
 }
-#Validation_Window #GoHome:active {
+
+#Validation_Window #Section_Bottom #GoHome:active,
+#Validation_Window #Section_Bottom #GoHome:active ~ span {
   background-color: #db4444;
 }
+

@@ -85,7 +85,7 @@ function updateStatus(StatusMsg) {
 
 // hide show element based on click of a button
 document.querySelector('#Profile').classList.add('active');
-const allItems = document.querySelectorAll('.linksList li, #WishList');
+const allItems = document.querySelectorAll('.linksList li');
 
 allItems.forEach(item => {
   item.addEventListener('click', function() {

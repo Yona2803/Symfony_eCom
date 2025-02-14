@@ -16,7 +16,7 @@
 		<h1>Exclusive.</h1>
 		<nav>
 			<ul>
-				<li><a href="{{path('home')}}" class="ParentPage_{{ ParentPage == 'Home' ? 'True' : 'False' }}">Home</a></li>
+				<li><a href="{{ path('home') }}" class="ParentPage_{{ ParentPage == 'Home' ? 'True' : 'False' }}">Home</a></li>
 				<li><a href="" class="ParentPage_{{ ParentPage == 'Contact' ? 'True' : 'False' }}">Contact</a></li>
 				<li><a href="" class="ParentPage_{{ ParentPage == 'About' ? 'True' : 'False' }}">About</a></li>
 			</ul>
@@ -85,19 +85,16 @@
 						</a>
 
 					{% elseif is_granted('ROLE_CUSTOMER') %}
-						<a
-							href="{{ path('MyAccountPage') }}">
+						<a href="{{ path('MyAccountPage') }}">
 							<div class="iconSpacer">
 								<svg width="19" height="22" viewbox="0 0 19 22" fill="none" xmlns="http://www.w3.org/2000/svg">
 									<path d="M18 21V18.3333C18 16.9188 17.5224 15.5623 16.6722 14.5621C15.8221 13.5619 14.669 13 13.4667 13H5.53333C4.33102 13 3.17795 13.5619 2.32778 14.5621C1.47762 15.5623 1 16.9188 1 18.3333V21" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 									<path d="M9.5 10C11.9853 10 14 7.98528 14 5.5C14 3.01472 11.9853 1 9.5 1C7.01472 1 5 3.01472 5 5.5C5 7.98528 7.01472 10 9.5 10Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 								</svg>
 							</div>
-
 							Manage My Account
 						</a>
-						<a
-							href="{{ path('MyCartPage') }}">
+						<a href="{{ path('MyCartPage') }}">
 							<div class="iconSpacer">
 								<svg width="22" height="20" viewbox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 									<path d="M7.42852 19C7.8723 19 8.23205 18.6337 8.23205 18.1818C8.23205 17.7299 7.8723 17.3636 7.42852 17.3636C6.98475 17.3636 6.625 17.7299 6.625 18.1818C6.625 18.6337 6.98475 19 7.42852 19Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -106,8 +103,6 @@
 									<path d="M6.62463 10.5455H19.1516C19.2445 10.5455 19.3346 10.5128 19.4064 10.4528C19.4783 10.3929 19.5276 10.3094 19.5458 10.2166L20.9921 2.85301C21.0038 2.79363 21.0024 2.73236 20.988 2.67361C20.9736 2.61486 20.9465 2.5601 20.9088 2.51328C20.8711 2.46646 20.8237 2.42875 20.7699 2.40287C20.7161 2.377 20.6574 2.36359 20.5979 2.36364H5.01758" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 								</svg>
 							</div>
-
-
 							My Cart
 						</a>
 						<a href="{{ path('wishlist') }}">
@@ -116,7 +111,6 @@
 									<path d="M6 1C3.239 1 1 3.23669 1 5.99621C1 8.22381 1.875 13.5107 10.488 18.8551C10.6423 18.9499 10.8194 19 11 19C11.1806 19 11.3577 18.9499 11.512 18.8551C20.125 13.5107 21 8.22381 21 5.99621C21 3.23669 18.761 1 16 1C13.239 1 11 4.028 11 4.028C11 4.028 8.761 1 6 1Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 								</svg>
 							</div>
-
 							My Wishlist
 						</a>
 						<a href="">
@@ -126,7 +120,6 @@
 									<path d="M21 6.3L18.1665 2.5H5.8335L3 6.3M15.7775 9.6C15.7775 11.699 14.0865 13.4 12 13.4C9.9135 13.4 8.222 11.699 8.222 9.6" stroke="#FAFAFA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 								</svg>
 							</div>
-
 							My Order
 						</a>
 						<a href="">
@@ -136,7 +129,6 @@
 									<circle cx="12" cy="12" r="11.25" stroke="white" stroke-width="1.5"/>
 								</svg>
 							</div>
-
 							My Cancellations
 						</a>
 					{% endif %}
@@ -152,13 +144,10 @@
 				{% else %}
 					<a href="{{ path('LogInPage') }}">
 						<div class="iconSpacer">
-							<svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-								<path d="M10 16L14 12L10 8" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-								<path d="M14 12H3" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-								<path d="M20 4H12C11.4696 4 10.9609 4.21071 10.5858 4.58579C10.2107 4.96086 10 5.46957 10 6V18C10 18.5304 10.2107 19.0391 10.5858 19.4142C10.9609 19.7893 11.4696 20 12 20H20C20.5304 20 21.0391 19.7893 21.4142 19.4142C21.7893 19.0391 22 18.5304 22 18V6C22 5.46957 21.7893 4.96086 21.4142 4.58579C21.0391 4.21071 20.5304 4 20 4Z" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+							<svg width="19" height="18" viewbox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path d="M10.5 9H1M8.5 12L11.5 9L8.5 6M9 4V3C9 2.46957 9.21071 1.96086 9.58579 1.58579C9.96086 1.21071 10.4696 1 11 1H16C16.5304 1 17.0391 1.21071 17.4142 1.58579C17.7893 1.96086 18 2.46957 18 3V15C18 15.5304 17.7893 16.0391 17.4142 16.4142C17.0391 16.7893 16.5304 17 16 17H11C10.4696 17 9.96086 16.7893 9.58579 16.4142C9.21071 16.0391 9 15.5304 9 15V14" stroke="#FAFAFA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 							</svg>
 						</div>
-
 						LogIn
 					</a>
 				{% endif %}

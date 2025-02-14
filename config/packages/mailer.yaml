@@ -2,7 +2,5 @@ framework:
     mailer:
         dsn: '%env(MAILER_DSN)%'
         envelope:
-            sender: 'hassan10saadaoui@gmail.com'
-            # allowed_recipients: [*]
-
-        
+            sender: '%env(MAILER_SENDER)%'
+            
