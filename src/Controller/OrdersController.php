@@ -6,6 +6,7 @@ use App\Repository\OrdersRepository;
 use App\Service\OrdersService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -17,7 +18,7 @@ final class OrdersController extends AbstractController
     function __construct(
         private OrdersRepository $ordersRepository,
         private OrdersService $ordersService
-    ){
+    ) {
         $this->ordersRepository = $ordersRepository;
     }
 
@@ -25,20 +26,28 @@ final class OrdersController extends AbstractController
 
 
     #[Route('/orders', name: 'orders-list')]
-    public function getAllOrders(): Response
+    public function listOrders(Request $request, OrdersRepository $orderRepository): Response
     {
+        $page = $request->query->getInt('page', 1); // Get the current page from the request
+        $limit = OrdersRepository::PAGINATOR_PER_PAGE; // Results per page
+        $offset = ($page - 1) * $limit; // Calculate the offset
 
-        $orders = $this->ordersRepository->findOrderDetails();
+        $paginator = $orderRepository->findOrderDetails($offset, $limit);
+        $totalResults = count($paginator);
+        $totalPages = ceil($totalResults / $limit);
 
         return $this->render('items/orderPage.html.twig', [
-            'orders' => $orders,
+            'orders' => $paginator,
+            'totalPages' => $totalPages,
+            'currentPage' => $page,
         ]);
     }
 
 
 
-    #[Route('/order/{orderId}/{orderStatus}', name:'change-order-status')]
-    public function changeOrderStatus(int $orderId, string $orderStatus): JsonResponse{
+    #[Route('/order/{orderId}/{orderStatus}', name: 'change-order-status')]
+    public function changeOrderStatus(int $orderId, string $orderStatus): JsonResponse
+    {
         $newOrderStatus = $this->ordersService->changeOrderStatus($orderId, $orderStatus);
         return new JsonResponse([
             'status' => 'successChanged',
@@ -48,14 +57,13 @@ final class OrdersController extends AbstractController
     }
 
 
-    #[Route('/orderDetails/{orderId}', name:'order-details')]
-    public function getOrderDetailsByOrderId(int $orderId): JsonResponse{
+    #[Route('/orderDetails/{orderId}', name: 'order-details')]
+    public function getOrderDetailsByOrderId(int $orderId): JsonResponse
+    {
         $orderDetails = $this->ordersService->getOrderDetailsByOrderId($orderId);
         return new JsonResponse([
             'status' => 'success',
             'orderDetails' => $orderDetails
         ], Response::HTTP_OK);
     }
-
-
 }
