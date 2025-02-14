@@ -10,18 +10,23 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\Users;
 use App\Form\RegistrationFormType;
+use App\Service\EmailVerificationService;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use App\Service\UsersService;
 
 
 class ConnectingPageController extends AbstractController
 {
-    private $usersService;
 
-    public function __construct(UsersService $usersService)
-    {
+
+    public function __construct(
+        private UsersService $usersService,
+        private EmailVerificationService $emailVerificationService
+    ) {
         $this->usersService = $usersService;
+        $this->emailVerificationService = $emailVerificationService;
     }
+
 
     // **** ConnectingPage ****
     #[Route('/Connecting', name: 'ConnectingPage', methods: ['GET'])]
@@ -52,14 +57,25 @@ class ConnectingPageController extends AbstractController
         if ($signInForm->isSubmitted() && $signInForm->isValid()) {
             $firstName = $signInForm->get('firstName')->getData();
             $plainPassword = $signInForm->get('plainPassword')->getData();
+            $email = $signInForm->get('email')->getData();
 
-            $user->setUsername($firstName . random_int(0, 100));  // Ensure unique username if needed
-            $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
-            $user->setRoles(['ROLE_CUSTOMER']);
+            if ($this->emailVerificationService->isValidEmail($email)) {
+                $user->setUsername($firstName . random_int(0, 100));  // Ensure unique username if needed
+                $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
+                $user->setEmail($email);
+                $user->setRoles(['ROLE_CUSTOMER']);
 
-            $entityManager->persist($user);
-            $entityManager->flush();
+                $entityManager->persist($user);
+                $entityManager->flush();
 
+                return $this->render('Pages/ConnectingPage/ConnectingPage.html.twig', [
+                    'signInForm' => $signInForm->createView(),
+                    'last_username' => null,
+                    'error' => null,
+                    'sign_in_successful' => false,
+                ]);
+            }
+            $this->addFlash('connectionFailed', 'Invalid, there is no email account with this email address');
             return $this->render('Pages/ConnectingPage/ConnectingPage.html.twig', [
                 'signInForm' => $signInForm->createView(),
                 'last_username' => null,
@@ -99,7 +115,7 @@ class ConnectingPageController extends AbstractController
             'signInForm' => $signInForm->createView(),
             'last_username' => $lastUsername,
             'error' => $error,
-            'sign_in_successful' => true,
+            'sign_in_successful' => false,
         ]);
     }
 

@@ -30,30 +30,26 @@ function MyCart_Products() {
       if (response && response.length > 0) {
         response.forEach(function (productArray) {
           productArray.forEach(function (product) {
-            let productHTML = `<div class="Product" id="${product.id}">
-    <input id="id${product.id}" type="hidden" name="cartItems[${
-              product.id
-            }][id]" value="${product.id}">
-    <input id="quantity${product.id}" type="hidden" name="cartItems[${
-              product.id
-            }][quantity]">
-    <input id="price${product.id}" type="hidden" name="cartItems[${
-              product.id
-            }][price]" >
+            let productHTML = `
+            <div class="Product" id="${product.id}">
+    <input id="id${product.id}" type="hidden" name="cartItems[${product.id
+              }][id]" value="${product.id}">
+    <input id="quantity${product.id}" type="hidden" name="cartItems[${product.id
+              }][quantity]">
+    <input id="price${product.id}" type="hidden" name="cartItems[${product.id
+              }][price]" >
                                         <div>
-                                         ${
-                                           product.itemImage &&
-                                           product.itemImage !==
-                                             "data:image/jpg;base64,"
-                                             ? `<img src="${product.itemImage}" alt="Product Image: ${product.name}">`
-                                             : `<img src="img/No_Img.png" alt="No Image Available for product: ${product.name}">`
-                                         }
+                                         ${product.itemImage &&
+                product.itemImage !==
+                "data:image/jpg;base64,"
+                ? `<img src="${product.itemImage}" alt="Product Image: ${product.name}">`
+                : `<img src="img/No_Img.png" alt="No Image Available for product: ${product.name}">`
+              }
                                             <p>${product.name}</p>
                                         </div>
                                                                                     
-                                        <span id="itemTotale${
-                                          product.id
-                                        }"></span>
+                                        <span id="itemTotale${product.id
+              }"></span>
                                     </div>`;
 
             container.innerHTML += productHTML;

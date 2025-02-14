@@ -56,8 +56,9 @@
 								</div>
 								<div>
 									<label for="users_lastName">Last Name
+										<span class="required">*</span>
 									</label>
-									<input type="text" id="users_lastName" name="users_lastName" placeholder="Enter Your Last Name" value="{{ User_Data.lastName|default('') }}">
+									<input type="text" id="users_lastName" name="users_lastName" placeholder="Enter Your Last Name" required value="{{ User_Data.lastName|default('') }}">
 								</div>
 								<div>
 									<label for="users_address">Address

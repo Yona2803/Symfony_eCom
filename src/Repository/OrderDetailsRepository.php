@@ -16,6 +16,28 @@ class OrderDetailsRepository extends ServiceEntityRepository
         parent::__construct($registry, OrderDetails::class);
     }
 
+
+    public function getOrderDetailsByOrderId($orderId)
+    {
+        return $this->createQueryBuilder('od')
+            ->select(
+                'od.quantity, od.totalPrice,
+                o.id AS orderId, o.orderDate, o.totalAmount,
+                u.id AS userId, u.username, u.firstName, u.lastName, u.email,
+                i.id as itemId, i.name, i.price'
+            )
+            ->join('od.orderFk', 'o')
+            ->join('o.user', 'u')
+            ->join('od.item', 'i')
+            ->where('o.id = :orderId')
+            ->setParameter('orderId', $orderId)
+            ->getQuery()
+            ->getArrayResult(); 
+    }
+    
+
+
+
     //    /**
     //     * @return OrderDetails[] Returns an array of OrderDetails objects
     //     */

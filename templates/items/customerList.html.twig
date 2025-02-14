@@ -4,15 +4,25 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Customer Details</title>
-		<link rel="stylesheet" href="{{ asset('css/customerListStyle.css') }}">
         <link rel="icon" type="image/x-icon" href="{{ asset('img/icon/Icon.png') }}">
+		
+		<link rel="stylesheet" href="{{ asset('css/customerListStyle.css') }}">
 	</head>
 	<body>
+
+		{# include dashboard page #}
 		{{ include('items/dashBoard.html.twig') }}
 
+		{# include loading message page #}
+		{{ include('items/LoadingMessage.html.twig') }}
+
+
 		<div class="main-content">
+			<div class="sectionTest">
+				<span></span>
+				<h4>Customers</h4>
+			</div>
 			<div>
-				<h1>Customer Details</h1>
 				<table>
 					<thead>
 						<tr>

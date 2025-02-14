@@ -1,14 +1,29 @@
 // Add Route to Local storage
 addRoute("/Products", "Products &#x2f; ");
 
+
+
+
 async function openPopup(productId) {
+  
+  const loadingMessage = document.getElementById("loadingMessage"); // Add a loading message element in your HTML
   document.getElementById("productId").value = productId;
 
   try {
+    // Show loading message
+    if (loadingMessage) {
+      loadingMessage.style.display = "flex";
+  }
+
     const productData = await getProductData(productId);
-    console.log("Product Data:", productData);
 
     if (productData) {
+
+      // Hide loading message
+      if (loadingMessage) {
+        loadingMessage.style.display = "none";
+    }
+
       document.querySelector(".custom-name-field").value = productData.name;
       document.querySelector(".custom-price-field").value = productData.price;
       document.querySelector(".custom-stock-field").value = productData.stock;
@@ -30,9 +45,7 @@ async function openPopup(productId) {
         }
       });
 
-      document.getElementById("updatePopup").style.display = "block";
-    } else {
-      console.error("Product data or 'name' field is missing");
+      document.getElementById("updateProduct").style.display = "block";
     }
   } catch (error) {
     console.error("Error opening popup:", error);
@@ -40,7 +53,7 @@ async function openPopup(productId) {
 }
 
 function closePopup() {
-  document.getElementById("updatePopup").style.display = "none";
+  document.getElementById("updateProduct").style.display = "none";
 }
 
 async function getProductData(productId) {

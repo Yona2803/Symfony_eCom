@@ -17,6 +17,7 @@ use App\Entity\OrderDetails;
 use App\Entity\Users;
 use App\Service\UsersService;
 use App\Repository\OrderDetailsRepository;
+use App\Repository\OrderStatusRepository;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
@@ -74,19 +75,41 @@ class BillingDetailsController extends AbstractController
             // Get cart items from the request
             $cartItems = $request->request->all('cartItems');
 
+            // get user data from the form
+            $firstName = $request->request->get('users_firstName');
+            $lastName = $request->request->get('users_lastName');
+            $address = $request->request->get('users_address');
+            $phoneNumber = $request->request->get('users_phoneNumber');
+            $email = $request->request->get('users_email');
+            $TTCValue = $request->request->get('TTCValue');
+
             // Get form data
             $formData = [
-                'firstName' => $request->request->get('users_firstName'),
-                'lastName' => $request->request->get('users_lastName'),
-                'address' => $request->request->get('users_address'),
-                'phoneNumber' => $request->request->get('users_phoneNumber'),
-                'email' => $request->request->get('users_email'),
+                'firstName' => $firstName,
+                'lastName' => $lastName,
+                'address' => $address,
+                'phoneNumber' => $phoneNumber,
+                'email' => $email,
                 'ClientId' => $User_id,
-                'TTCValue' => $request->request->get('TTCValue'),
+                'TTCValue' => $TTCValue,
             ];
 
             // validation
             $errors = $this->validateFormData($formData, $cartItems);
+
+
+            // $userId = $this->usersService->getIdOfAuthenticatedUser();
+            //
+            $user = $entityManager->getRepository(Users::class)->find($User_id);
+            // insert user data to the users table in DB
+            $user->setLastName($lastName);
+            $user->setAddress($address);
+            $user->setPhoneNumber($phoneNumber);
+
+            $entityManager->persist($user);
+            $entityManager->flush();
+        
+
 
             // If no errors, process the form
             if (empty($errors)) {
@@ -182,6 +205,10 @@ class BillingDetailsController extends AbstractController
         $Order->setTotalAmount($TTCValue);
         $Order->setOrderDate(new \DateTime());
 
+        // get order status "PREPARING" and asign it to the new order
+        // $orderStatus = $this->orderStatusRepository->findOneBy(['statusName' => 'PREPARING']); 
+        // $Order->setOrderStatus($orderStatus);
+
         $entityManager->persist($Order);
         $entityManager->flush();
 
@@ -233,7 +260,7 @@ class BillingDetailsController extends AbstractController
     {
         $orderData = [
             'order_id' => $Order->getId(),
-            'order_date' => $Order->getOrderDate()->format('d/m/Y'),
+            'order_date' => $Order->getOrderDate()->format('Y-m-d'),
             'TTC' => $Order->getTotalAmount(),
             'HT' => $Ht,
             'items' => [],

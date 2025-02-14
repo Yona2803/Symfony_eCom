@@ -22,7 +22,8 @@ function deleteCustomer(customerId) {
             .catch((error) => {
                 console.error("Error:", error);
             });
-    } else {
+        } else {
+        
         console.log("Customer deletion canceled.");
     }
 }

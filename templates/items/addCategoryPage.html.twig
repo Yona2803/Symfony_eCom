@@ -4,8 +4,10 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Document</title>
-		<link rel="stylesheet" href="{{ asset('css/FormPageStyle.css') }}">
 		<link rel="icon" type="image/x-icon" href="{{ asset('img/icon/Icon.png') }}">
+
+		<link rel="stylesheet" href="{{ asset('css/updateCategoryStyle.css') }}">
+		<link rel="stylesheet" href="{{ asset('css/FormCategoryStyle.css') }}">
 	</head>
 	<body>
 		{{ include('items/dashBoard.html.twig') }}
@@ -33,7 +35,8 @@
 		{% endif %}
 
 
-		<div class="container">
+
+		<div class="addCategory-container">
 			<h1>Add Category</h1>
 			{{ form_start(form, {'action': path('add-category'), 'method': 'POST', 'attr': {'enctype': 'multipart/form-data'}}) }}
 			<div class="form-group">
@@ -51,6 +54,7 @@
 			<button type="submit" class="submit-add-category">Add Category</button>
 			{{ form_end(form) }}
 		</div>
-
 	</body>
+	<script src="{{ asset('Pages/CategoriesPage/main.js') }}" defer></script>
+
 </html>

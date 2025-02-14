@@ -20,18 +20,20 @@ class RegistrationFormType extends AbstractType
     {
         $builder
             ->add('firstName', TextType::class, [
-                'label' => 'First Name',
-                'attr' => [                    
-                    'class' => 'input sz-md variant-outlined'
+                'label' => false,
+                'attr' => [
+                    'class' => 'input sz-md variant-outlined',
+                    'placeholder' => 'Enter your first name'
                 ],
             ])
 
             ->add('email', EmailType::class, [
-                'label' => 'Email',
+                'label' => false,
                 'attr' => [
-                    'autocomplete' => 'email',                     
+                    'autocomplete' => 'email',
+                    'class' => 'input sz-md variant-outlinede',
+                    'placeholder' => 'Enter your email',
 
-                    'class' => 'input sz-md variant-outlinede'
                 ],
             ])
 
@@ -46,20 +48,21 @@ class RegistrationFormType extends AbstractType
             // ])
 
             ->add('plainPassword', PasswordType::class, [
-                // instead of being set onto the object directly,
+                // instead of being set into the object directly,
                 // this is read and encoded in the controller
-                'label' => 'Password',
+                'label' => false,
                 'mapped' => false,
                 'attr' => [
-                    'autocomplete' => 'new-password',                     
-                    'class' => 'input sz-md variant-outlined'
+                    'autocomplete' => 'new-password',
+                    'class' => 'input sz-md variant-outlined',
+                    'placeholder' => 'Enter your password'
 
                 ],
                 'constraints' => [
                     new Length([
                         'min' => 6,
                         'minMessage' => 'Your password should be at least {{ limit }} characters',
-                        'max' => 27, // for Faster Hashing </> 4096 will take lot of time + Memory usage
+                        'max' => 27,
                     ]),
                 ],
             ]);

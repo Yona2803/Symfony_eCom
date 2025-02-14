@@ -4,4 +4,3 @@ framework:
         envelope:
             sender: '%env(MAILER_SENDER)%'
             
-        

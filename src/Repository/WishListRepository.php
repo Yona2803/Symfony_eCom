@@ -42,7 +42,7 @@ class WishListRepository extends ServiceEntityRepository
     
 
 
-     /**
+    /**
      * Finds a specific item in a wishlist.
      *
      * @param int $wishListId

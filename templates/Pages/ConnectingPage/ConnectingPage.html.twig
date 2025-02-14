@@ -6,8 +6,6 @@
 		<link rel="icon" type="image/x-icon" href="{{ asset('img/icon/Icon.png') }}">
 	</head>
 	<body>
-		{# Header Section #}
-		{# {% include 'components/Header/Header.html.twig' with { 'ParentPage': 'Connecting' } %} #}
 		{# Adding Content Section #}
 		<main class="main-container">
 			<div class="connection-wrapper">
@@ -53,14 +51,16 @@
 		<script src="{{ asset('js/global.js') }}"></script>
 		<script src="{{ asset('Pages/ConnectingPage/main.js') }}"></script>
 		<script>
+				let sign_in_successful = {{ sign_in_successful }};
 
-let sign_in_successful = {{ sign_in_successful ? sign_in_successful : false }};
-
-document.addEventListener('DOMContentLoaded', function () { // Switch to login form if the sign-in was successful
-if (sign_in_successful) {
-SwitchTo('logIn');
-}
-});
+				document.addEventListener('DOMContentLoaded', function () { // Switch to login form if the sign-in was successful
+				if (sign_in_successful === true) {
+					SwitchTo('logIn');
+				}else{
+					SwitchTo('signIn');
+				}
+				
+				});
 		</script>
 	</body>
 </html>

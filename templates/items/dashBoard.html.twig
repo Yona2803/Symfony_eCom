@@ -37,31 +37,24 @@
 							<li>
 								<a href="{{ path('update-item-page') }}">Update Product</a>
 							</li>
-							<li>
-								<a href="{{ path('add-category-page') }}">Add Category</a>
-							</li>
 						</ul>
 					</li>
 					<li>
-						<a href="#">Orders</a>
-						<ul class="submenu">
-							<li>
-								<a href="#">View Orders</a>
-							</li>
-							<li>
-								<a href="#">Manage Orders</a>
-							</li>
-						</ul>
+						<a href="{{ path('categories_list') }}">Categories</a>
 					</li>
 					<li>
-						<a href="{{ path('customers-list') }}">Manage Customer</a>
+						<a href="{{ path('orders-list') }}">Orders</a>
+					</li>
+					<li>
+						<a href="{{ path('customers-list') }}">Customers</a>
 					</li>
 					<li>
 						<a href="{{ path('app_logout') }}">Logout</a>
 					</li>
 				</ul>
 			</div>
-			
+
+		{# this for load the image inside the box #}
 		<script>
                 function previewImage(event) {
 					const input = event.target;
@@ -74,6 +67,7 @@
                 reader.readAsDataURL(input.files[0]);
                 }
 		</script>
+
         <script src="{{ asset('Pages/WishlistPage/main.js') }}"></script>
 	</body>
 </html>
