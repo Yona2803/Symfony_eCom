@@ -69,10 +69,22 @@
 					{% endfor %}
 				</div>
 
-				<button id="ShowMoreProducts" type="button">View ll Products</button>
+				{# <button id="ShowMoreProducts" type="button">View ll Products</button> #}
+
+
+			{% if items|length > 12 %}
+				<div class="pagesNumber">
+					{% for i in 1..totalPages %}
+						<a href="{{ path('productsPage', {'page': i}) }}" class="{{ i == currentPage ? 'active' : '' }}">
+							{{ i }}
+						</a>
+					{% endfor %}
+				</div>
+			{% endif %}
 
 			</div>
 		</div>
+
 		{# Footer Section #}
 		{{ include('Components/Footer/Footer.html.twig') }}
 		<script src="{{ asset('js/global.js') }}"></script>

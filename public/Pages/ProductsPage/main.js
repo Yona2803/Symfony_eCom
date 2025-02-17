@@ -34,6 +34,8 @@ async function openPopup(productId) {
 
         if (productData.image){
           document.querySelector(".image-preview").src = `data:image/jpeg;base64,${productData.image}`;
+        } else{
+          document.querySelector(".image-preview").src = 'img/No_Img.png';
         }
 
       productData.tags.forEach((tag) => {

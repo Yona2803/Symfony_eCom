@@ -49,6 +49,7 @@ class ItemType extends AbstractType
 
             ->add('tags', ChoiceType::class, [
                 'label' => 'Tags',
+                'required' => true,
                 'choices' => [
                     "Woman's Fashion" => "Woman's Fashion",
                     "Men's Fashion" => "Men's Fashion",
@@ -63,8 +64,8 @@ class ItemType extends AbstractType
                 'multiple' => true,
                 'expanded' => true,
                 'attr' => [
-                'class' => 'inline-checkbox-group'
-                    ],
+                    'class' => 'inline-checkbox-group'
+                ],
             ])
 
 
@@ -81,5 +82,4 @@ class ItemType extends AbstractType
             'data_class' => Items::class,
         ]);
     }
-    
 }

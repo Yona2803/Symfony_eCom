@@ -176,11 +176,6 @@ tbody tr td:last-child {
 
 
 
-.cellOrderStatus {
-    text-align: center;
-}
-
-
 
 
 .popup {
@@ -217,6 +212,14 @@ tbody tr td:last-child {
 
 
 
+
+.cellOrderStatus {
+    text-align: center;
+    width: 200px;
+}
+
+
+
 .dropdown-container {
     position: relative;
 }
@@ -234,11 +237,10 @@ tbody tr td:last-child {
     height: 28px;
     border-radius: 2px;
     padding: 0 12px;
-    margin-top: auto;
+    margin: 0 auto;
     font-size: 12px;
     font-weight: 300;
     border: 1px solid rgb(24, 74, 72, 0.5);
-    /* position: absolute; */
 }
 
 .dropbtn svg {
@@ -385,20 +387,20 @@ tbody tr td:last-child {
 
 .pagesNumber a {
     text-decoration: none;
-    color: #007BFF; /* Default link color */
+    color: #f74733; /* Default link color */
     padding: 8px 12px;
-    border: 1px solid #007BFF;
+    border: 1px solid #f74733;
     border-radius: 4px;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .pagesNumber a:hover {
-    background-color: #007BFF;
+    background-color: #f74733;
     color: #fff;
 }
 
 .pagesNumber a.active {
-    background-color: #007BFF;
+    background-color: #f74733;
     color: #fff;
     font-weight: bold;
 }

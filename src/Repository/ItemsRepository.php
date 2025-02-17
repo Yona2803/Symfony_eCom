@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Items;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -11,22 +12,20 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ItemsRepository extends ServiceEntityRepository
 {
+
+
+
+    public const PAGINATOR_PER_PAGE = 12;
+
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Items::class);
     }
 
-    public function findByPartialName(string $name): array
-    {
-        return $this->createQueryBuilder('p')
-            ->where('p.name LIKE :name')
-            ->setParameter('name', '%' . (string)$name . '%')
-            ->getQuery()
-            ->getResult();
-    }
 
 
-   /**
+    /**
      * @return Items[] Returns an array of Items objects
      */
     public function findByCategoryName(string $categoryName)
@@ -51,6 +50,34 @@ class ItemsRepository extends ServiceEntityRepository
     }
 
 
+
+    public function findByPartialName(string $name): array
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.name LIKE :name')
+            ->setParameter('name', '%' . (string)$name . '%')
+            ->getQuery()
+            ->getResult();
+    }
+
+
+
+    public function findProducts(int $offset, int $limit = self::PAGINATOR_PER_PAGE): Paginator
+    {
+        // Validate offset and limit
+        if ($offset < 0 || $limit < 1) {
+            throw new \InvalidArgumentException('Invalid offset or limit.');
+        }
+
+        $query = $this->createQueryBuilder('i')
+            ->addSelect('i.id, i.name, i.stock, i.price, i.itemImage')
+            ->setFirstResult($offset)
+            ->setMaxResults($limit)
+            ->getQuery();
+
+        // Use Doctrine's Paginator with fetchJoinCollection for better performance
+        return new Paginator($query, $fetchJoinCollection = true);
+    }
 
 
 
