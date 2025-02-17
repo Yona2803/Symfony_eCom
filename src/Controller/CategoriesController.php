@@ -66,7 +66,7 @@ class CategoriesController extends AbstractController
     {
         $items = $this->itemsRepository->findByCategoryName($categoryName);
         return $this->render('Pages/ProductsPage/ProductsPage.html.twig', [
-            'items' => $items
+            'items' => $items,
         ]);
     }
 

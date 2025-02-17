@@ -30,7 +30,7 @@ class ProductsPageController extends AbstractController
 
         $items = $itemsRepository->findByPartialName($name);
         return $this->render('Pages/ProductsPage/ProductsPage.html.twig', [
-            'items' => $items
+            'items' => $items,
         ]);
     }
 
@@ -40,17 +40,8 @@ class ProductsPageController extends AbstractController
     {
         $items = $itemsRepository->findByCategoryName($categoryName);
         return $this->render('Pages/ProductsPage/ProductsPage.html.twig', [
-            'items' => $items
+            'items' => $items,
         ]);
     }
 
-    // Products Controller
-    #[Route('/Products', name: 'productsPage')]
-    public function products(): Response
-    {
-        $items = $this->itemsService->getAllProducts();
-        return $this->render('Pages/ProductsPage/ProductsPage.html.twig', [
-            'items' => $items
-        ]);
-    }
 }

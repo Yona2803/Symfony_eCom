@@ -11,6 +11,7 @@ use App\Form\ItemType;
 use App\Repository\ItemsRepository;
 use App\Service\ItemsService;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Mime\MimeTypes;
 
@@ -38,14 +39,42 @@ class ItemsController extends AbstractController
         return new Response(null, Response::HTTP_NOT_FOUND);
     }
 
+    // #[Route('/productsPage', name: 'productsPage')]
+    // public function products(): Response
+    // {
+    //     $items = $this->itemsService->getAllProducts();
+    //     return $this->render('Pages/ProductsPage/ProductsPage.html.twig', [
+    //         'items' => $items
+    //     ]);
+    // }
+
+
+
     #[Route('/productsPage', name: 'productsPage')]
-    public function products(): Response
+    public function products(Request $request, ItemsRepository $itemsRepository, LoggerInterface $logger): Response
     {
-        $items = $this->itemsService->getAllProducts();
+        $page = $request->query->getInt('page', 1); // Get the current page from the request
+        $limit = ItemsRepository::PAGINATOR_PER_PAGE; // Results per page
+        $offset = ($page - 1) * $limit; // Calculate the offset
+
+        $paginator = $itemsRepository->findProducts($offset, $limit);
+        $totalResults = count($paginator);
+        $totalPages = ceil($totalResults / $limit);
+
         return $this->render('Pages/ProductsPage/ProductsPage.html.twig', [
-            'items' => $items
+            'items' => $paginator,
+            'totalPages' => $totalPages,
+            'currentPage' => $page,
         ]);
     }
+
+
+
+
+
+
+
+
 
     #[Route('/Products', name: 'search', methods: ['GET'])]
     public function search(Request $request, ItemsRepository $itemsRepository): Response
@@ -54,7 +83,7 @@ class ItemsController extends AbstractController
 
         $items = $itemsRepository->findByPartialName($name);
         return $this->render('Pages/ProductsPage/ProductsPage.html.twig', [
-            'items' => $items
+            'items' => $items,
         ]);
     }
 
@@ -173,6 +202,8 @@ class ItemsController extends AbstractController
 
         if ($item->getItemImage()) {
             $imageData = base64_encode(stream_get_contents($item->getItemImage()));
+        }else {
+            $imageData = null;
         }
 
         return new JsonResponse([
@@ -184,6 +215,5 @@ class ItemsController extends AbstractController
             'category' => $item->getCategory()->getId(),
             'image' => $imageData,
         ]);
-                
     }
 }
