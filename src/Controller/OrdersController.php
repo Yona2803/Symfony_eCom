@@ -7,6 +7,7 @@ use App\Repository\OrderDetailsRepository;
 use App\Service\OrdersService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Doctrine\ORM\EntityManagerInterface;
@@ -30,13 +31,20 @@ final class OrdersController extends AbstractController
 
 
     #[Route('/orders', name: 'orders-list')]
-    public function getAllOrders(): Response
+    public function listOrders(Request $request, OrdersRepository $orderRepository): Response
     {
+        $page = $request->query->getInt('page', 1); // Get the current page from the request
+        $limit = OrdersRepository::PAGINATOR_PER_PAGE; // Results per page
+        $offset = ($page - 1) * $limit; // Calculate the offset
 
-        $orders = $this->ordersRepository->findOrderDetails();
+        $paginator = $orderRepository->findOrderDetails($offset, $limit);
+        $totalResults = count($paginator);
+        $totalPages = ceil($totalResults / $limit);
 
         return $this->render('items/orderPage.html.twig', [
-            'orders' => $orders,
+            'orders' => $paginator,
+            'totalPages' => $totalPages,
+            'currentPage' => $page,
         ]);
     }
 
@@ -61,7 +69,6 @@ final class OrdersController extends AbstractController
             'orderDetails' => $orderDetails
         ], Response::HTTP_OK);
     }
-
 
     // **** Get Order's : Records By Caller ****
     #[Route('/Orders/FetchRecordsby/{Caller}', name: 'GetByCaller')]
@@ -108,4 +115,5 @@ final class OrdersController extends AbstractController
             'status' => 'error'
         ]);
     }
+
 }

@@ -72,6 +72,17 @@ class OrderDetailsRepository extends ServiceEntityRepository
 
 
 
+    public function findByOrderId(int $orderId): array
+    {
+        return $this->createQueryBuilder('od')
+            ->andWhere('od.orderFk = :orderId')
+            ->setParameter('orderId', $orderId)
+            ->getQuery()
+            ->getResult();
+    }
+
+    
+    
     //    /**
     //     * @return OrderDetails[] Returns an array of OrderDetails objects
     //     */
@@ -96,12 +107,5 @@ class OrderDetailsRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
-    public function findByOrderId(int $orderId): array
-    {
-        return $this->createQueryBuilder('od')
-            ->andWhere('od.orderFk = :orderId')
-            ->setParameter('orderId', $orderId)
-            ->getQuery()
-            ->getResult();
-    }
+    
 }

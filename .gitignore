@@ -1,5 +1,7 @@
 
 ###> symfony/framework-bundle ###
+cacert
+/cacert
 /.env
 /.env.local
 /.env.local.php

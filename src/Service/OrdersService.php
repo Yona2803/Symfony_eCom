@@ -10,7 +10,7 @@ use Doctrine\ORM\EntityManagerInterface;
 class OrdersService
 {
 
-    function __construct(
+    public function __construct(
         private OrdersRepository $ordersRepository,
         private OrderDetailsRepository $orderDetailsRepository,
         private OrderStatusRepository $orderStatusRepository,

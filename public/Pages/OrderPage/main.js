@@ -18,7 +18,7 @@ function changeOrderStatus(orderId, orderStatus) {
                     let spanStatusName = document.querySelector(`#statusName-${orderId}`);
 
                     // Change the background color based on the order status
-                    if (data.orderStatus !== "DELIVERED") {
+                    if (data.orderStatus !== "Delivered") {
                         row.style.backgroundColor = "pink";
                     } else {
                         row.style.backgroundColor = "rgb(177, 225, 192)";
@@ -199,7 +199,7 @@ async function openPopupOrderDetails(orderId) {
                 (detail) => `
             <tr>
                 <td>${detail.name}</td>
-                <td>${detail.quantity}</td>
+                <td style="text-align: center;">${detail.quantity}</td>
                 <td>${detail.price.toFixed(2)} DH</td>
                 <td>${detail.totalPrice.toFixed(2)} DH</td>
             </tr>
