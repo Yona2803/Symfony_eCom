@@ -28,21 +28,24 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class BillingDetailsController extends AbstractController
 {
+    private $orderStatusRepository;
     private ItemsService $itemsService;
     private $usersService;
     private $mailer;
-    private $params;
+    // private $params;
 
     public function __construct(
+        OrderStatusRepository $orderStatusRepository,
         ItemsService $itemsService,
         UsersService $usersService,
         MailerInterface $mailer,
-        ParameterBagInterface $params
+        // ParameterBagInterface $params,
     ) {
+        $this->orderStatusRepository = $orderStatusRepository;
         $this->itemsService = $itemsService;
         $this->usersService = $usersService;
         $this->mailer = $mailer;
-        $this->params = $params;
+        // $this->params = $params;
     }
 
     #[Route('/CheckOut', name: 'CheckOut', methods: ['GET'])]
@@ -206,8 +209,8 @@ class BillingDetailsController extends AbstractController
         $Order->setOrderDate(new \DateTime());
 
         // get order status "PREPARING" and asign it to the new order
-        // $orderStatus = $this->orderStatusRepository->findOneBy(['statusName' => 'PREPARING']); 
-        // $Order->setOrderStatus($orderStatus);
+        $orderStatus = $this->orderStatusRepository->findOneBy(['statusName' => 'Preparing']);
+        $Order->setOrderStatus($orderStatus);
 
         $entityManager->persist($Order);
         $entityManager->flush();

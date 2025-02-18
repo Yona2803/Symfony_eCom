@@ -1,7 +1,11 @@
+// Cache to store fetched data
+let dataCache = {};
+
 // **** initialize Elements ****
 const Form_ErrorMsg = document.querySelector(".Form_ErrorMsg");
 const Msg_404 = document.querySelector(".Msg_404");
-const Form_Profile = document.querySelector("#Edite_Profile");
+const AccountSection = document.querySelector("#AccountSection");
+const OrdersSection = document.querySelector("#OrdersSection");
 const Submit_BtnForm = document.querySelector("#Submit_BtnForm");
 
 // **** Get the entire routeInfo array from LocalStorage ****
@@ -84,30 +88,60 @@ function updateStatus(StatusMsg) {
 }
 
 // hide show element based on click of a button
-document.querySelector('#Profile').classList.add('active');
-const allItems = document.querySelectorAll('.linksList li');
+document.querySelector("#Profile").classList.add("active");
+OrdersSection.style.display = "none";
+const allItems = document.querySelectorAll(".linksList li");
+const iconWait = document.querySelector(".iconWait");
+const Titel = document.getElementById("Title");
 
-allItems.forEach(item => {
-  item.addEventListener('click', function() {
-    allItems.forEach(el => {
-      el.classList.remove('active');
+allItems.forEach((item) => {
+  item.addEventListener("click", function () {
+    allItems.forEach((el) => {
+      el.classList.remove("active");
     });
 
-    this.classList.add('active');
+    this.classList.add("active");
 
     Hide_Show(this.id);
   });
 });
 
-
 function Hide_Show(element) {
   if (element === "Profile") {
-    Edite_Profile.style.display = "flex";
+    AccountSection.style.display = "flex";
+    OrdersSection.style.display = "none";
     Msg_404.style.display = "none";
     Form_ErrorMsg.style.display = "none";
-  } else {
-    Edite_Profile.style.display = "none";
-    Msg_404.style.display = "none";
-    Msg_404.style.display = "flex";
   }
+  if (element === "Payment") {
+    AccountSection.style.display = "none";
+    OrdersSection.style.display = "none";
+    Msg_404.style.display = "flex";
+    Form_ErrorMsg.style.display = "none";
+  }
+  if (element === "Orders") {
+    Titel.innerHTML = "My Ordes";
+    AccountSection.style.display = "none";
+    OrdersSection.style.display = "flex";
+    Msg_404.style.display = "none";
+    Form_ErrorMsg.style.display = "none";
+  }
+
+  if (element === "Returns") {
+    Titel.innerHTML = "My Returns";
+    AccountSection.style.display = "none";
+    OrdersSection.style.display = "flex";
+    Msg_404.style.display = "none";
+    Form_ErrorMsg.style.display = "none";
+  }
+
+  if (element === "Cancellations") {
+    Titel.innerHTML = "My Cancellations";
+    AccountSection.style.display = "none";
+    OrdersSection.style.display = "flex";
+    Msg_404.style.display = "none";
+    Form_ErrorMsg.style.display = "none";
+  }
+
+  FetchRecordsBy(element);
 }

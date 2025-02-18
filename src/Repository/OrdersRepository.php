@@ -16,9 +16,6 @@ class OrdersRepository extends ServiceEntityRepository
         parent::__construct($registry, Orders::class);
     }
 
-
-
-
     public function findOrderDetails()
     {
         return $this->createQueryBuilder('o')
@@ -31,12 +28,25 @@ class OrdersRepository extends ServiceEntityRepository
             ->join('o.user', 'u')
             ->orderBy('orderId', 'DESC')
             ->getQuery()
-            ->getArrayResult(); 
+            ->getArrayResult();
     }
 
+    public function findOrders($Caller)
+    {
+        $Orders = $this->createQueryBuilder('o')  // 'o' is alias for orders
+            ->select(
+                'o.id, o.orderDate, o.totalAmount,
+            os.statusName, COUNT(od.id) AS detailsCount'
+            )
+            ->join('o.orderStatus', 'os')
+            ->join('o.orderDetails', 'od')
+            ->groupBy('o.id')
+            ->orderBy('o.id', 'DESC')
+            ->getQuery()
+            ->getArrayResult();
 
-
-
+        return $Orders;
+    }
 
     //    /**
     //     * @return Orders[] Returns an array of Orders objects
