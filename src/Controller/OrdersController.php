@@ -36,7 +36,26 @@ final class OrdersController extends AbstractController
         $totalResults = count($paginator);
         $totalPages = ceil($totalResults / $limit);
 
-        return $this->render('items/orderPage.html.twig', [
+        return $this->render('MyPages/Orders/orderPage.html.twig', [
+            'orders' => $paginator,
+            'totalPages' => $totalPages,
+            'currentPage' => $page,
+        ]);
+    }
+
+
+    #[Route('/orders/returns', name: 'orders-returns')]
+    public function ordersReturnsRequestList(Request $request, OrdersRepository $orderRepository): Response
+    {
+        $page = $request->query->getInt('page', 1); // Get the current page from the request
+        $limit = OrdersRepository::PAGINATOR_PER_PAGE; // Results per page
+        $offset = ($page - 1) * $limit; // Calculate the offset
+
+        $paginator = $orderRepository->findOrderDetails($offset, $limit);
+        $totalResults = count($paginator);
+        $totalPages = ceil($totalResults / $limit);
+
+        return $this->render('MyPages/Orders/ordersReturnsRequestPage.html.twig', [
             'orders' => $paginator,
             'totalPages' => $totalPages,
             'currentPage' => $page,

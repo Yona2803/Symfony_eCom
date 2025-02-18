@@ -54,7 +54,7 @@ class CategoriesController extends AbstractController
     {
         $category = new Categories();
         $form = $this->createForm(CategoriesType::class, $category);
-        return $this->render('items/addCategoryPage.html.twig', [
+        return $this->render('MyPages/Categories/addCategoryPage.html.twig', [
             'form' => $form->createView()
         ]);
     }
@@ -86,7 +86,7 @@ class CategoriesController extends AbstractController
             ];
         }, $categories);
 
-        return $this->render('items/CategoriesPage.html.twig', [
+        return $this->render('MyPages/Categories/CategoriesPage.html.twig', [
             'categories' => $categoriesData,
             'form' => $form->createView()
         ]);

@@ -43,7 +43,15 @@
 						<a href="{{ path('categories_list') }}">Categories</a>
 					</li>
 					<li>
-						<a href="{{ path('orders-list') }}">Orders</a>
+						<a href="#">Orders</a>
+						<ul class="submenu">
+							<li>
+								<a href="{{ path('orders-list') }}">Orders List</a>
+							</li>
+							<li>
+								<a href="{{ path('orders-returns') }}">Returns Request</a>
+							</li>
+						</ul>
 					</li>
 					<li>
 						<a href="{{ path('customers-list') }}">Customers</a>

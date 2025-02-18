@@ -51,7 +51,7 @@ class ItemsController extends AbstractController
 
 
     #[Route('/productsPage', name: 'productsPage')]
-    public function products(Request $request, ItemsRepository $itemsRepository, LoggerInterface $logger): Response
+    public function products(Request $request, ItemsRepository $itemsRepository): Response
     {
         $page = $request->query->getInt('page', 1); // Get the current page from the request
         $limit = ItemsRepository::PAGINATOR_PER_PAGE; // Results per page
@@ -91,7 +91,7 @@ class ItemsController extends AbstractController
     #[Route('/dashboard', name: 'dashboard', methods: ['GET'])]
     public function toDashboard(): Response
     {
-        return $this->render('items/dashBoard.html.twig');
+        return $this->render('MyPages/Dashboard/dashBoard.html.twig');
     }
 
     #[Route('/add-item-page', name: 'add_item_page')]
@@ -100,7 +100,7 @@ class ItemsController extends AbstractController
         $item = new Items();
         $form = $this->createForm(ItemType::class, $item);
 
-        return $this->render('items/addItemPage.html.twig', [
+        return $this->render('MyPages/Products/addItemPage.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -130,7 +130,7 @@ class ItemsController extends AbstractController
         $form->handleRequest($request);
 
         $items = $itemsRepository->findByPartialName($name);
-        return $this->render('items/updateItemPage.html.twig', [
+        return $this->render('MyPages/Products/updateItemPage.html.twig', [
             'items' => $items,
             'form' => $form->createView(),
         ]);
@@ -141,13 +141,12 @@ class ItemsController extends AbstractController
     #[Route('/update-item-page', name: 'update-item-page')]
     public function updateItemPage(Request $request,): Response
     {
-
         $item = new Items();
         $form = $this->createForm(ItemType::class, $item);
         $form->handleRequest($request);
 
         $items = $this->itemsService->getAllProducts();
-        return $this->render('items/updateItemPage.html.twig', [
+        return $this->render('MyPages/Products/updateItemPage.html.twig', [
             'items' => $items,
             'form' => $form->createView(),
 
@@ -159,7 +158,6 @@ class ItemsController extends AbstractController
     #[Route('/item/update/{id}', name: 'item_update')]
     public function update(Request $request, EntityManagerInterface $em)
     {
-
         $item = new Items();
         $form = $this->createForm(ItemType::class, $item);
         $form->handleRequest($request);
@@ -171,7 +169,7 @@ class ItemsController extends AbstractController
         }
 
         $items = $this->itemsService->getAllProducts();
-        return $this->render('items/updateItemPage.html.twig', [
+        return $this->render('MyPages/Products/updateItemPage.html.twig', [
             'form' => $form->createView(),
             'items' => $items
         ]);
@@ -202,7 +200,7 @@ class ItemsController extends AbstractController
 
         if ($item->getItemImage()) {
             $imageData = base64_encode(stream_get_contents($item->getItemImage()));
-        }else {
+        } else {
             $imageData = null;
         }
 

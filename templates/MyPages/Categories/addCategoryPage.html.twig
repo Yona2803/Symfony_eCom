@@ -10,7 +10,7 @@
 		<link rel="stylesheet" href="{{ asset('css/FormCategoryStyle.css') }}">
 	</head>
 	<body>
-		{{ include('items/dashBoard.html.twig') }}
+		{{ include('MyPages/Dashboard/dashBoard.html.twig') }}
 
 		{% set addCategoryMessage = app.flashes('addCategory') %}
 		{% set addCategoryErrorMessage = app.flashes('addCategoryError') %}

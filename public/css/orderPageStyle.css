@@ -219,9 +219,9 @@ tbody tr td:last-child {
 }
 
 
-
 .dropdown-container {
     position: relative;
+    margin-bottom: 30px;
 }
 
 .dropdown {

@@ -27,7 +27,7 @@ class UsersController extends AbstractController
     {
         $customers = $this->usersRepository->findCustomerByRoles('ROLE_CUSTOMER');
 
-        return $this->render('items/customerList.html.twig', [
+        return $this->render('MyPages/Customers/customerList.html.twig', [
             'customers' => $customers,
         ]);
     }
