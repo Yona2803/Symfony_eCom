@@ -32,9 +32,43 @@ class OrderDetailsRepository extends ServiceEntityRepository
             ->where('o.id = :orderId')
             ->setParameter('orderId', $orderId)
             ->getQuery()
-            ->getArrayResult(); 
+            ->getArrayResult();
     }
-    
+
+
+    public function findOrderDetailsById($orderId)
+    {
+        $data = $this->createQueryBuilder('od')
+            ->select(
+                'o.id as orderId,
+                 od.totalPrice, od.quantity,
+                 i.id as itemId, i.name as itemName, i.itemImage'
+            )
+            ->join('od.orderFk', 'o')
+            ->join('od.item', 'i')
+            ->where('o.id = :orderId')
+            ->setParameter('orderId', $orderId)
+            ->getQuery()
+            ->getArrayResult();
+
+        // Convert the BLOB image to a base64 encoded string with the correct MIME type
+        foreach ($data as &$record) {
+            if (isset($record['itemImage']) && is_resource($record['itemImage'])) {
+                // Detect the MIME type
+                $finfo = new \finfo(FILEINFO_MIME_TYPE);
+                $mimeType = $finfo->buffer(stream_get_contents($record['itemImage'], -1, 0));
+
+                // Reset the stream pointer to the beginning for reading the content
+                rewind($record['itemImage']);
+
+                // Base64 encode the image content and prepend with the MIME type
+                $record['itemImage'] = 'data:' . $mimeType . ';base64,' . base64_encode(stream_get_contents($record['itemImage']));
+            }
+        }
+
+        return $data;
+    }
+
 
 
 

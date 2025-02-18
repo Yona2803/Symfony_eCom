@@ -36,9 +36,16 @@ class Orders
     #[ORM\JoinColumn(nullable: false)]
     private ?OrderStatus $orderStatus = null;
 
+     /**
+     * @var Collection<int, OrderState>
+     */
+    #[ORM\OneToMany(targetEntity: OrderState::class, mappedBy: 'OrdState', orphanRemoval: true)]
+    private Collection $orderState;
+
     public function __construct()
     {
         $this->orderDetails = new ArrayCollection();
+        $this->orderState = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -121,6 +128,36 @@ class Orders
     public function setOrderStatus(?OrderStatus $orderStatus): static
     {
         $this->orderStatus = $orderStatus;
+
+        return $this;
+    }
+
+     /**
+     * @return Collection<int, orderState>
+     */
+    public function getorderState(): Collection
+    {
+        return $this->orderDetails;
+    }
+
+    public function addOrderState(OrderState $orderState): static
+    {
+        if (!$this->orderState->contains($orderState)) {
+            $this->orderState->add($orderState);
+            $orderState->setOrdState($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrderState(OrderState $orderState): static
+    {
+        if ($this->orderState->removeElement($orderState)) {
+            // set the owning side to null (unless already changed)
+            if ($orderState->getOrdState() === $this) {
+                $orderState->setOrdState(null);
+            }
+        }
 
         return $this;
     }
