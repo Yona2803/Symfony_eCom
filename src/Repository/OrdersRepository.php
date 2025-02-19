@@ -22,32 +22,19 @@ class OrdersRepository extends ServiceEntityRepository
         parent::__construct($registry, Orders::class);
     }
 
-<<<<<<< HEAD
 
-    
-    public function findOrders($Caller)
-    {
-        $Orders = $this->createQueryBuilder('o')  // 'o' is alias for orders
-            ->select(
-                'o.id, o.orderDate, o.totalAmount,
-            os.statusName, COUNT(od.id) AS detailsCount'
-            )
-            ->join('o.orderStatus', 'os')
-            ->join('o.orderDetails', 'od')
-            ->groupBy('o.id')
-=======
     public function findOrders(string $Option): array
     {
         if ($Option === 'Order') {
             $qb = $this->createQueryBuilder('o')
                 ->select(
                     'o.id, 
-             o.orderDate, 
-             o.totalAmount,
-             ost.statusName, 
-             COUNT(od.id) AS detailsCount,
-             s.name AS state, 
-             ss.name AS stateStatus'
+            o.orderDate, 
+            o.totalAmount,
+            ost.statusName, 
+            COUNT(od.id) AS detailsCount,
+            s.name AS state, 
+            ss.name AS stateStatus'
                 )
                 ->leftJoin('o.orderDetails', 'od')
                 ->leftJoin('o.orderState', 'os')
@@ -61,12 +48,12 @@ class OrdersRepository extends ServiceEntityRepository
             $qb = $this->createQueryBuilder('o')
                 ->select(
                     'o.id, 
-                 o.orderDate, 
-                 o.totalAmount,
-                 ost.statusName, 
-                 COUNT(od.id) AS detailsCount,
-                 s.name AS state, 
-                 ss.name AS stateStatus'
+                o.orderDate, 
+                o.totalAmount,
+                ost.statusName, 
+                COUNT(od.id) AS detailsCount,
+                s.name AS state, 
+                ss.name AS stateStatus'
                 )
                 ->leftJoin('o.orderDetails', 'od')
                 ->leftJoin('o.orderState', 'os')
@@ -83,36 +70,6 @@ class OrdersRepository extends ServiceEntityRepository
         // return $Orders;
     }
 
-    public function findOrderDetails(int $offset, int $limit = self::PAGINATOR_PER_PAGE): Paginator
-    {
-        // Validate offset and limit
-        if ($offset < 0 || $limit < 1) {
-            throw new \InvalidArgumentException('Invalid offset or limit.');
-        }
-
-        $query = $this->createQueryBuilder('o')
-            ->addSelect(
-                'o.id AS orderId',
-                'o.orderDate',
-                'o.totalAmount',
-                'u.id AS userId',
-                'u.username',
-                'u.firstName',
-                'u.lastName',
-                'u.email',
-                'os.statusName'
-            )
-            ->join('o.orderStatus', 'os')
-            ->join('o.user', 'u')
->>>>>>> 609951cb657f690e6669621725176fea38491e90
-            ->orderBy('o.id', 'DESC')
-            ->setFirstResult($offset)
-            ->setMaxResults($limit)
-            ->getQuery();
-
-<<<<<<< HEAD
-        return $Orders;
-    }
 
 
 
@@ -146,12 +103,6 @@ class OrdersRepository extends ServiceEntityRepository
         return new Paginator($query, $fetchJoinCollection = true);
     }
 
-=======
-        // Use Doctrine's Paginator with fetchJoinCollection for better performance
-        return new Paginator($query, $fetchJoinCollection = true);
-    }
-
->>>>>>> 609951cb657f690e6669621725176fea38491e90
 
 
     // public function findOrderDetails()
@@ -170,8 +121,6 @@ class OrdersRepository extends ServiceEntityRepository
     // }
 
 
-<<<<<<< HEAD
-=======
 
 
 
@@ -190,7 +139,7 @@ class OrdersRepository extends ServiceEntityRepository
 
 
 
->>>>>>> 609951cb657f690e6669621725176fea38491e90
+
 
     //    /**
     //     * @return Orders[] Returns an array of Orders objects
