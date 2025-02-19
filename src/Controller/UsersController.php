@@ -2,11 +2,15 @@
 
 namespace App\Controller;
 
+use App\Faker\UsersFaker;
 use App\Repository\UsersRepository;
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
 
@@ -14,11 +18,21 @@ class UsersController extends AbstractController
 {
 
     public function __construct(
-        private UsersRepository $usersRepository
+        private UsersRepository $usersRepository,
+        private UsersFaker $usersFaker
     ) {
         $this->usersRepository = $usersRepository;
+        $this->usersFaker = $usersFaker;
     }
 
+
+
+    // this route only for generate random users for testing
+    #[Route('/randomusers', name:'generate-random-users')]
+    public function generateRandomUsersAction(): Response{
+        $this->usersFaker->createRandomUsers(10);
+        return $this->redirect('Users');
+    }
 
 
 
@@ -27,22 +41,54 @@ class UsersController extends AbstractController
     {
         $customers = $this->usersRepository->findCustomerByRoles('ROLE_CUSTOMER');
 
-        return $this->render('items/customerList.html.twig', [
+        return $this->render('MyPages/Customers/customerList.html.twig', [
             'customers' => $customers,
         ]);
     }
 
 
 
+    #[Route('/admin/Page', name: 'admins-list')]
+    public function displayAdmiPage(): Response
+    {
+        return $this->render('MyPages/Users/adminsList.html.twig');
+    }
 
-    
+
+
+    #[Route('/Users/customerslist', name: 'user-customer-list')]
+    public function customerList(): JsonResponse
+    {
+        // Fetch all customers with the role 'ROLE_CUSTOMER'
+        $customers = $this->usersRepository->findCustomerByRoles('ROLE_ADMIN');
+        // $customers = $this->usersRepository->findAll();
+
+        // Prepare the data array
+        $data = [];
+        foreach ($customers as $customer) {
+            $data[] = [
+                'id' => $customer->getId(),
+                'firstName' => $customer->getFirstName(),
+                'lastName' => $customer->getLastName(),
+                'email' => $customer->getEmail(),
+                'phone' => $customer->getPhoneNumber()
+            ];
+        }
+
+        // Return the data as a JSON response
+        return $this->json($data);
+    }
+
+
+
+
     #[Route('/Users/delete/{customerId}', name: 'delete-customer')]
     public function deleteCustomer(int $customerId): JsonResponse
     {
         try {
             // Attempt to delete the customer
             $result = $this->usersRepository->deleteById($customerId);
-    
+
             if ($result) {
                 return new JsonResponse(
                     [
@@ -52,7 +98,7 @@ class UsersController extends AbstractController
                     Response::HTTP_OK
                 );
             }
-    
+
             return new JsonResponse(
                 [
                     'status' => 'errorRemoving',
@@ -74,11 +120,8 @@ class UsersController extends AbstractController
                     'status' => 'errorRemoving',
                     'message' => 'An error occurred while trying to delete the customer.'
                 ],
-                Response::HTTP_INTERNAL_SERVER_ERROR 
+                Response::HTTP_INTERNAL_SERVER_ERROR
             );
         }
     }
-
-
-
 }

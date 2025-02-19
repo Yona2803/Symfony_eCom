@@ -6,7 +6,7 @@
 		<title>Add Item</title>
 		<link rel="icon" type="image/x-icon" href="{{ asset('img/icon/Icon.png') }}">
 
-		<link rel="stylesheet" href="{{ asset('css/FormProductStyle.css') }}">
+		<link rel="stylesheet" href="{{ asset('css/Products/FormProductStyle.css') }}">
 
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css">
 		<script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
@@ -40,7 +40,7 @@
 	<body>
 
 		{# include dashboard page #}
-		{{ include('items/dashBoard.html.twig') }}
+		{{ include('MyPages/Dashboard/dashBoard.html.twig') }}
 
 
 		{% set addProductMessage = app.flashes('addProduct') %}

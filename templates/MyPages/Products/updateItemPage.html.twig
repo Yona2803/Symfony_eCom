@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<title>Products</title>
-		<link rel="stylesheet" href="{{ asset('css/updateProductPage.css') }}">
+		<link rel="stylesheet" href="{{ asset('css/Products/updateProductPage.css') }}">
 		<link rel="stylesheet" href="{{ asset('Pages/ProductsPage/Style.css') }}">
 		<link rel="stylesheet" href="{{ asset('css/FormProductStyle.css') }}">
 		<link rel="icon" type="image/x-icon" href="{{ asset('img/icon/Icon.png') }}">
@@ -10,10 +10,10 @@
 	<body>
 	
 		{# include dashboard page #}
-		{{ include('items/dashBoard.html.twig') }}
+		{{ include('MyPages/Dashboard/dashBoard.html.twig') }}
 
 		{# include loading message page #}
-		{{ include('items/LoadingMessage.html.twig') }}
+		{{ include('LoadingMessage/LoadingMessage.html.twig') }}
 
 
 		{% set updateProductMessage = app.flashes('updateProduct') %}
