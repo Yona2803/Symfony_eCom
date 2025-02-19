@@ -32,7 +32,7 @@ class ItemsController extends AbstractController
 
     #[Route('/randomitems', name:'generate-random-items')]
     public function generateRandomItemsAction(){
-        $this->productsFaker->createRandomItems(30);
+        $this->productsFaker->createRandomItems(10);
         return $this->redirect('productsPage');
     }
 
