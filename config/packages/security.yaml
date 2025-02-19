@@ -42,7 +42,7 @@ security:
         # - { path: ^/home, roles: ROLE_CUSTOMER }
         - { path: ^/CheckOut, roles: ROLE_CUSTOMER }
         # - { path: ^/dashboard, roles: ROLE_ADMIN }
-        # - { path: ^/MyAccount, roles: [ROLE_ADMIN, ROLE_CUSTOMER] }
+        - { path: ^/MyAccount, roles: [ROLE_ADMIN, ROLE_CUSTOMER] }
         # - { path: ^/home, roles: ROLE_CUSTOMER }
         # - { path: ^/home, roles: IS_AUTHENTICATED_ANONYMOUSLY }
 

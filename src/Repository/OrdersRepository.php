@@ -22,66 +22,82 @@ class OrdersRepository extends ServiceEntityRepository
         parent::__construct($registry, Orders::class);
     }
 
-    public function findOrderDetails()
+    public function findOrders(string $Option): array
     {
-        return $this->createQueryBuilder('o')
-            ->select(
-                'o.id AS orderId, o.orderDate, o.totalAmount,
-            u.id AS userId, u.username, u.firstName, u.lastName, u.email,
-            os.statusName'
+        if ($Option === 'Order') {
+            $qb = $this->createQueryBuilder('o')
+                ->select(
+                    'o.id, 
+             o.orderDate, 
+             o.totalAmount,
+             ost.statusName, 
+             COUNT(od.id) AS detailsCount,
+             s.name AS state, 
+             ss.name AS stateStatus'
+                )
+                ->leftJoin('o.orderDetails', 'od')
+                ->leftJoin('o.orderState', 'os')
+                ->leftJoin('os.State', 's')
+                ->leftJoin('os.StateStatus', 'ss')
+                ->leftJoin('o.orderStatus', 'ost')
+
+                ->groupBy('o.id', 'ost.statusName', 's.name', 'ss.name')
+                ->orderBy('o.id', 'DESC');
+        } else {
+            $qb = $this->createQueryBuilder('o')
+                ->select(
+                    'o.id, 
+                 o.orderDate, 
+                 o.totalAmount,
+                 ost.statusName, 
+                 COUNT(od.id) AS detailsCount,
+                 s.name AS state, 
+                 ss.name AS stateStatus'
+                )
+                ->leftJoin('o.orderDetails', 'od')
+                ->leftJoin('o.orderState', 'os')
+                ->leftJoin('os.State', 's')
+                ->leftJoin('os.StateStatus', 'ss')
+                ->leftJoin('o.orderStatus', 'ost')
+                ->andWhere('s.name = :caller')
+                ->setParameter('caller', $Option)
+
+                ->groupBy('o.id', 'ost.statusName', 's.name', 'ss.name') //
+                ->orderBy('o.id', 'DESC');
+        }
+        return $qb->getQuery()->getArrayResult();
+        // return $Orders;
+    }
+
+    public function findOrderDetails(int $offset, int $limit = self::PAGINATOR_PER_PAGE): Paginator
+    {
+        // Validate offset and limit
+        if ($offset < 0 || $limit < 1) {
+            throw new \InvalidArgumentException('Invalid offset or limit.');
+        }
+
+        $query = $this->createQueryBuilder('o')
+            ->addSelect(
+                'o.id AS orderId',
+                'o.orderDate',
+                'o.totalAmount',
+                'u.id AS userId',
+                'u.username',
+                'u.firstName',
+                'u.lastName',
+                'u.email',
+                'os.statusName'
             )
             ->join('o.orderStatus', 'os')
             ->join('o.user', 'u')
-            ->orderBy('orderId', 'DESC')
-            ->getQuery()
-            ->getArrayResult();
-    }
-
-    public function findOrders($Caller)
-    {
-        $Orders = $this->createQueryBuilder('o')  // 'o' is alias for orders
-            ->select(
-                'o.id, o.orderDate, o.totalAmount,
-            os.statusName, COUNT(od.id) AS detailsCount'
-            )
-            ->join('o.orderStatus', 'os')
-            ->join('o.orderDetails', 'od')
-            ->groupBy('o.id')
             ->orderBy('o.id', 'DESC')
-            ->getQuery()
-            ->getArrayResult();
+            ->setFirstResult($offset)
+            ->setMaxResults($limit)
+            ->getQuery();
 
-
-
-public function findOrderDetails(int $offset, int $limit = self::PAGINATOR_PER_PAGE): Paginator
-{
-    // Validate offset and limit
-    if ($offset < 0 || $limit < 1) {
-        throw new \InvalidArgumentException('Invalid offset or limit.');
+        // Use Doctrine's Paginator with fetchJoinCollection for better performance
+        return new Paginator($query, $fetchJoinCollection = true);
     }
-
-    $query = $this->createQueryBuilder('o')
-        ->addSelect(
-            'o.id AS orderId', 
-            'o.orderDate', 
-            'o.totalAmount',
-            'u.id AS userId', 
-            'u.username', 
-            'u.firstName', 
-            'u.lastName', 
-            'u.email',
-            'os.statusName'
-        )
-        ->join('o.orderStatus', 'os')
-        ->join('o.user', 'u')
-        ->orderBy('o.id', 'DESC')
-        ->setFirstResult($offset)
-        ->setMaxResults($limit)
-        ->getQuery();
-
-    // Use Doctrine's Paginator with fetchJoinCollection for better performance
-    return new Paginator($query, $fetchJoinCollection = true);
-}
 
 
 
@@ -99,29 +115,26 @@ public function findOrderDetails(int $offset, int $limit = self::PAGINATOR_PER_P
     //         ->getQuery()
     //         ->getArrayResult(); 
     // }
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
 
-        return $Orders;
-    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     //    /**
     //     * @return Orders[] Returns an array of Orders objects

@@ -23,7 +23,9 @@ function setOrderDetailed(order) {
   LeftSection.querySelector("h4").style.fontSize = "20px";
 
   // Top-Section-Right
-  dropdownBtn.style.display = "block";
+  if (dropdownBtn) {
+    dropdownBtn.style.display = "block";
+  }
 
   // Bottom-Section
   BottomSection.style.display = "flex";
@@ -60,10 +62,10 @@ function setOrderUndetailed(order) {
   LeftSection.classList.remove("Detailed_TS_Left");
   LeftSection.querySelector("h4").style.fontSize = "16px";
 
-  // Top-Section-Right
+  // Top-Section-Right  
+  if (dropdownBtn) {
   dropdownBtn.style.display = "none";
-
-
+  }
   // Bottom-Section
   BottomSection.style.display = "none";
 
@@ -119,7 +121,7 @@ function LoadingElements(state) {
   // --- Initialize ---
   if (!state) {
     attachOrderEventListeners();
-    }
+  }
 
   // Update the global toggle state.
   toggleState = state;

@@ -41,10 +41,11 @@ class OrderDetailsRepository extends ServiceEntityRepository
         $data = $this->createQueryBuilder('od')
             ->select(
                 'o.id as orderId,
-                 od.totalPrice, od.quantity,
+                 od.totalPrice, od.quantity, os.statusName,
                  i.id as itemId, i.name as itemName, i.itemImage'
             )
             ->join('od.orderFk', 'o')
+            ->join('o.orderStatus', 'os')
             ->join('od.item', 'i')
             ->where('o.id = :orderId')
             ->setParameter('orderId', $orderId)
