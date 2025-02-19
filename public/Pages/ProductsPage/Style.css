@@ -280,7 +280,7 @@ body {
   .pagesNumber {
     display: flex;
     justify-content: center;
-    margin-top: 20px;
+    margin-top: 100px;
     gap: 8px; /* Adds space between pagination links */
 }
 

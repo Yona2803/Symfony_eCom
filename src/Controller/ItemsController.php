@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\Items;
+use App\Faker\ProductsFaker;
 use App\Form\ItemType;
 use App\Repository\ItemsRepository;
 use App\Service\ItemsService;
@@ -20,11 +21,23 @@ class ItemsController extends AbstractController
 
     public function __construct(
         private ItemsService $itemsService,
-        private ItemsRepository $itemsRepository
+        private ItemsRepository $itemsRepository,
+        private ProductsFaker $productsFaker
     ) {
         $this->itemsService = $itemsService;
         $this->itemsRepository = $itemsRepository;
+        $this->productsFaker = $productsFaker;
     }
+
+
+    #[Route('/randomitems', name:'generate-random-items')]
+    public function generateRandomItemsAction(){
+        $this->productsFaker->createRandomItems(30);
+        return $this->redirect('productsPage');
+    }
+
+
+
 
     #[Route('/addItem', name: 'addItem')]
     public function addItem(Request $request): Response
