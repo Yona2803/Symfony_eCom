@@ -3,12 +3,14 @@
 namespace App\Controller;
 
 use App\Faker\UsersFaker;
+use App\Repository\OrdersRepository;
 use App\Repository\UsersRepository;
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
@@ -28,8 +30,9 @@ class UsersController extends AbstractController
 
 
     // this route only for generate random users for testing
-    #[Route('/randomusers', name:'generate-random-users')]
-    public function generateRandomUsersAction(): Response{
+    #[Route('/randomusers', name: 'generate-random-users')]
+    public function generateRandomUsersAction(): Response
+    {
         $this->usersFaker->createRandomUsers(10);
         return $this->redirect('Users');
     }
@@ -37,12 +40,20 @@ class UsersController extends AbstractController
 
 
     #[Route('/Users', name: 'customers-list')]
-    public function index(): Response
+    public function getAllCustomers(Request $request): Response
     {
-        $customers = $this->usersRepository->findCustomerByRoles('ROLE_CUSTOMER');
+        $page = $request->query->getInt('page', 1); // Get the current page from the request
+        $limit = OrdersRepository::PAGINATOR_PER_PAGE; // Results per page
+        $offset = ($page - 1) * $limit; // Calculate the offset
+
+        $paginator = $this->usersRepository->findCustomerByRoles($offset, $limit, 'ROLE_CUSTOMER');
+        $totalResults = count($paginator);
+        $totalPages = ceil($totalResults / $limit);
 
         return $this->render('MyPages/Customers/customerList.html.twig', [
-            'customers' => $customers,
+            'customers' => $paginator,
+            'totalPages' => $totalPages,
+            'currentPage' => $page,
         ]);
     }
 
@@ -59,11 +70,8 @@ class UsersController extends AbstractController
     #[Route('/Users/customerslist', name: 'user-customer-list')]
     public function customerList(): JsonResponse
     {
-        // Fetch all customers with the role 'ROLE_CUSTOMER'
-        $customers = $this->usersRepository->findCustomerByRoles('ROLE_ADMIN');
-        // $customers = $this->usersRepository->findAll();
+        $customers = $this->usersRepository->findAllAdmins('ROLE_ADMIN');
 
-        // Prepare the data array
         $data = [];
         foreach ($customers as $customer) {
             $data[] = [
@@ -75,7 +83,6 @@ class UsersController extends AbstractController
             ];
         }
 
-        // Return the data as a JSON response
         return $this->json($data);
     }
 

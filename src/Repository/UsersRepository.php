@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Users;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -15,6 +16,8 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 class UsersRepository extends ServiceEntityRepository
 {
 
+
+    public const PAGINATOR_PER_PAGE = 6;
 
 
     public function __construct(ManagerRegistry $registry)
@@ -47,22 +50,6 @@ class UsersRepository extends ServiceEntityRepository
     }
 
 
-
-    //    /**
-    //     * @return Users[] Returns an array of Users objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('u')
-    //            ->andWhere('u.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('u.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
     public function findOneById($value): ?Users
     {
         return $this->createQueryBuilder('u')
@@ -73,13 +60,33 @@ class UsersRepository extends ServiceEntityRepository
     }
 
 
-    public function findCustomerByRoles(string $role)
+    public function findAllAdmins(string $role)
     {
         return $this->createQueryBuilder('u')
             ->where('u.roles LIKE :role')
-            ->setParameter('role', (string)'%'.$role.'%')
+            ->setParameter('role', (string)'%' . $role . '%')
             ->getQuery()
             ->getResult();
+    }
+
+
+    public function findCustomerByRoles(int $offset, int $limit = self::PAGINATOR_PER_PAGE, string $role): Paginator
+    {
+
+        // Validate offset and limit
+        if ($offset < 0 || $limit < 1) {
+            throw new \InvalidArgumentException('Invalid offset or limit.');
+        }
+
+        $query = $this->createQueryBuilder('u')
+            ->where('u.roles LIKE :role')
+            ->setParameter('role', (string)'%' . $role . '%')
+            ->setFirstResult($offset)
+            ->setMaxResults($limit)
+            ->getQuery();
+
+        // Use Doctrine's Paginator with fetchJoinCollection for better performance
+        return new Paginator($query, $fetchJoinCollection = true);
     }
 
 
