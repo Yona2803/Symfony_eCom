@@ -36,7 +36,7 @@ class ProductsFaker
             $item->setName($faker->name);
             $item->setDescription($faker->sentence);
             $item->setPrice($faker->randomFloat(2, 10, 1000)); // Random price between 10 and 1000 with 2 decimal places
-            $item->setStock($faker->numberBetween(0, 100));
+            $item->setStock($faker->numberBetween(1, 100));
             $item->setTags($faker->words(3)); // Random tags (3 words)
             $item->setCategory($category);
 

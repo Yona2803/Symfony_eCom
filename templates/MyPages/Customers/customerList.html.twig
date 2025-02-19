@@ -53,6 +53,17 @@
 					</tbody>
 				</table>
 			</div>
+
+			{% if customers|length > 6 %}
+				<div class="pagesNumber">
+					{% for i in 1..totalPages %}
+						<a href="{{ path('customers-list', {'page': i}) }}" class="{{ i == currentPage ? 'active' : '' }}">
+							{{ i }}
+						</a>
+					{% endfor %}
+				</div>
+			{% endif %}
+
 		</div>
 		<script src="{{ asset('Pages/CustomersPage/main.js') }}"></script>
 	</body>

@@ -26,13 +26,13 @@ final class OrdersController extends AbstractController
 
 
     #[Route('/orders', name: 'orders-list')]
-    public function listOrders(Request $request, OrdersRepository $orderRepository): Response
+    public function listOrders(Request $request): Response
     {
         $page = $request->query->getInt('page', 1); // Get the current page from the request
         $limit = OrdersRepository::PAGINATOR_PER_PAGE; // Results per page
         $offset = ($page - 1) * $limit; // Calculate the offset
 
-        $paginator = $orderRepository->findOrderDetails($offset, $limit);
+        $paginator = $this->ordersRepository->findOrderDetails($offset, $limit);
         $totalResults = count($paginator);
         $totalPages = ceil($totalResults / $limit);
 
