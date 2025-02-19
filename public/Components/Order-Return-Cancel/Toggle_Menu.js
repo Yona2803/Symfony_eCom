@@ -98,7 +98,11 @@ async function ChangeStatus(params) {
       if (!response.status || !response.orderId) {
         alert("Something went wrong,.. we can't update the status");
       } else {
-        document.getElementById(`StatusId${response.orderId}`).innerHTML = response.status;
+        if (response.status === "Delivered") {
+          document.getElementById(`StatusId${response.orderId}`).innerHTML =
+            response.status;
+          }
+            document.getElementById(`MenuOf${response.orderId}`).remove();
       }
     },
   });

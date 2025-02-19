@@ -11,7 +11,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\Request;
 use App\Entity\OrderDetails;
 
 final class OrdersController extends AbstractController
@@ -77,14 +76,27 @@ final class OrdersController extends AbstractController
         Request $request,
         EntityManagerInterface $entityManager,
     ): JsonResponse {
+        $Data = [];
+        $Option = '';
 
-        $Data = '';
-        if ($Caller) {
-            $Data = $this->ordersRepository->findOrders($Caller);
+        if ($Caller == 'Returns') {
+            $Option = 'Return';
+        } elseif ($Caller == 'Orders') {
+            $Option = 'Order';
+        } elseif ($Caller == 'Cancellations') {
+            $Option = 'Cancel';
+        } else {
+            return new JsonResponse($Data);
         }
-        if ($Caller === 'Returns') {
+
+        if (!empty($Option)) {
+            $Data = $this->ordersRepository->findOrders($Option);
+        } else {
+            return new JsonResponse(['error' => 'Invalid Caller'], 400);
         }
-        if ($Caller === 'Cancellations') {
+
+        if (!is_array($Data)) {
+            $Data = [];
         }
 
         return new JsonResponse($Data);
@@ -103,17 +115,18 @@ final class OrdersController extends AbstractController
         string $status,
         int $orderId,
     ): JsonResponse {
-
-        $data = $this->ordersService->changeOrderStatus($orderId, $status);
+        if ($status && $orderId) {
+            $data = $this->ordersService->changeOrderStatus($orderId, $status);
+        }
         if ($data) {
             return new JsonResponse([
                 'status' => $status,
                 'orderId' => $orderId,
             ]);
+        } else {
+            return new JsonResponse([
+                'status' => 'error'
+            ]);
         }
-        return new JsonResponse([
-            'status' => 'error'
-        ]);
     }
-
 }
