@@ -6,11 +6,11 @@
 		<title>Document</title>
 		<link rel="icon" type="image/x-icon" href="{{ asset('img/icon/Icon.png') }}">
 
-		<link rel="stylesheet" href="{{ asset('css/updateCategoryStyle.css') }}">
-		<link rel="stylesheet" href="{{ asset('css/FormCategoryStyle.css') }}">
+		<link rel="stylesheet" href="{{ asset('css/Categories/updateCategoryStyle.css') }}">
+		<link rel="stylesheet" href="{{ asset('css/Categories/FormCategoryStyle.css') }}">
 	</head>
 	<body>
-		{{ include('items/dashBoard.html.twig') }}
+		{{ include('MyPages/Dashboard/dashBoard.html.twig') }}
 
 		{% set addCategoryMessage = app.flashes('addCategory') %}
 		{% set addCategoryErrorMessage = app.flashes('addCategoryError') %}
@@ -33,7 +33,6 @@
 				alert('{{ dublicateNameErrorMessage[0] }}');
 			</script>
 		{% endif %}
-
 
 
 		<div class="addCategory-container">

@@ -13,9 +13,9 @@ class OrderState
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'OrdState')]
+    #[ORM\ManyToOne(inversedBy: 'OrderId')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Orders $OrdState = null;
+    private ?Orders $Order = null;
     
     #[ORM\ManyToOne(inversedBy: 'StateStatus')]
     #[ORM\JoinColumn(nullable: false)]
@@ -30,14 +30,14 @@ class OrderState
         return $this->id;
     }
 
-    public function getOrdState(): ?Orders
+    public function getOrder(): ?Orders
     {
-        return $this->OrdState;
+        return $this->Order;
     }
 
-    public function setOrdState(?Orders $OrdState): static
+    public function setOrder(?Orders $Order): self
     {
-        $this->OrdState = $OrdState;
+        $this->Order = $Order;
 
         return $this;
     }

@@ -30,7 +30,26 @@ final class OrdersController extends AbstractController
 
 
     #[Route('/orders', name: 'orders-list')]
-    public function listOrders(Request $request, OrdersRepository $orderRepository): Response
+    public function listOrders(Request $request): Response
+    {
+        $page = $request->query->getInt('page', 1); // Get the current page from the request
+        $limit = OrdersRepository::PAGINATOR_PER_PAGE; // Results per page
+        $offset = ($page - 1) * $limit; // Calculate the offset
+
+        $paginator = $this->ordersRepository->findOrderDetails($offset, $limit);
+        $totalResults = count($paginator);
+        $totalPages = ceil($totalResults / $limit);
+
+        return $this->render('MyPages/Orders/orderPage.html.twig', [
+            'orders' => $paginator,
+            'totalPages' => $totalPages,
+            'currentPage' => $page,
+        ]);
+    }
+
+
+    #[Route('/orders/returns', name: 'orders-returns')]
+    public function ordersReturnsRequestList(Request $request, OrdersRepository $orderRepository): Response
     {
         $page = $request->query->getInt('page', 1); // Get the current page from the request
         $limit = OrdersRepository::PAGINATOR_PER_PAGE; // Results per page
@@ -40,7 +59,7 @@ final class OrdersController extends AbstractController
         $totalResults = count($paginator);
         $totalPages = ceil($totalResults / $limit);
 
-        return $this->render('items/orderPage.html.twig', [
+        return $this->render('MyPages/Orders/ordersReturnsRequestPage.html.twig', [
             'orders' => $paginator,
             'totalPages' => $totalPages,
             'currentPage' => $page,
@@ -76,14 +95,27 @@ final class OrdersController extends AbstractController
         Request $request,
         EntityManagerInterface $entityManager,
     ): JsonResponse {
+        $Data = [];
+        $Option = '';
 
-        $Data = '';
-        if ($Caller) {
-            $Data = $this->ordersRepository->findOrders($Caller);
+        if ($Caller == 'Returns') {
+            $Option = 'Return';
+        } elseif ($Caller == 'Orders') {
+            $Option = 'Order';
+        } elseif ($Caller == 'Cancellations') {
+            $Option = 'Cancel';
+        } else {
+            return new JsonResponse($Data);
         }
-        if ($Caller === 'Returns') {
+
+        if (!empty($Option)) {
+            $Data = $this->ordersRepository->findOrders($Option);
+        } else {
+            return new JsonResponse(['error' => 'Invalid Caller'], 400);
         }
-        if ($Caller === 'Cancellations') {
+
+        if (!is_array($Data)) {
+            $Data = [];
         }
 
         return new JsonResponse($Data);
@@ -102,17 +134,18 @@ final class OrdersController extends AbstractController
         string $status,
         int $orderId,
     ): JsonResponse {
-
-        $data = $this->ordersService->changeOrderStatus($orderId, $status);
+        if ($status && $orderId) {
+            $data = $this->ordersService->changeOrderStatus($orderId, $status);
+        }
         if ($data) {
             return new JsonResponse([
                 'status' => $status,
                 'orderId' => $orderId,
             ]);
+        } else {
+            return new JsonResponse([
+                'status' => 'error'
+            ]);
         }
-        return new JsonResponse([
-            'status' => 'error'
-        ]);
     }
-
 }

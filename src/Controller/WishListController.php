@@ -205,13 +205,13 @@ class WishListController extends AbstractController
             $user = $this->usersRepository->find($userId);
 
             if (!$user) {
-                return $this->render('items/wishlistPage.html.twig', [
+                return $this->render('MyPages/Wishlist/wishlistPage.html.twig', [
                     'wishlist' => [],
                 ]);
             }
 
             $wishlist = $user->getWishList();
-            return $this->render('items/wishlistPage.html.twig', [
+            return $this->render('MyPages/Wishlist/wishlistPage.html.twig', [
                 'wishlist' => $wishlist,
             ]);
         }

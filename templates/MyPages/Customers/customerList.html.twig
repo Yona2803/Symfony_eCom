@@ -6,15 +6,15 @@
 		<title>Customer Details</title>
         <link rel="icon" type="image/x-icon" href="{{ asset('img/icon/Icon.png') }}">
 		
-		<link rel="stylesheet" href="{{ asset('css/customerListStyle.css') }}">
+		<link rel="stylesheet" href="{{ asset('css/Users/customerListStyle.css') }}">
 	</head>
 	<body>
 
 		{# include dashboard page #}
-		{{ include('items/dashBoard.html.twig') }}
+		{{ include('MyPages/Dashboard/dashBoard.html.twig') }}
 
 		{# include loading message page #}
-		{{ include('items/LoadingMessage.html.twig') }}
+		{{ include('LoadingMessage/LoadingMessage.html.twig') }}
 
 
 		<div class="main-content">
@@ -53,6 +53,17 @@
 					</tbody>
 				</table>
 			</div>
+
+			{% if customers|length > 6 %}
+				<div class="pagesNumber">
+					{% for i in 1..totalPages %}
+						<a href="{{ path('customers-list', {'page': i}) }}" class="{{ i == currentPage ? 'active' : '' }}">
+							{{ i }}
+						</a>
+					{% endfor %}
+				</div>
+			{% endif %}
+
 		</div>
 		<script src="{{ asset('Pages/CustomersPage/main.js') }}"></script>
 	</body>

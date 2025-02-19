@@ -571,9 +571,12 @@ a {
 /* Dropdown Button */
 .dropdown {
   display: none;
+  position: relative;
 }
 
 .dropbtn {
+  position: relative;
+
   background-color: transparent;
   color: rgb(24, 74, 72, 0.7);
   width: 130px;
