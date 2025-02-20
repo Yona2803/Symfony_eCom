@@ -22,51 +22,36 @@ class OrdersRepository extends ServiceEntityRepository
         parent::__construct($registry, Orders::class);
     }
 
-    public function findOrders(string $Option): array
+    public function findOrders(string $Option, int $User_id): array
     {
-        if ($Option === 'Order') {
-            $qb = $this->createQueryBuilder('o')
-                ->select(
-                    'o.id, 
+        $qb = $this->createQueryBuilder('o')
+            ->select(
+                'o.id, 
              o.orderDate, 
              o.totalAmount,
+                u.id AS userId,
              ost.statusName, 
              COUNT(od.id) AS detailsCount,
              s.name AS state, 
              ss.name AS stateStatus'
-                )
-                ->leftJoin('o.orderDetails', 'od')
-                ->leftJoin('o.orderState', 'os')
-                ->leftJoin('os.State', 's')
-                ->leftJoin('os.StateStatus', 'ss')
-                ->leftJoin('o.orderStatus', 'ost')
-
-                ->groupBy('o.id', 'ost.statusName', 's.name', 'ss.name')
-                ->orderBy('o.id', 'DESC');
-        } else {
-            $qb = $this->createQueryBuilder('o')
-                ->select(
-                    'o.id, 
-                 o.orderDate, 
-                 o.totalAmount,
-                 ost.statusName, 
-                 COUNT(od.id) AS detailsCount,
-                 s.name AS state, 
-                 ss.name AS stateStatus'
-                )
-                ->leftJoin('o.orderDetails', 'od')
-                ->leftJoin('o.orderState', 'os')
-                ->leftJoin('os.State', 's')
-                ->leftJoin('os.StateStatus', 'ss')
-                ->leftJoin('o.orderStatus', 'ost')
-                ->andWhere('s.name = :caller')
-                ->setParameter('caller', $Option)
-
-                ->groupBy('o.id', 'ost.statusName', 's.name', 'ss.name') //
-                ->orderBy('o.id', 'DESC');
+            )
+            ->leftJoin('o.user','u')
+            ->leftJoin('o.orderDetails', 'od')
+            ->leftJoin('o.orderState', 'os')
+            ->leftJoin('os.State', 's')
+            ->leftJoin('os.StateStatus', 'ss')
+            ->leftJoin('o.orderStatus', 'ost')
+            ->groupBy('o.id','u.id', 'ost.statusName', 's.name', 'ss.name')
+            ->orderBy('o.id', 'DESC')
+            ->Where('u.id = :id')
+            ->setParameter('id', $User_id);
+        
+        if ($Option !== 'Order') {
+            $qb->andWhere('s.name = :caller')
+                ->setParameter('caller', $Option);
         }
+
         return $qb->getQuery()->getArrayResult();
-        // return $Orders;
     }
 
     public function findOrderDetails(int $offset, int $limit = self::PAGINATOR_PER_PAGE): Paginator
