@@ -12,22 +12,23 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\OrderDetails;
+use App\Entity\Users;
+use App\Service\UsersService;
 
 final class OrdersController extends AbstractController
 {
-
-
+    private $usersService;
 
     function __construct(
         private OrdersRepository $ordersRepository,
         private OrderDetailsRepository $orderDetailsRepository,
-        private OrdersService $ordersService
+        private OrdersService $ordersService,
+        UsersService $usersService,
+
     ) {
         $this->ordersRepository = $ordersRepository;
+        $this->usersService = $usersService;
     }
-
-
-
 
     #[Route('/orders', name: 'orders-list')]
     public function listOrders(Request $request): Response
@@ -46,7 +47,6 @@ final class OrdersController extends AbstractController
             'currentPage' => $page,
         ]);
     }
-
 
     #[Route('/orders/returns', name: 'orders-returns')]
     public function ordersReturnsRequestList(Request $request, OrdersRepository $orderRepository): Response
@@ -95,21 +95,14 @@ final class OrdersController extends AbstractController
         Request $request,
         EntityManagerInterface $entityManager,
     ): JsonResponse {
-        $Data = [];
-        $Option = '';
+        $User_id = $this->usersService->getIdOfAuthenticatedUser();
 
-        if ($Caller == 'Returns') {
-            $Option = 'Return';
-        } elseif ($Caller == 'Orders') {
-            $Option = 'Order';
-        } elseif ($Caller == 'Cancellations') {
-            $Option = 'Cancel';
-        } else {
-            return new JsonResponse($Data);
-        }
+        $Data = [];
+
+        $Option = ($Caller == 'Returns') ? 'Return' : ($Caller == 'Orders' ? 'Order' : 'Cancel');
 
         if (!empty($Option)) {
-            $Data = $this->ordersRepository->findOrders($Option);
+            $Data = $this->ordersRepository->findOrders($Option, $User_id);
         } else {
             return new JsonResponse(['error' => 'Invalid Caller'], 400);
         }

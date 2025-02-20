@@ -61,7 +61,6 @@ class OrdersService
         }
 
         return true;
-        // return $orderStatus->getStatusName();
     }
 
     private function SyncOrderState($orderId, $State, $StateStatus): OrderState
