@@ -799,9 +799,8 @@ a {
 .Bottom-Section-Item .itemInfo img {
   max-width: 50px;
   max-height: 50px;
-
-  width: fit-content;
-  height: fit-content;
+  width: auto;
+  height: auto;
 }
 
 .Bottom-Section-Item span:nth-of-type(1) {
