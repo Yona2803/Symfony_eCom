@@ -54,6 +54,9 @@ class OrdersRepository extends ServiceEntityRepository
         return $qb->getQuery()->getArrayResult();
     }
 
+
+
+
     public function findOrderDetails(int $offset, int $limit = self::PAGINATOR_PER_PAGE): Paginator
     {
         // Validate offset and limit
@@ -100,6 +103,7 @@ class OrdersRepository extends ServiceEntityRepository
     //         ->getQuery()
     //         ->getArrayResult(); 
     // }
+
 
 
 
