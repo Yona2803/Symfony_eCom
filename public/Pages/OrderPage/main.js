@@ -108,7 +108,17 @@ document.querySelectorAll(".dropdown-content button").forEach((button) => {
         const newStatus = e.target.textContent.trim();
         console.log(`Status changed to: ${newStatus} // orderId: ${orderId}`);
 
-        changeOrderStatus(orderId, newStatus);
+        if (newStatus === "Accepted" || newStatus === "Declined") {
+            console.log("before change order state status");
+            changeOrderStateStatus(orderId, newStatus);
+        } else if (
+            newStatus === "Preparing" ||
+            newStatus === "Shipped" ||
+            newStatus === "Delivered"
+        ) {
+            console.log("before change order status");
+            changeOrderStatus(orderId, newStatus);
+        }
 
         if (currentOpenDropdown) {
             currentOpenDropdown.style.display = "none";
@@ -131,10 +141,6 @@ async function getOrderDetailsByOrderId(orderId) {
         return null;
     }
 }
-
-
-
-
 
 async function openPopupOrderDetails(orderId) {
     const loadingMessage = document.getElementById("loadingMessage"); // Add a loading message element in your HTML
@@ -189,7 +195,9 @@ async function openPopupOrderDetails(orderId) {
             <p><strong>Email:</strong> ${orderInfo.email}</p>
             <p><strong>Order N°:</strong> ${orderInfo.orderId}</p>
             <p><strong>Date:</strong> ${formattedDate}</p>
-            <p><strong>Montant Total:</strong> ${orderInfo.totalAmount.toFixed(2)} DH</p>
+            <p><strong>Montant Total:</strong> ${orderInfo.totalAmount.toFixed(
+                2
+            )} DH</p>
         `;
 
         // Génération du tableau des détails de commande
@@ -222,7 +230,33 @@ async function openPopupOrderDetails(orderId) {
     }
 }
 
-
 function closePopupOrderDetails() {
     document.getElementById("ordersDetails").style.display = "none";
+}
+
+function changeOrderStateStatus(orderId, orderStateStatus) {
+    fetch(`/order/${orderId}/state/${orderStateStatus}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log("from state", data);
+            let row = document.querySelector(`#order-${orderId}`);
+            let btn = document.querySelector(`#btnComplete-${orderId}`);
+            let spanStatusName = document.querySelector(`#statusName-${orderId}`);
+
+            // Change the background color based on the order status
+            if (data) {
+                if (orderStateStatus === "Accepted") {
+                    row.style.backgroundColor = "rgb(177, 225, 192)";
+                } else {
+                    row.style.backgroundColor = "pink";
+                }
+                let td = document.querySelector(`#order-State-Status-Span-${orderId}`);
+                td.textContent = orderStateStatus;
+            }
+        });
 }

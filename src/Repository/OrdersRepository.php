@@ -104,6 +104,49 @@ class OrdersRepository extends ServiceEntityRepository
     }
 
 
+    public function getOrderDetailsByStateStatus(int $offset, int $limit = self::PAGINATOR_PER_PAGE): Paginator
+    {
+        // Validate offset and limit
+        if ($offset < 0 || $limit < 1) {
+            throw new \InvalidArgumentException('Invalid offset or limit.');
+        }
+
+        $query = $this->createQueryBuilder('o')
+            ->addSelect(
+                'o.id AS orderId',
+                'o.orderDate',
+                'o.totalAmount',
+                'u.id AS userId',
+                'u.username',
+                'u.firstName',
+                'u.lastName',
+                'u.email',
+                'os.statusName,
+                state.name AS stateName,
+                stateStatus.name AS stateStatusName'
+            )
+            ->join('o.orderStatus', 'os')
+            ->join('o.user', 'u')
+            ->join('o.orderState', 'orderState')
+            ->join('orderState.StateStatus', 'stateStatus')
+            ->join('orderState.State', 'state')
+            ->Where(
+                'stateStatus.name like :accepted 
+                or stateStatus.name like :declined 
+                or stateStatus.name like :pending')
+            ->setParameter('pending', 'Pending')
+            ->setParameter('declined', 'Declined')
+            ->setParameter('accepted', 'Accepted')
+            ->orderBy('o.id', 'DESC')
+            ->setFirstResult($offset)
+            ->setMaxResults($limit)
+            ->getQuery();
+
+        // Use Doctrine's Paginator with fetchJoinCollection for better performance
+        return new Paginator($query, $fetchJoinCollection = true);
+    }
+
+
 
     // public function findOrderDetails()
     // {

@@ -55,7 +55,7 @@ final class OrdersController extends AbstractController
         $limit = OrdersRepository::PAGINATOR_PER_PAGE; // Results per page
         $offset = ($page - 1) * $limit; // Calculate the offset
 
-        $paginator = $orderRepository->findOrderDetails($offset, $limit);
+        $paginator = $orderRepository->getOrderDetailsByStateStatus($offset, $limit);
         $totalResults = count($paginator);
         $totalPages = ceil($totalResults / $limit);
 
@@ -148,4 +148,19 @@ final class OrdersController extends AbstractController
             ]);
         }
     }
+
+
+
+
+    #[Route('/order/{orderId}/state/{state}', name: 'change-order-state')]
+    public function changeOrderStatusState(int $orderId, string $state, Request $request): JsonResponse
+    {
+        $data = $this->ordersService->changeOrderStatusState($orderId, $state);
+        return new JsonResponse($data);
+    }
+
+
+
+
+
 }

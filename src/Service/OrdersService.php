@@ -12,6 +12,7 @@ use App\Repository\StateStatusRepository;
 use Doctrine\Common\Collections\Order;
 use Doctrine\ORM\EntityManagerInterface;
 use phpDocumentor\Reflection\Types\Boolean;
+use Symfony\Component\HttpFoundation\Request;
 
 class OrdersService
 {
@@ -36,7 +37,40 @@ class OrdersService
 
 
 
-    public function changeOrderStatus($orderId, $orderStatus): bool 
+    public function changeOrderStatusState($orderId, $state): bool
+    {
+        $order = $this->ordersRepository->findOneBy(['id' => $orderId]);
+        $orderState = $this->orderStateRepository->findOneBy(['Order' => $order]);
+        $value = $orderState->getState()->getName();
+
+        $newState = $this->StateStatusRepository->findOneBy(['name' => $state]);
+
+        if ($order) {
+            if ($state == 'Accepted') {
+                if ($value == 'Cancel') {
+                    $newValue = 'Cancelled';
+                } else {
+                    $newValue = 'Returned';
+                }
+                $statusName = $this->orderStatusRepository->findOneBy(['statusName' => $newValue]);
+                $order->setOrderStatus($statusName);
+            }
+
+
+            $orderState->setStateStatus($newState);
+            $this->em->persist($orderState);
+            $this->em->flush();
+            return true;
+        }
+
+        return false;
+    }
+
+
+
+
+
+    public function changeOrderStatus($orderId, $orderStatus): bool
     {
 
         $order = $this->ordersRepository->findOneBy(['id' => $orderId]);
@@ -55,7 +89,7 @@ class OrdersService
 
             if (!$existingOrderState) {
                 $this->SyncOrderState($orderId, $State, 'Pending');
-            }else{
+            } else {
                 return false;
             }
         }
