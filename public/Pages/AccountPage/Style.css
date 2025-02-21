@@ -125,6 +125,7 @@ a {
   width: calc(870px - 80px - 80px);
   max-width: calc(870px - 80px - 80px);
   height: fit-content;
+  min-height: 300px;
   display: flex;
   flex-direction: column;
   padding: 40px 80px;
