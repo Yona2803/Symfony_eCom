@@ -17,7 +17,6 @@
 		{{ include('LoadingMessage/LoadingMessage.html.twig') }}
 
 
-
 		<div class="main-content">
 			<div class="sectionTest">
 				<span></span>
@@ -71,7 +70,7 @@
 								<strong>Email:</strong>
 								{{ order.email }}
 							</td>
-							
+
 							<td>
 								<input type="hidden" id="inputOrderId" value="{{ order.orderId }}">
 								<strong>ID:</strong>
@@ -87,35 +86,38 @@
 								<span id="statusName-{{ order.orderId}}">{{ order.statusName }}</span>
 								<br>
 
-								{# dropdown #}
-									<div class="dropdown-container"> <div class="dropdown">
-										<button class="dropbtn">Change Status
-											<svg width="8" height="8" viewbox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-												<path d="M4 6.5L4 1M7 4.5L4 7.5L1 4.5" stroke="rgb(24, 74, 72, 0.5)" stroke-linecap="round" stroke-linejoin="round"/>
-											</svg>
-										</button>
-										<div class="dropdown-content-v1">
-											<button>
-												<svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-													<path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+								{% if order.statusName != 'Delivered' %}
+									{# dropdown #}
+									<div id="dropdown-container-{{ order.orderId}}" class="dropdown-container">
+										<div class="dropdown">
+											<button class="dropbtn">Change Status
+												<svg width="8" height="8" viewbox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+													<path d="M4 6.5L4 1M7 4.5L4 7.5L1 4.5" stroke="rgb(24, 74, 72, 0.5)" stroke-linecap="round" stroke-linejoin="round"/>
 												</svg>
+											</button>
+											<div class="dropdown-content-v1">
+												<button>
+													<svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+														<path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+													</svg>
 
-												Preparing</button>
-											<button>
-												<svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-													<path d="M1 3h15v13H1V3ZM16 9h4l3 4v3h-7V9ZM5 19a2 2 0 1 0 0-4 2 2 0 0 0 0 4ZM17 19a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" fill="white"/>
-												</svg>
+													Preparing</button>
+												<button>
+													<svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+														<path d="M1 3h15v13H1V3ZM16 9h4l3 4v3h-7V9ZM5 19a2 2 0 1 0 0-4 2 2 0 0 0 0 4ZM17 19a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" fill="white"/>
+													</svg>
 
-												Shipped</button>
-											<button>
-												<svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-													<path d="M3 3h18v18H3V3Zm4 8 4 4 7-7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-												</svg>
+													Shipped</button>
+												<button>
+													<svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+														<path d="M3 3h18v18H3V3Zm4 8 4 4 7-7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+													</svg>
 
-												Delivered</button>
+													Delivered</button>
+											</div>
 										</div>
 									</div>
-								</div>
+								{% endif %}
 							</td>
 
 							<td>
@@ -143,18 +145,17 @@
 					{% endfor %}
 				</div>
 			{% endif %}
-			
+
 		</div>
 
-		
 
 		<script>
 			function deleteOrder(orderId) {
-				if (confirm('Are you sure you want to delete this order?')) {
-				console.log(`Deleting order: ${orderId}`);
-				// Implement the delete request here.
-				}
-			}
+if (confirm('Are you sure you want to delete this order?')) {
+console.log(`Deleting order: ${orderId}`);
+// Implement the delete request here.
+}
+}
 		</script>
 		<script src="{{ asset('Pages/OrderPage/main.js') }}" defer></script>
 	</body>

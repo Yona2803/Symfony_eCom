@@ -19,7 +19,7 @@ final class OrdersController extends AbstractController
 {
     private $usersService;
 
-    function __construct(
+    public function __construct(
         private OrdersRepository $ordersRepository,
         private OrderDetailsRepository $orderDetailsRepository,
         private OrdersService $ordersService,
@@ -69,11 +69,20 @@ final class OrdersController extends AbstractController
     #[Route('/order/{orderId}/{orderStatus}', name: 'change-order-status')]
     public function changeOrderStatus(int $orderId, string $orderStatus): JsonResponse
     {
-        $newOrderStatus = $this->ordersService->changeOrderStatusV2($orderId, $orderStatus);
+        $result = $this->ordersService->changeOrderStatusV2($orderId, $orderStatus);
+
+        if ($result) {
+            return new JsonResponse([
+                'status' => 'successChanged',
+                'message' => 'Order status successfully changed.',
+                'orderStatus' => $orderStatus
+            ], Response::HTTP_OK);
+        }
+
         return new JsonResponse([
-            'status' => 'successChanged',
-            'message' => 'Order status successfully changed.',
-            'orderStatus' => $newOrderStatus
+            'status' => 'failedChanged',
+            'message' => 'Order status failed to change.',
+            'orderStatus' => $orderStatus
         ], Response::HTTP_OK);
     }
 

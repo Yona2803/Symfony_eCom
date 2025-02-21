@@ -16,17 +16,17 @@ function changeOrderStatus(orderId, orderStatus) {
                     let row = document.querySelector(`#order-${orderId}`);
                     let btn = document.querySelector(`#btnComplete-${orderId}`);
                     let spanStatusName = document.querySelector(`#statusName-${orderId}`);
-
+                    
                     // Change the background color based on the order status
                     if (data.orderStatus !== "Delivered") {
                         row.style.backgroundColor = "pink";
                     } else {
                         row.style.backgroundColor = "rgb(177, 225, 192)";
-                        // btn.style.display = 'none';
+                        const dropdown = document.querySelector(`#dropdown-container-${orderId}`);
+                        dropdown.style.display = "none";
                     }
 
                     // change the the value of the order status
-                    // spanStatusName.textContent = data.newStatus || "DELIVERED";
                     spanStatusName.textContent = orderStatus;
 
                     alert(data.message);
