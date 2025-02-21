@@ -102,6 +102,7 @@ document.addEventListener("keydown", (e) => {
 // Add click handlers for the status buttons
 document.querySelectorAll(".dropdown-content button").forEach((button) => {
     button.addEventListener("click", (e) => {
+        const button = e.target.closest("button");
         const orderRow = e.target.closest("tr");
         const orderId = orderRow.querySelector("#inputOrderId").value;
 
@@ -110,13 +111,11 @@ document.querySelectorAll(".dropdown-content button").forEach((button) => {
 
         if (newStatus === "Accepted" || newStatus === "Declined") {
             console.log("before change order state status");
+            console.log(`sfsfsfsfsf ${newStatus}`);
             changeOrderStateStatus(orderId, newStatus);
-        } else if (
-            newStatus === "Preparing" ||
-            newStatus === "Shipped" ||
-            newStatus === "Delivered"
-        ) {
+        } else {
             console.log("before change order status");
+            console.log(`sfsfsfsfsf ${newStatus}`);
             changeOrderStatus(orderId, newStatus);
         }
 

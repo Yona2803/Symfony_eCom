@@ -16,7 +16,6 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 class UsersRepository extends ServiceEntityRepository
 {
 
-
     public const PAGINATOR_PER_PAGE = 6;
 
 
@@ -24,6 +23,8 @@ class UsersRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Users::class);
     }
+
+
 
     /**
      * Used to upgrade (rehash) the user's password automatically over time.
@@ -70,7 +71,7 @@ class UsersRepository extends ServiceEntityRepository
     }
 
 
-    public function findCustomerByRoles(int $offset, int $limit = self::PAGINATOR_PER_PAGE, string $role): Paginator
+    public function findCustomerByRoles(string $role, int $offset, int $limit = self::PAGINATOR_PER_PAGE): Paginator
     {
 
         // Validate offset and limit

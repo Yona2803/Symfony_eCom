@@ -28,14 +28,20 @@ class ItemsRepository extends ServiceEntityRepository
     /**
      * @return Items[] Returns an array of Items objects
      */
-    public function findByCategoryName(string $categoryName)
+    public function findByCategoryName(string $categoryName, int $offset, int $limit = self::PAGINATOR_PER_PAGE): Paginator
     {
-        return $this->createQueryBuilder('i')
+        // Validate offset and limit
+        if ($offset < 0 || $limit < 1) {
+            throw new \InvalidArgumentException('Invalid offset or limit.');
+        }
+
+        $query =  $this->createQueryBuilder('i')
             ->innerJoin('i.category', 'c')
             ->andWhere('c.name = :categoryName')
             ->setParameter('categoryName', $categoryName)
-            ->getQuery()
-            ->getResult();
+            ->getQuery();
+            
+        return new Paginator($query, $fetchJoinCollection = true);
     }
 
 
@@ -51,7 +57,23 @@ class ItemsRepository extends ServiceEntityRepository
 
 
 
-    public function findByPartialName(string $name): array
+    public function findByPartialName(string $name, int $offset, int $limit = self::PAGINATOR_PER_PAGE): Paginator
+    {
+        // Validate offset and limit
+        if ($offset < 0 || $limit < 1) {
+            throw new \InvalidArgumentException('Invalid offset or limit.');
+        }
+
+        $query = $this->createQueryBuilder('p')
+            ->where('p.name LIKE :name')
+            ->setParameter('name', '%' . (string)$name . '%')
+            ->getQuery();
+
+            return new Paginator($query, $fetchJoinCollection = true);
+    }
+
+
+    public function findProductByPartialName(string $name): array
     {
         return $this->createQueryBuilder('p')
             ->where('p.name LIKE :name')

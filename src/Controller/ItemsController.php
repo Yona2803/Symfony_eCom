@@ -94,9 +94,18 @@ class ItemsController extends AbstractController
     {
         $name = $request->query->get('searchInput');
 
-        $items = $itemsRepository->findByPartialName($name);
+        $page = $request->query->getInt('page', 1); // Get the current page from the request
+        $limit = ItemsRepository::PAGINATOR_PER_PAGE; // Results per page
+        $offset = ($page - 1) * $limit; // Calculate the offset
+
+        $paginator = $itemsRepository->findByPartialName($name, $offset, $limit);
+        $totalResults = count($paginator);
+        $totalPages = ceil($totalResults / $limit);
+
         return $this->render('Pages/ProductsPage/ProductsPage.html.twig', [
-            'items' => $items,
+            'items' => $paginator,
+            'totalPages' => $totalPages,
+            'currentPage' => $page,
         ]);
     }
 
@@ -132,7 +141,6 @@ class ItemsController extends AbstractController
 
 
 
-
     #[Route('/search-product-update', name: 'search-product-update', methods: ['GET'])]
     public function searchProudctForUpdate(Request $request, ItemsRepository $itemsRepository): Response
     {
@@ -142,7 +150,7 @@ class ItemsController extends AbstractController
         $form = $this->createForm(ItemType::class, $item);
         $form->handleRequest($request);
 
-        $items = $itemsRepository->findByPartialName($name);
+        $items = $itemsRepository->findProductByPartialName($name);
         return $this->render('MyPages/Products/updateItemPage.html.twig', [
             'items' => $items,
             'form' => $form->createView(),

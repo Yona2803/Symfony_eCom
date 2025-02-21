@@ -72,30 +72,25 @@ class OrdersService
 
     public function changeOrderStatus($orderId, $orderStatus): bool
     {
-
-        $order = $this->ordersRepository->findOneBy(['id' => $orderId]);
-
-        if ($orderStatus == 'Delivered') {
-            $orderStatus = $this->orderStatusRepository->findOneBy(['statusName' => $orderStatus]);
-            $order->setOrderStatus($orderStatus);
-
-            $this->em->persist($order);
-            $this->em->flush();
-        } else {
-            $State = ($orderStatus === 'Cancelled') ? 'Cancel' : 'Return';
-
-            // Check if an OrderState already exists for this orderId
-            $existingOrderState = $this->orderStateRepository->findOneBy(['Order' => $orderId]);
-
-            if (!$existingOrderState) {
-                $this->SyncOrderState($orderId, $State, 'Pending');
-            } else {
-                return false;
-            }
+        // Retrieve the order
+        $order = $this->ordersRepository->find($orderId);
+        if (!$order) {
+            return false; // Order not found
         }
+
+        // Retrieve the order status
+        $statusEntity = $this->orderStatusRepository->findOneBy(['statusName' => $orderStatus]);
+        if (!$statusEntity) {
+            return false; // Status not found
+        }
+
+        // Update order status and persist changes
+        $order->setOrderStatus($statusEntity);
+        $this->em->flush();
 
         return true;
     }
+
 
     private function SyncOrderState($orderId, $State, $StateStatus): OrderState
     {

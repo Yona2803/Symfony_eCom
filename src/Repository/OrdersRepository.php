@@ -57,7 +57,7 @@ class OrdersRepository extends ServiceEntityRepository
 
 
 
-    public function findOrderDetails(int $offset, int $limit = self::PAGINATOR_PER_PAGE): Paginator
+    public function findOrderDetails( int $offset, int $limit = self::PAGINATOR_PER_PAGE): Paginator
     {
         // Validate offset and limit
         if ($offset < 0 || $limit < 1) {

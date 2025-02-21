@@ -11,23 +11,13 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class WishListRepository extends ServiceEntityRepository
 {
+    
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, WishList::class);
     }
 
-    /**
-     * @return WishList|null Returns a WishList object or null
-     */
-    // public function findByUserId(int $userId): ?WishList
-    // {
-    //     return $this->createQueryBuilder('w')
-    //         ->innerJoin('w.user', 'u')
-    //         ->andWhere('u.id = :userId')
-    //         ->setParameter('userId', $userId)
-    //         ->getQuery()
-    //         ->getOneOrNullResult();
-    // }
+    
     public function findByUserId(int $userId): ?WishList
     {
         return $this->createQueryBuilder('w')
@@ -65,6 +55,19 @@ class WishListRepository extends ServiceEntityRepository
 
 
 
+
+    /**
+     * @return WishList|null Returns a WishList object or null
+     */
+    // public function findByUserId(int $userId): ?WishList
+    // {
+    //     return $this->createQueryBuilder('w')
+    //         ->innerJoin('w.user', 'u')
+    //         ->andWhere('u.id = :userId')
+    //         ->setParameter('userId', $userId)
+    //         ->getQuery()
+    //         ->getOneOrNullResult();
+    // }
 
 
     //    /**

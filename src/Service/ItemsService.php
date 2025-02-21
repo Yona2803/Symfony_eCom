@@ -70,9 +70,6 @@ class ItemsService
 
 
 
-
-
-
     /**
      * @return Items[]
      */
@@ -80,13 +77,6 @@ class ItemsService
     {
         return $this->itemsRepository->findAll();
     }
-
-
-    public function getProductByName(string $name): array
-    {
-        return $this->itemsRepository->findByPartialName($name);
-    }
-
 
 
     public function findItemsByTag(string $tag): array
@@ -97,8 +87,6 @@ class ItemsService
 
         return $this->itemsRepository->findByTag($tag);
     }
-
-
 
 
 
