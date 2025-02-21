@@ -20,8 +20,6 @@ use App\Entity\WishList;
 use App\Entity\CartItems;
 use App\Entity\Users;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-//use Symfony\Component\Security\Http\Attribute\IsGranted;
-
 
 class WishListController extends AbstractController
 {
@@ -86,6 +84,7 @@ class WishListController extends AbstractController
                 'itemImage' => $base64Image,
                 'name' => $product->getName(),
                 'price' => $product->getPrice(),
+                'stock'=>$product->getStock()
             ];
         }
 

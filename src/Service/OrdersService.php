@@ -16,7 +16,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 class OrdersService
 {
-
     public function __construct(
         private OrdersRepository $ordersRepository,
         private OrderDetailsRepository $orderDetailsRepository,
