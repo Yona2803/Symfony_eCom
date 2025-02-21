@@ -15,7 +15,6 @@ use phpDocumentor\Reflection\Types\Boolean;
 
 class OrdersService
 {
-
     public function __construct(
         private OrdersRepository $ordersRepository,
         private OrderDetailsRepository $orderDetailsRepository,
@@ -33,8 +32,6 @@ class OrdersService
         $this->StateStatusRepository = $StateStatusRepository;
         $this->em = $em;
     }
-
-
 
     public function changeOrderStatus($orderId, $orderStatus): bool 
     {

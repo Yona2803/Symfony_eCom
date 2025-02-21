@@ -13,7 +13,7 @@ class OrderState
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'OrderId')]
+    #[ORM\ManyToOne(inversedBy: 'orderState')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Orders $Order = null;
     
