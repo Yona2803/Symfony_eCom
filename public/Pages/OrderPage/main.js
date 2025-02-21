@@ -16,17 +16,17 @@ function changeOrderStatus(orderId, orderStatus) {
                     let row = document.querySelector(`#order-${orderId}`);
                     let btn = document.querySelector(`#btnComplete-${orderId}`);
                     let spanStatusName = document.querySelector(`#statusName-${orderId}`);
-
+                    
                     // Change the background color based on the order status
                     if (data.orderStatus !== "Delivered") {
                         row.style.backgroundColor = "pink";
                     } else {
                         row.style.backgroundColor = "rgb(177, 225, 192)";
-                        // btn.style.display = 'none';
+                        const dropdown = document.querySelector(`#dropdown-container-${orderId}`);
+                        dropdown.style.display = "none";
                     }
 
                     // change the the value of the order status
-                    // spanStatusName.textContent = data.newStatus || "DELIVERED";
                     spanStatusName.textContent = orderStatus;
 
                     alert(data.message);
@@ -45,7 +45,7 @@ const dropdowns = document.querySelectorAll(".dropdown");
 
 // Function to close all dropdowns
 function closeAllDropdowns() {
-    document.querySelectorAll(".dropdown-content").forEach((content) => {
+    document.querySelectorAll(".dropdown-content-v1").forEach((content) => {
         content.style.display = "none";
     });
 }
@@ -56,7 +56,7 @@ let currentOpenDropdown = null;
 // Add click event listeners to each dropdown
 dropdowns.forEach((dropdown) => {
     const button = dropdown.querySelector(".dropbtn");
-    const content = dropdown.querySelector(".dropdown-content");
+    const content = dropdown.querySelector(".dropdown-content-v1");
 
     // Toggle dropdown when clicking the button
     button.addEventListener("click", (e) => {
@@ -100,15 +100,20 @@ document.addEventListener("keydown", (e) => {
 });
 
 // Add click handlers for the status buttons
-document.querySelectorAll(".dropdown-content button").forEach((button) => {
+document.querySelectorAll(".dropdown-content-v1 button").forEach((button) => {
     button.addEventListener("click", (e) => {
+        const button = e.target.closest("button");
         const orderRow = e.target.closest("tr");
         const orderId = orderRow.querySelector("#inputOrderId").value;
 
         const newStatus = e.target.textContent.trim();
         console.log(`Status changed to: ${newStatus} // orderId: ${orderId}`);
 
-        changeOrderStatus(orderId, newStatus);
+        if (newStatus === "Accepted" || newStatus === "Declined") {
+            changeOrderStateStatus(orderId, newStatus);
+        } else {
+            changeOrderStatus(orderId, newStatus);
+        }
 
         if (currentOpenDropdown) {
             currentOpenDropdown.style.display = "none";
@@ -131,10 +136,6 @@ async function getOrderDetailsByOrderId(orderId) {
         return null;
     }
 }
-
-
-
-
 
 async function openPopupOrderDetails(orderId) {
     const loadingMessage = document.getElementById("loadingMessage"); // Add a loading message element in your HTML
@@ -189,7 +190,9 @@ async function openPopupOrderDetails(orderId) {
             <p><strong>Email:</strong> ${orderInfo.email}</p>
             <p><strong>Order N°:</strong> ${orderInfo.orderId}</p>
             <p><strong>Date:</strong> ${formattedDate}</p>
-            <p><strong>Montant Total:</strong> ${orderInfo.totalAmount.toFixed(2)} DH</p>
+            <p><strong>Montant Total:</strong> ${orderInfo.totalAmount.toFixed(
+                2
+            )} DH</p>
         `;
 
         // Génération du tableau des détails de commande
@@ -222,7 +225,33 @@ async function openPopupOrderDetails(orderId) {
     }
 }
 
-
 function closePopupOrderDetails() {
     document.getElementById("ordersDetails").style.display = "none";
+}
+
+function changeOrderStateStatus(orderId, orderStateStatus) {
+    fetch(`/order/${orderId}/state/${orderStateStatus}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log("from state", data);
+            let row = document.querySelector(`#order-${orderId}`);
+            let btn = document.querySelector(`#btnComplete-${orderId}`);
+            let spanStatusName = document.querySelector(`#statusName-${orderId}`);
+
+            // Change the background color based on the order status
+            if (data) {
+                if (orderStateStatus === "Accepted") {
+                    row.style.backgroundColor = "rgb(177, 225, 192)";
+                } else {
+                    row.style.backgroundColor = "pink";
+                }
+                let td = document.querySelector(`#order-State-Status-Span-${orderId}`);
+                td.textContent = orderStateStatus;
+            }
+        });
 }

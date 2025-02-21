@@ -236,7 +236,7 @@ tbody tr td:last-child {
     margin-left: 12px;
 }
 
-.dropdown-content {
+.dropdown-content-v1 {
     display: none;
     flex-direction: column;
 
@@ -259,7 +259,7 @@ tbody tr td:last-child {
     border-radius: 2px;
 }
 
-.dropdown-content button {
+.dropdown-content-v1 button {
     width: 100%;
     display: flex;
     align-items: center;
@@ -271,11 +271,11 @@ tbody tr td:last-child {
     border: 0;
 }
 
-.dropdown-content button svg {
+.dropdown-content-v1 button svg {
     margin: 0 12px 0 13px;
 }
 
-.dropdown-content button:hover {
+.dropdown-content-v1 button:hover {
     background-color: #dddddd3c;
 }
 

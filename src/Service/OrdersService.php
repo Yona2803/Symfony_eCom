@@ -12,6 +12,7 @@ use App\Repository\StateStatusRepository;
 use Doctrine\Common\Collections\Order;
 use Doctrine\ORM\EntityManagerInterface;
 use phpDocumentor\Reflection\Types\Boolean;
+use Symfony\Component\HttpFoundation\Request;
 
 class OrdersService
 {
@@ -32,6 +33,63 @@ class OrdersService
         $this->StateStatusRepository = $StateStatusRepository;
         $this->em = $em;
     }
+
+
+
+    public function changeOrderStatusState($orderId, $state): bool
+    {
+        $order = $this->ordersRepository->findOneBy(['id' => $orderId]);
+        $orderState = $this->orderStateRepository->findOneBy(['Order' => $order]);
+        $value = $orderState->getState()->getName();
+
+        $newState = $this->StateStatusRepository->findOneBy(['name' => $state]);
+
+        if ($order) {
+            if ($state == 'Accepted') {
+                if ($value == 'Cancel') {
+                    $newValue = 'Cancelled';
+                } else {
+                    $newValue = 'Returned';
+                }
+                $statusName = $this->orderStatusRepository->findOneBy(['statusName' => $newValue]);
+                $order->setOrderStatus($statusName);
+            }
+
+
+            $orderState->setStateStatus($newState);
+            $this->em->persist($orderState);
+            $this->em->flush();
+            return true;
+        }
+
+        return false;
+    }
+
+
+
+
+
+    public function changeOrderStatusV2($orderId, $orderStatus): bool
+    {
+        // Retrieve the order
+        $order = $this->ordersRepository->find($orderId);
+        if (!$order) {
+            return false; // Order not found
+        }
+
+        // Retrieve the order status
+        $statusEntity = $this->orderStatusRepository->findOneBy(['statusName' => $orderStatus]);
+        if (!$statusEntity) {
+            return false; // Status not found
+        }
+
+        // Update order status and persist changes
+        $order->setOrderStatus($statusEntity);
+        $this->em->flush();
+
+        return true;
+    }
+
 
     public function changeOrderStatus($orderId, $orderStatus): bool 
     {
@@ -60,6 +118,7 @@ class OrdersService
         return true;
     }
 
+    
     private function SyncOrderState($orderId, $State, $StateStatus): OrderState
     {
         // Fetch the Orders entity using the orderId

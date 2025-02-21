@@ -26,12 +26,12 @@ class ProductsFaker
     {
         // Initialize Faker
         $faker = Factory::create();
-        
+
         $category = $this->categoriesRepository->findOneBy(['id' => 2]);
         for ($i = 0; $i < $count; $i++) {
 
             $item = new Items();
-            
+
             // Set random data using Faker
             $item->setName($faker->name);
             $item->setDescription($faker->sentence);
@@ -41,7 +41,7 @@ class ProductsFaker
             $item->setCategory($category);
 
             // Generate a random image URL and convert it to binary data
-            $imageUrl = "https://loremflickr.com/640/480/product"; // generate a random image URL from picsum.photos
+            $imageUrl = "https://picsum.photos/640/480"; // generate a random image URL from picsum.photos
             $binaryData = file_get_contents($imageUrl);
             $item->setItemImage($binaryData);
 

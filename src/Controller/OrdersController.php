@@ -19,7 +19,7 @@ final class OrdersController extends AbstractController
 {
     private $usersService;
 
-    function __construct(
+    public function __construct(
         private OrdersRepository $ordersRepository,
         private OrderDetailsRepository $orderDetailsRepository,
         private OrdersService $ordersService,
@@ -55,7 +55,7 @@ final class OrdersController extends AbstractController
         $limit = OrdersRepository::PAGINATOR_PER_PAGE; // Results per page
         $offset = ($page - 1) * $limit; // Calculate the offset
 
-        $paginator = $orderRepository->findOrderDetails($offset, $limit);
+        $paginator = $orderRepository->getOrderDetailsByStateStatus($offset, $limit);
         $totalResults = count($paginator);
         $totalPages = ceil($totalResults / $limit);
 
@@ -69,11 +69,20 @@ final class OrdersController extends AbstractController
     #[Route('/order/{orderId}/{orderStatus}', name: 'change-order-status')]
     public function changeOrderStatus(int $orderId, string $orderStatus): JsonResponse
     {
-        $newOrderStatus = $this->ordersService->changeOrderStatus($orderId, $orderStatus);
+        $result = $this->ordersService->changeOrderStatusV2($orderId, $orderStatus);
+
+        if ($result) {
+            return new JsonResponse([
+                'status' => 'successChanged',
+                'message' => 'Order status successfully changed.',
+                'orderStatus' => $orderStatus
+            ], Response::HTTP_OK);
+        }
+
         return new JsonResponse([
-            'status' => 'successChanged',
-            'message' => 'Order status successfully changed.',
-            'orderStatus' => $newOrderStatus
+            'status' => 'failedChanged',
+            'message' => 'Order status failed to change.',
+            'orderStatus' => $orderStatus
         ], Response::HTTP_OK);
     }
 
@@ -140,5 +149,15 @@ final class OrdersController extends AbstractController
                 'status' => 'error'
             ]);
         }
+    }
+
+
+
+
+    #[Route('/order/{orderId}/state/{state}', name: 'change-order-state')]
+    public function changeOrderStatusState(int $orderId, string $state, Request $request): JsonResponse
+    {
+        $data = $this->ordersService->changeOrderStatusState($orderId, $state);
+        return new JsonResponse($data);
     }
 }
