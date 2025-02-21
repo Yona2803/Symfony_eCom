@@ -45,7 +45,7 @@ const dropdowns = document.querySelectorAll(".dropdown");
 
 // Function to close all dropdowns
 function closeAllDropdowns() {
-    document.querySelectorAll(".dropdown-content").forEach((content) => {
+    document.querySelectorAll(".dropdown-content-v1").forEach((content) => {
         content.style.display = "none";
     });
 }
@@ -56,7 +56,7 @@ let currentOpenDropdown = null;
 // Add click event listeners to each dropdown
 dropdowns.forEach((dropdown) => {
     const button = dropdown.querySelector(".dropbtn");
-    const content = dropdown.querySelector(".dropdown-content");
+    const content = dropdown.querySelector(".dropdown-content-v1");
 
     // Toggle dropdown when clicking the button
     button.addEventListener("click", (e) => {
@@ -100,7 +100,7 @@ document.addEventListener("keydown", (e) => {
 });
 
 // Add click handlers for the status buttons
-document.querySelectorAll(".dropdown-content button").forEach((button) => {
+document.querySelectorAll(".dropdown-content-v1 button").forEach((button) => {
     button.addEventListener("click", (e) => {
         const button = e.target.closest("button");
         const orderRow = e.target.closest("tr");
@@ -110,12 +110,8 @@ document.querySelectorAll(".dropdown-content button").forEach((button) => {
         console.log(`Status changed to: ${newStatus} // orderId: ${orderId}`);
 
         if (newStatus === "Accepted" || newStatus === "Declined") {
-            console.log("before change order state status");
-            console.log(`sfsfsfsfsf ${newStatus}`);
             changeOrderStateStatus(orderId, newStatus);
         } else {
-            console.log("before change order status");
-            console.log(`sfsfsfsfsf ${newStatus}`);
             changeOrderStatus(orderId, newStatus);
         }
 

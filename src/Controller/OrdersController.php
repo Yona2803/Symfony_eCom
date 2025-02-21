@@ -69,7 +69,7 @@ final class OrdersController extends AbstractController
     #[Route('/order/{orderId}/{orderStatus}', name: 'change-order-status')]
     public function changeOrderStatus(int $orderId, string $orderStatus): JsonResponse
     {
-        $newOrderStatus = $this->ordersService->changeOrderStatus($orderId, $orderStatus);
+        $newOrderStatus = $this->ordersService->changeOrderStatusV2($orderId, $orderStatus);
         return new JsonResponse([
             'status' => 'successChanged',
             'message' => 'Order status successfully changed.',
@@ -151,9 +151,4 @@ final class OrdersController extends AbstractController
         $data = $this->ordersService->changeOrderStatusState($orderId, $state);
         return new JsonResponse($data);
     }
-
-
-
-
-
 }

@@ -70,7 +70,7 @@ class OrdersService
 
 
 
-    public function changeOrderStatus($orderId, $orderStatus): bool
+    public function changeOrderStatusV2($orderId, $orderStatus): bool
     {
         // Retrieve the order
         $order = $this->ordersRepository->find($orderId);
@@ -92,6 +92,34 @@ class OrdersService
     }
 
 
+    public function changeOrderStatus($orderId, $orderStatus): bool 
+    {
+
+        $order = $this->ordersRepository->findOneBy(['id' => $orderId]);
+
+        if ($orderStatus == 'Delivered') {
+            $orderStatus = $this->orderStatusRepository->findOneBy(['statusName' => $orderStatus]);
+            $order->setOrderStatus($orderStatus);
+
+            $this->em->persist($order);
+            $this->em->flush();
+        } else {
+            $State = ($orderStatus === 'Cancelled') ? 'Cancel' : 'Return';
+
+            // Check if an OrderState already exists for this orderId
+            $existingOrderState = $this->orderStateRepository->findOneBy(['Order' => $orderId]);
+
+            if (!$existingOrderState) {
+                $this->SyncOrderState($orderId, $State, 'Pending');
+            }else{
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    
     private function SyncOrderState($orderId, $State, $StateStatus): OrderState
     {
         // Fetch the Orders entity using the orderId
