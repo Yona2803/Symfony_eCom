@@ -2,6 +2,7 @@
 let dataCache = {};
 
 // **** initialize Elements ****
+const Edite_Profile = document.querySelector(".Edite_Profile");
 const Form_ErrorMsg = document.querySelector(".Form_ErrorMsg");
 const Msg_404 = document.querySelector(".Msg_404");
 const AccountSection = document.querySelector("#AccountSection");
@@ -109,35 +110,31 @@ allItems.forEach((item) => {
 function Hide_Show(element) {
   if (element === "Profile") {
     AccountSection.style.display = "flex";
+    Edite_Profile.style.display = "flex";
     OrdersSection.style.display = "none";
     Msg_404.style.display = "none";
     Form_ErrorMsg.style.display = "none";
   }
   if (element === "Payment") {
-    AccountSection.style.display = "none";
+    AccountSection.style.display = "flex";
+    Edite_Profile.style.display = "none";
     OrdersSection.style.display = "none";
     Msg_404.style.display = "flex";
     Form_ErrorMsg.style.display = "none";
   }
-  if (element === "Orders") {
-    Titel.innerHTML = "My Ordes";
+  if (
+    element === "Orders" ||
+    element === "Cancellations" ||
+    element === "Returns"
+  ) {
+    Titel.innerHTML =
+      element === "Orders"
+        ? "My Ordes"
+        : element === "Cancellations"
+        ? "My Cancellations"
+        : "My Returns";
     AccountSection.style.display = "none";
-    OrdersSection.style.display = "flex";
-    Msg_404.style.display = "none";
-    Form_ErrorMsg.style.display = "none";
-  }
-
-  if (element === "Returns") {
-    Titel.innerHTML = "My Returns";
-    AccountSection.style.display = "none";
-    OrdersSection.style.display = "flex";
-    Msg_404.style.display = "none";
-    Form_ErrorMsg.style.display = "none";
-  }
-
-  if (element === "Cancellations") {
-    Titel.innerHTML = "My Cancellations";
-    AccountSection.style.display = "none";
+    Edite_Profile.style.display = "none";
     OrdersSection.style.display = "flex";
     Msg_404.style.display = "none";
     Form_ErrorMsg.style.display = "none";

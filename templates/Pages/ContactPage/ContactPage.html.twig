@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Contact us</title>
+		<link rel="stylesheet" href="{{ asset('Pages/ContactPage/Style.css') }}">
+		<link rel="icon" type="image/x-icon" href="{{ asset('img/icon/Icon.png') }}">
+	</head>
+	<body>
+		{# Header Section #}
+		{% include 'components/Header/Header.html.twig' with { 'ParentPage': 'Contact' } %}
+		{# Adding Form Section #}
+		<div class="Container">
+			<p id="Route_Page">
+				<a id="Route_Path"></a>
+				<span>
+					Contact</span>
+			</p>
+			<div class="Contact">
+				<div class="Contact-LeftSection">
+
+					<div class="TopSection">
+						<div>
+
+							<h3>Call To Us</h3>
+						</div>
+						<div>
+							<p>We are availabel 24/7, 7 days a week.</p>
+							<p>Phone:
+								<span style="font-size: 11px;">(+212)</span>
+								82 545 7391</p>
+						</div>
+					</div>
+
+					<span id="Seperatorline"></span>
+
+					<div class="BottomSection">
+						<div>
+
+							<h3>Write To US</h3>
+						</div>
+						<div>
+							<p>Fill out our form and we will contact you within 24 hours.</p>
+							<p>Emails: customer@exclusive.com</p>
+						</div>
+					</div>
+
+				</div>
+				<div class="Contact-RightSection">
+					<form class="MailingContactForm">
+						<div id="UserInfo">
+							<div>
+								<label for="FirstName">Your Name
+									<span>*</span>
+								</label>
+								<input type="text" name="FirstName" id="FirstName" required>
+							</div>
+
+							<div>
+								<label for="Email">Your Email
+									<span>*</span>
+								</label>
+								<input type="email" name="Email" id="Email" required>
+							</div>
+
+							<div>
+								<label for="PhoneNumber">Your Phone
+									<span>*</span>
+								</label>
+								<input type="tel" name="PhoneNumber" id="PhoneNumber" required>
+							</div>
+						</div>
+
+						<div id="Comment">
+							<label for="CommentText">Your Massage
+								<span>*</span>
+							</label>
+							<input type="textarea" name="CommentText" id="CommentText" required>
+						</div>
+
+						<div id="Buttons">
+							<input type="Submit" id="SubmitButton" value="Send Massage">
+							<input type="Reset" id="ResetButton" value="Reset">
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<script src="{{ asset('js/global.js') }}"></script>
+		<script src="{{ asset('Pages/ContactPage/main.js') }}"></script>
+		<script></script>
+	</body>
+</html>
