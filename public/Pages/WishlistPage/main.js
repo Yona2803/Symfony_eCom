@@ -36,10 +36,17 @@ async function MyWishlist_Products() {
                   ? `<img src="${product.itemImage}" alt="Product Image: ${product.name}">`
                   : `<img src="img/No_Img.png" alt="No Image Available for product: ${product.name}">`
               }
-              <button type="button" onclick="moveSingleToCart(${
-                product.id
-              })">Move To Cart</button>
-            </div>
+              									${
+                                  product.stock > 0
+                                    ? `<button type="button" onclick="moveSingleToCart(${product.id})">Move To Cart</button>`
+                                    : ``
+                                }
+                                
+  <input type="hidden" id="QteProduct${product.id}" name="QteProduct${
+            product.id
+          }" value="${product.stock}"> 
+  
+              </div>
             <h6 id="ProductName${product.id}">${product.name}</h6>
             <div class="ProductInfo">
               <span id="price${product.id}">
@@ -165,24 +172,50 @@ function moveSingleToCart(id) {
  */
 function moveAllToCart() {
   try {
-    // Create new cart with existing items
+    // Create new cart, wishlist with existing items
     let updatedCart = [...cart];
+    let updatedWishlist = [...wishlist];
 
     // Add all wishlist items to cart
-    wishlist.forEach((wishlistItem) => {
-      if (!updatedCart.some((cartItem) => cartItem.id === wishlistItem.id)) {
-        updatedCart.push({
-          id: wishlistItem.id,
-          quantity: 1,
-        });
+    updatedWishlist.forEach((wishlistItem) => {
+      let CheckItemStock = parseInt(
+        document.getElementById(`QteProduct${wishlistItem.id}`).value
+      );
+
+      let ProductName = document.getElementById(
+        `ProductName${wishlistItem.id}`
+      ).innerText;
+
+      if (CheckItemStock > 0) {
+        if (!updatedCart.some((cartItem) => cartItem.id === wishlistItem.id)) {
+          updatedCart.push({
+            id: wishlistItem.id,
+            quantity: 1,
+          });
+        }
+
+        // Remove from wishlist
+        updatedWishlist = updatedWishlist.filter(
+          (item) => item.id !== wishlistItem.id
+        );
+
+        deleteWishlistItem(wishlistItem.id);
+      } else {
+        alert(
+          `Product: "` +
+            ProductName +
+            `", is out of stock and will not be added to the cart.`
+        );
       }
-      deleteWishlistItem(wishlistItem.id);
     });
 
     // Clear wishlist and update storage
-    wishlist = [];
+    // wishlist = [];
     localStorage.setItem("cart", JSON.stringify(updatedCart));
-    localStorage.setItem("wishList", JSON.stringify(wishlist));
+    localStorage.setItem("wishList", JSON.stringify(updatedWishlist));
+
+    // Update UI
+    checkEmptyContainer();
   } catch (error) {
     console.error("Error moving all items to cart:", error);
     throw error;
