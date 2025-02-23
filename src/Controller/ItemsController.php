@@ -30,8 +30,9 @@ class ItemsController extends AbstractController
     }
 
 
-    #[Route('/randomitems', name:'generate-random-items')]
-    public function generateRandomItemsAction(){
+    #[Route('/randomitems', name: 'generate-random-items')]
+    public function generateRandomItemsAction()
+    {
         $this->productsFaker->createRandomItems(10);
         return $this->redirect('productsPage');
     }
@@ -166,11 +167,26 @@ class ItemsController extends AbstractController
         $form = $this->createForm(ItemType::class, $item);
         $form->handleRequest($request);
 
-        $items = $this->itemsService->getAllProducts();
-        return $this->render('MyPages/Products/updateItemPage.html.twig', [
-            'items' => $items,
-            'form' => $form->createView(),
+        // $items = $this->itemsService->getAllProducts();
+        // return $this->render('MyPages/Products/updateItemPage.html.twig', [
+        //     'items' => $items,
+        //     'form' => $form->createView(),
 
+        // ]);
+
+        $page = $request->query->getInt('page', 1); // Get the current page from the request
+        $limit = ItemsRepository::PAGINATOR_PER_PAGE; // Results per page
+        $offset = ($page - 1) * $limit; // Calculate the offset
+
+        $paginator = $this->itemsService->getAllProductsWithPagination($offset, $limit);
+        $totalResults = count($paginator);
+        $totalPages = ceil($totalResults / $limit);
+
+        return $this->render('MyPages/Products/updateItemPage.html.twig', [
+            'form' => $form->createView(),
+            'items' => $paginator,
+            'totalPages' => $totalPages,
+            'currentPage' => $page,
         ]);
     }
 
@@ -189,10 +205,25 @@ class ItemsController extends AbstractController
             return $this->redirectToRoute('item_list');
         }
 
-        $items = $this->itemsService->getAllProducts();
+        // $items = $this->itemsService->getAllProducts();
+        // return $this->render('MyPages/Products/updateItemPage.html.twig', [
+        //     'form' => $form->createView(),
+        //     'items' => $items
+        // ]);
+
+        $page = $request->query->getInt('page', 1); // Get the current page from the request
+        $limit = ItemsRepository::PAGINATOR_PER_PAGE; // Results per page
+        $offset = ($page - 1) * $limit; // Calculate the offset
+
+        $paginator = $this->itemsService->getAllProductsWithPagination($offset, $limit);
+        $totalResults = count($paginator);
+        $totalPages = ceil($totalResults / $limit);
+
         return $this->render('MyPages/Products/updateItemPage.html.twig', [
             'form' => $form->createView(),
-            'items' => $items
+            'items' => $paginator,
+            'totalPages' => $totalPages,
+            'currentPage' => $page,
         ]);
     }
 

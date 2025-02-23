@@ -19,8 +19,7 @@ class HomePageController extends AbstractController
     public function __construct(
         private ItemsService $itemsService,
         private CategoriesService $categoriesService
-        )
-    {
+    ) {
         $this->itemsService = $itemsService;
         $this->categoriesService = $categoriesService;
     }

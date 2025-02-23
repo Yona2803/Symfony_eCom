@@ -3,12 +3,11 @@
 	<head>
 		<title>Products</title>
 		<link rel="stylesheet" href="{{ asset('css/Products/updateProductPage.css') }}">
-		<link rel="stylesheet" href="{{ asset('Pages/ProductsPage/Style.css') }}">
 		<link rel="stylesheet" href="{{ asset('css/Products/FormProductStyle.css') }}">
 		<link rel="icon" type="image/x-icon" href="{{ asset('img/icon/Icon.png') }}">
 	</head>
 	<body>
-	
+
 		{# include dashboard page #}
 		{{ include('MyPages/Dashboard/dashBoard.html.twig') }}
 
@@ -33,7 +32,7 @@
 
 
 		{# Adding Products Section #}
-		<div class="Container" style="margin-left: 300px;">
+		<div class="Container">
 			<div class="Categories">
 
 				<div class="header-search">
@@ -95,9 +94,8 @@
 
 				<div class="ProductList" id="searchResults">
 					{% for item in items %}
-						<div
-							class="Product" id="{{ item.id }}">
-							
+						<div class="Product" id="{{ item.id }}">
+
 							<div class="ProductImage">
 								{% if item.itemImage %}
 									<img src="data:image/jpeg;base64,{{ item.itemImage|base64_encode }}" alt="{{ item.name }}">
@@ -106,15 +104,29 @@
 								{% endif %}
 								<button onclick="openPopup( {{ item.id }} )">Edit Product</button>
 							</div>
-							
+
 							<h6>{{item.name}}</h6>
 							<div class="ProductInfo">
-								<span>{{item.price}} DH</span>
-								<span style="color: green;">&#40; {{ item.stock}} In Stock &#41;</span>
+								<span>{{item.price}}
+									DH</span>
+								<span style="color: green;">&#40;
+									{{ item.stock}}
+									In Stock &#41;</span>
 							</div>
 						</div>
 					{% endfor %}
 				</div>
+
+				{% if items|length > 6 %}
+					<div class="pagesNumber">
+						{% for i in 1..totalPages %}
+							<a href="{{ path('update-item-page', {'page': i}) }}" class="{{ i == currentPage ? 'active' : '' }}">
+								{{ i }}
+							</a>
+						{% endfor %}
+					</div>
+				{% endif %}
+
 			</div>
 		</div>
 		<script src="{{ asset('Pages/WishlistPage/main.js') }}"></script>
