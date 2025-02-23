@@ -151,10 +151,19 @@ class ItemsController extends AbstractController
         $form = $this->createForm(ItemType::class, $item);
         $form->handleRequest($request);
 
-        $items = $itemsRepository->findProductByPartialName($name);
+        $page = $request->query->getInt('page', 1); 
+        $limit = ItemsRepository::PAGINATOR_PER_PAGE; 
+        $offset = ($page - 1) * $limit; 
+
+        $paginator = $itemsRepository->findByPartialName($name, $offset, $limit);
+        $totalResults = count($paginator);
+        $totalPages = ceil($totalResults / $limit);
+
         return $this->render('MyPages/Products/updateItemPage.html.twig', [
-            'items' => $items,
             'form' => $form->createView(),
+            'items' => $paginator,
+            'totalPages' => $totalPages,
+            'currentPage' => $page,
         ]);
     }
 

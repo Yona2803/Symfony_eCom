@@ -40,7 +40,7 @@ class ItemsRepository extends ServiceEntityRepository
             ->andWhere('c.name = :categoryName')
             ->setParameter('categoryName', $categoryName)
             ->getQuery();
-            
+
         return new Paginator($query, $fetchJoinCollection = true);
     }
 
@@ -69,18 +69,9 @@ class ItemsRepository extends ServiceEntityRepository
             ->setParameter('name', '%' . (string)$name . '%')
             ->getQuery();
 
-            return new Paginator($query, $fetchJoinCollection = true);
+        return new Paginator($query, $fetchJoinCollection = true);
     }
 
-
-    public function findProductByPartialName(string $name): array
-    {
-        return $this->createQueryBuilder('p')
-            ->where('p.name LIKE :name')
-            ->setParameter('name', '%' . (string)$name . '%')
-            ->getQuery()
-            ->getResult();
-    }
 
 
 

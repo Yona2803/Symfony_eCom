@@ -53,80 +53,84 @@
 					</form>
 				</div>
 
+				{% if items|length > 0 %}
 
-				<div id="updateProduct" class="popup">
-					<div class="popup-content">
-						<div class="btn-close" style="margin-bottom: 20px">
-							<span class="close-btn" onclick="closePopup()">X</span>
-						</div>
-						{{ form_start(form, {'action': path('updateProduct'), 'method': 'POST', 'attr': {'enctype': 'multipart/form-data'}}) }}
-						<input type="hidden" name="productId" id="productId">
-						<div class="form-group">
-							{{ form_row(form.name, {'attr': {'class': 'custom-name-field'}}) }}
-							{{ form_row(form.price, {'attr': {'class': 'custom-price-field'}}) }}
-						</div>
-						<div class="form-group">
-							{{ form_row(form.stock, {'attr': {'class': 'custom-stock-field'}}) }}
-							{{ form_row(form.category, {'attr': {'class': 'custom-category-field'}}) }}
-						</div>
-
-						<div class="form-group-description">
-							{{ form_row(form.description, {'attr': {'class': 'custom-description-field'}}) }}
-						</div>
-
-						<div class="form-group">
-							{{ form_row(form.tags, {'attr': {'class': 'custom-tags-field'}}) }}
-						</div>
-
-						<div class="form-group">
-							{{ form_row(form.itemImage, {'attr': {'class': 'custom-item-image', 'onchange': 'previewImage(event)'}}) }}
-							<div class="image-preview-container">
-								<img id="imagePreview" src="{{ asset('img/No_Img.png') }}" alt="Image Preview" class="image-preview"/>
+					<div id="updateProduct" class="popup">
+						<div class="popup-content">
+							<div class="btn-close" style="margin-bottom: 20px">
+								<span class="close-btn" onclick="closePopup()">X</span>
 							</div>
-						</div>
+							{{ form_start(form, {'action': path('updateProduct'), 'method': 'POST', 'attr': {'enctype': 'multipart/form-data'}}) }}
+							<input type="hidden" name="productId" id="productId">
+							<div class="form-group">
+								{{ form_row(form.name, {'attr': {'class': 'custom-name-field'}}) }}
+								{{ form_row(form.price, {'attr': {'class': 'custom-price-field'}}) }}
+							</div>
+							<div class="form-group">
+								{{ form_row(form.stock, {'attr': {'class': 'custom-stock-field'}}) }}
+								{{ form_row(form.category, {'attr': {'class': 'custom-category-field'}}) }}
+							</div>
 
-						<br>
-						<button type="submit" class="submit-add-product">Update Product</button>
-						{{ form_end(form) }}
+							<div class="form-group-description">
+								{{ form_row(form.description, {'attr': {'class': 'custom-description-field'}}) }}
+							</div>
+
+							<div class="form-group">
+								{{ form_row(form.tags, {'attr': {'class': 'custom-tags-field'}}) }}
+							</div>
+
+							<div class="form-group">
+								{{ form_row(form.itemImage, {'attr': {'class': 'custom-item-image', 'onchange': 'previewImage(event)'}}) }}
+								<div class="image-preview-container">
+									<img id="imagePreview" src="{{ asset('img/No_Img.png') }}" alt="Image Preview" class="image-preview"/>
+								</div>
+							</div>
+
+							<br>
+							<button type="submit" class="submit-add-product">Update Product</button>
+							{{ form_end(form) }}
+						</div>
 					</div>
-				</div>
 
 
-				<div class="ProductList" id="searchResults">
-					{% for item in items %}
-						<div class="Product" id="{{ item.id }}">
+					<div class="ProductList" id="searchResults">
+						{% for item in items %}
+							<div class="Product" id="{{ item.id }}">
 
-							<div class="ProductImage">
-								{% if item.itemImage %}
-									<img src="data:image/jpeg;base64,{{ item.itemImage|base64_encode }}" alt="{{ item.name }}">
-								{% else %}
-									<img src="{{ asset('img/No_Img.png') }}" alt="{{ item.name }}">
-								{% endif %}
-								<button onclick="openPopup( {{ item.id }} )">Edit Product</button>
+								<div class="ProductImage">
+									{% if item.itemImage %}
+										<img src="data:image/jpeg;base64,{{ item.itemImage|base64_encode }}" alt="{{ item.name }}">
+									{% else %}
+										<img src="{{ asset('img/No_Img.png') }}" alt="{{ item.name }}">
+									{% endif %}
+									<button onclick="openPopup( {{ item.id }} )">Edit Product</button>
+								</div>
+
+								<h6>{{item.name}}</h6>
+								<div class="ProductInfo">
+									<span>{{item.price}}
+										DH</span>
+									<span style="color: green;">&#40;
+										{{ item.stock}}
+										In Stock &#41;</span>
+								</div>
 							</div>
-
-							<h6>{{item.name}}</h6>
-							<div class="ProductInfo">
-								<span>{{item.price}}
-									DH</span>
-								<span style="color: green;">&#40;
-									{{ item.stock}}
-									In Stock &#41;</span>
-							</div>
-						</div>
-					{% endfor %}
-				</div>
-
-				{% if items|length > 6 %}
-					<div class="pagesNumber">
-						{% for i in 1..totalPages %}
-							<a href="{{ path('update-item-page', {'page': i}) }}" class="{{ i == currentPage ? 'active' : '' }}">
-								{{ i }}
-							</a>
 						{% endfor %}
 					</div>
-				{% endif %}
 
+					{% if items|length > 6 %}
+						<div class="pagesNumber">
+							{% for i in 1..totalPages %}
+								<a href="{{ path('update-item-page', {'page': i}) }}" class="{{ i == currentPage ? 'active' : '' }}">
+									{{ i }}
+								</a>
+							{% endfor %}
+						</div>
+					{% endif %}
+
+				{% else %}
+					<p style="margin-left: 50px;">No products found</p>
+				{% endif %}
 			</div>
 		</div>
 		<script src="{{ asset('Pages/WishlistPage/main.js') }}"></script>

@@ -29,6 +29,7 @@ a {
 
 
 .Categories {
+    width: 100%;
     display: block;
     justify-content: center;
     height: fit-content;
