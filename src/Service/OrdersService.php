@@ -26,7 +26,8 @@ class OrdersService
         private StateStatusRepository $StateStatusRepository,
         private EntityManagerInterface $em,
         private MailerInterface $mailer,
-        private MessageBusInterface $bus
+        private MessageBusInterface $bus,
+        private EmailSenderService $emailSenderService,
     ) {
         $this->ordersRepository = $ordersRepository;
         $this->orderDetailsRepository = $orderDetailsRepository;
@@ -36,6 +37,8 @@ class OrdersService
         $this->StateStatusRepository = $StateStatusRepository;
         $this->em = $em;
         $this->mailer = $mailer;
+        $this->bus = $bus;
+        $this->emailSenderService = $emailSenderService;
     }
 
 
@@ -44,17 +47,15 @@ class OrdersService
     {
         $order = $this->ordersRepository->findOneBy(['id' => $orderId]);
         $orderState = $this->orderStateRepository->findOneBy(['Order' => $order]);
-        $value = $orderState->getState()->getName();
+        $orderStateValue = $orderState->getState()->getName();
 
         $newState = $this->StateStatusRepository->findOneBy(['name' => $state]);
 
+        $newValue = $order->getOrderStatus()->getStatusName();
+
         if ($order) {
             if ($state == 'Accepted') {
-                if ($value == 'Cancel') {
-                    $newValue = 'Cancelled';
-                } else {
-                    $newValue = 'Returned';
-                }
+                $newValue = $orderStateValue == 'Cancel' ? 'Cancelled' : 'Returned';
                 $statusName = $this->orderStatusRepository->findOneBy(['statusName' => $newValue]);
                 $order->setOrderStatus($statusName);
             }
@@ -62,19 +63,21 @@ class OrdersService
 
             $orderState->setStateStatus($newState);
             $this->em->flush();
+    
+            // Prepare email parameters
+            $templateParams = [
+                'customerName' => $order->getUser()->getFirstName(),
+                'orderId' => $order->getId(),
+                'orderStateStatus' => $state, // accepted or declined
+                'orderState' => $orderStateValue, // cancel or return
+                'orderStatus' => $newValue, // Cancelled or returned
+            ];
 
-            $Email_From = $_ENV['MAILER_SENDER'];
-
-            $email = (new Email())
-                ->from($Email_From)
-                ->to($emailCustomer)
-                ->subject('Hello from Symfony Mailer!')
-                ->text('This is a simple text email.')
-                ->html('<p>This is a <strong>HTML</strong> email.</p>');
-
-            // $this->mailer->send($email);
-            $this->bus->dispatch(new SendEmailMessage($email));
-
+            $subject = (string) $orderStateValue.' '.'Request';
+    
+            // Send the email using the service
+            $this->emailSenderService->sendCancellationEmail($emailCustomer, $subject, $templateParams);
+    
             return true;
         }
 

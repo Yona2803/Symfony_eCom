@@ -107,12 +107,12 @@ document.querySelectorAll(".dropdown-content-v1 button").forEach((button) => {
         const button = e.target.closest("button");
         const orderRow = e.target.closest("tr");
         const orderId = orderRow.querySelector("#inputOrderId").value;
-        const emailCustomer = orderRow.querySelector("#inputEmailCustomer").value;
-
+        
         const newStatus = e.target.textContent.trim();
         console.log(`Status changed to: ${newStatus} // orderId: ${orderId}`);
-
+        
         if (newStatus === "Accepted" || newStatus === "Declined") {
+            const emailCustomer = orderRow.querySelector("#inputEmailCustomer").value;
             changeOrderStateStatus(orderId, newStatus, emailCustomer);
         } else {
             changeOrderStatus(orderId, newStatus);
