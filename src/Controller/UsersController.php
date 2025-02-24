@@ -43,7 +43,7 @@ class UsersController extends AbstractController
     public function getAllCustomers(Request $request): Response
     {
         $page = $request->query->getInt('page', 1); // Get the current page from the request
-        $limit = OrdersRepository::PAGINATOR_PER_PAGE; // Results per page
+        $limit = UsersRepository::PAGINATOR_PER_PAGE; // Results per page
         $offset = ($page - 1) * $limit; // Calculate the offset
 
         $paginator = $this->usersRepository->findCustomerByRoles('ROLE_CUSTOMER', $offset, $limit);
@@ -93,7 +93,7 @@ class UsersController extends AbstractController
     public function deleteCustomer(int $customerId): JsonResponse
     {
         try {
-            // Attempt to delete the customer
+            
             $result = $this->usersRepository->deleteById($customerId);
 
             if ($result) {
