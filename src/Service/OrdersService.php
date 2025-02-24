@@ -9,10 +9,11 @@ use App\Repository\OrderStatusRepository;
 use App\Repository\OrderStateRepository;
 use App\Repository\StateRepository;
 use App\Repository\StateStatusRepository;
-use Doctrine\Common\Collections\Order;
 use Doctrine\ORM\EntityManagerInterface;
-use phpDocumentor\Reflection\Types\Boolean;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mailer\Messenger\SendEmailMessage;
+use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Mime\Email;
 
 class OrdersService
 {
@@ -23,7 +24,9 @@ class OrdersService
         private OrderStateRepository $orderStateRepository,
         private StateRepository $StateRepository,
         private StateStatusRepository $StateStatusRepository,
-        private EntityManagerInterface $em
+        private EntityManagerInterface $em,
+        private MailerInterface $mailer,
+        private MessageBusInterface $bus
     ) {
         $this->ordersRepository = $ordersRepository;
         $this->orderDetailsRepository = $orderDetailsRepository;
@@ -32,11 +35,12 @@ class OrdersService
         $this->StateRepository = $StateRepository;
         $this->StateStatusRepository = $StateStatusRepository;
         $this->em = $em;
+        $this->mailer = $mailer;
     }
 
 
 
-    public function changeOrderStatusState($orderId, $state): bool
+    public function changeOrderStatusState($orderId, $state, $emailCustomer): bool
     {
         $order = $this->ordersRepository->findOneBy(['id' => $orderId]);
         $orderState = $this->orderStateRepository->findOneBy(['Order' => $order]);
@@ -57,8 +61,20 @@ class OrdersService
 
 
             $orderState->setStateStatus($newState);
-            $this->em->persist($orderState);
             $this->em->flush();
+
+            $Email_From = $_ENV['MAILER_SENDER'];
+
+            $email = (new Email())
+                ->from($Email_From)
+                ->to($emailCustomer)
+                ->subject('Hello from Symfony Mailer!')
+                ->text('This is a simple text email.')
+                ->html('<p>This is a <strong>HTML</strong> email.</p>');
+
+            // $this->mailer->send($email);
+            $this->bus->dispatch(new SendEmailMessage($email));
+
             return true;
         }
 
@@ -91,7 +107,7 @@ class OrdersService
     }
 
 
-    public function changeOrderStatus($orderId, $orderStatus): bool 
+    public function changeOrderStatus($orderId, $orderStatus): bool
     {
 
         $order = $this->ordersRepository->findOneBy(['id' => $orderId]);
@@ -110,7 +126,7 @@ class OrdersService
 
             if (!$existingOrderState) {
                 $this->SyncOrderState($orderId, $State, 'Pending');
-            }else{
+            } else {
                 return false;
             }
         }
@@ -118,7 +134,7 @@ class OrdersService
         return true;
     }
 
-    
+
     private function SyncOrderState($orderId, $State, $StateStatus): OrderState
     {
         // Fetch the Orders entity using the orderId

@@ -16,13 +16,15 @@ function changeOrderStatus(orderId, orderStatus) {
                     let row = document.querySelector(`#order-${orderId}`);
                     let btn = document.querySelector(`#btnComplete-${orderId}`);
                     let spanStatusName = document.querySelector(`#statusName-${orderId}`);
-                    
+
                     // Change the background color based on the order status
                     if (data.orderStatus !== "Delivered") {
                         row.style.backgroundColor = "pink";
                     } else {
                         row.style.backgroundColor = "rgb(177, 225, 192)";
-                        const dropdown = document.querySelector(`#dropdown-container-${orderId}`);
+                        const dropdown = document.querySelector(
+                            `#dropdown-container-${orderId}`
+                        );
                         dropdown.style.display = "none";
                     }
 
@@ -105,12 +107,13 @@ document.querySelectorAll(".dropdown-content-v1 button").forEach((button) => {
         const button = e.target.closest("button");
         const orderRow = e.target.closest("tr");
         const orderId = orderRow.querySelector("#inputOrderId").value;
+        const emailCustomer = orderRow.querySelector("#inputEmailCustomer").value;
 
         const newStatus = e.target.textContent.trim();
         console.log(`Status changed to: ${newStatus} // orderId: ${orderId}`);
 
         if (newStatus === "Accepted" || newStatus === "Declined") {
-            changeOrderStateStatus(orderId, newStatus);
+            changeOrderStateStatus(orderId, newStatus, emailCustomer);
         } else {
             changeOrderStatus(orderId, newStatus);
         }
@@ -229,8 +232,11 @@ function closePopupOrderDetails() {
     document.getElementById("ordersDetails").style.display = "none";
 }
 
-function changeOrderStateStatus(orderId, orderStateStatus) {
-    fetch(`/order/${orderId}/state/${orderStateStatus}`, {
+
+// Accepted or declined the customer's request
+function changeOrderStateStatus(orderId, orderStateStatus, emailCustomer) {
+    
+    fetch(`/order/${orderId}/state/${orderStateStatus}/${emailCustomer}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -239,19 +245,18 @@ function changeOrderStateStatus(orderId, orderStateStatus) {
         .then((response) => response.json())
         .then((data) => {
             console.log("from state", data);
-            let row = document.querySelector(`#order-${orderId}`);
-            let btn = document.querySelector(`#btnComplete-${orderId}`);
-            let spanStatusName = document.querySelector(`#statusName-${orderId}`);
+            const row = document.querySelector(`#order-${orderId}`);
+            const td = document.querySelector(`#order-State-Status-Span-${orderId}`);
 
-            // Change the background color based on the order status
             if (data) {
                 if (orderStateStatus === "Accepted") {
                     row.style.backgroundColor = "rgb(177, 225, 192)";
                 } else {
                     row.style.backgroundColor = "pink";
                 }
-                let td = document.querySelector(`#order-State-Status-Span-${orderId}`);
+
                 td.textContent = orderStateStatus;
+                row.remove();
             }
         });
 }

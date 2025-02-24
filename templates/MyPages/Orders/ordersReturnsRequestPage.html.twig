@@ -40,6 +40,7 @@
 					{% for order in orders %}
 						<tr id="order-{{ order.orderId }}" class="order-row" data-status="{{ order.statusName }}" style="{% if order.stateStatusName != 'Accepted' %}background-color: pink; {% else %}background-color: rgb(165, 220, 183);{% endif %}">
 							<td>
+								<input type="hidden" id="inputEmailCustomer" value="{{ order.email }}">
 								<strong>ID:</strong>
 								{{ order.userId }}<br>
 								<strong>Username:</strong>

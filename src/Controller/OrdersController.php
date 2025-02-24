@@ -154,10 +154,10 @@ final class OrdersController extends AbstractController
 
 
 
-    #[Route('/order/{orderId}/state/{state}', name: 'change-order-state')]
-    public function changeOrderStatusState(int $orderId, string $state, Request $request): JsonResponse
+    #[Route('/order/{orderId}/state/{state}/{emailCustomer}', name: 'change-order-state')]
+    public function changeOrderStatusState(int $orderId, string $state, string $emailCustomer): JsonResponse
     {
-        $data = $this->ordersService->changeOrderStatusState($orderId, $state);
+        $data = $this->ordersService->changeOrderStatusState($orderId, $state, $emailCustomer);
         return new JsonResponse($data);
     }
 }
