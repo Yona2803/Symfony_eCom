@@ -21,7 +21,7 @@
 		<div class="main-content">
 			<div class="sectionTest">
 				<span></span>
-				<h4>Returns Request</h4>
+				<h4>Customers Request</h4>
 			</div>
 
 			<div id="overlay"></div>
@@ -31,14 +31,16 @@
 					<tr>
 						<th>Customer</th>
 						<th>Order Details</th>
-						<th>Status</th>
+						<th>Order Status</th>
+						<th>Customer Request</th>
 						<th>Actions</th>
 					</tr>
 				</thead>
 				<tbody>
 					{% for order in orders %}
-						<tr id="order-{{ order.orderId }}" class="order-row" data-status="{{ order.statusName }}" style="{% if order.statusName != 'DELIVERED' %}background-color: pink; {% else %}background-color: rgb(165, 220, 183);{% endif %}">
+						<tr id="order-{{ order.orderId }}" class="order-row" data-status="{{ order.statusName }}" style="{% if order.stateStatusName != 'Accepted' %}background-color: pink; {% else %}background-color: rgb(165, 220, 183);{% endif %}">
 							<td>
+								<input type="hidden" id="inputEmailCustomer" value="{{ order.email }}">
 								<strong>ID:</strong>
 								{{ order.userId }}<br>
 								<strong>Username:</strong>
@@ -48,15 +50,6 @@
 								<strong>Email:</strong>
 								{{ order.email }}
 							</td>
-
-							{# <td>
-									<strong>ID:</strong>
-									{{ order.itemId }}<br>
-									<strong>Name:</strong>
-									{{ order.name }}<br>
-									<strong>Unit Price:</strong>
-									{{ order.price }} DH
-								</td> #}
 
 							<td>
 								<input type="hidden" id="inputOrderId" value="{{ order.orderId }}">
@@ -73,7 +66,12 @@
 								<span id="statusName-{{ order.orderId}}">{{ order.statusName }}</span>
 							</td>
 
-							<td>
+							<td style="width: 100px; text-align: center;">
+								<span style="color: black; font-weight: 100px;" name="orderState{{ order.orderId}}">{{ order.stateName }}</span>
+								<span style="width: 50px; height: 30px; background-color: orange; padding: 3px; border-radius: 5px; color: white;" id="order-State-Status-Span-{{ order.orderId}}">{{ order.stateStatusName }}</span>
+							</td>
+
+							<td style="width: 200px">
 									{# dropdown #}
 									<div class="dropdown-container"> <div class="dropdown">
 										<button class="dropbtn">Request State
@@ -81,7 +79,7 @@
 												<path d="M4 6.5L4 1M7 4.5L4 7.5L1 4.5" stroke="rgb(24, 74, 72, 0.5)" stroke-linecap="round" stroke-linejoin="round"/>
 											</svg>
 										</button>
-										<div class="dropdown-content">
+										<div class="dropdown-content-v1">
 											<button>
 												<svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 													<path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -94,24 +92,6 @@
 												</svg>
 
 												Declined</button>
-											{# <button>
-												<svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-													<path d="M3 3h18v18H3V3Zm4 8 4 4 7-7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-												</svg>
-
-												Delivered</button>
-											<button>
-												<svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-													<path d="M12 4V1L8 5l4 4V6c4.418 0 8 3.582 8 8s-3.582 8-8 8-8-3.582-8-8H2c0 5.523 4.477 10 10 10s10-4.477 10-10S17.523 4 12 4Z" fill="white"/>
-												</svg>
-												Returned</button>
-											<button>
-												<svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-													<circle cx="12" cy="12" r="10" stroke="white" stroke-width="2"/>
-													<path d="M15 9l-6 6M9 9l6 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-												</svg>
-
-												Canceled</button> #}
 										</div>
 									</div>
 								</div>

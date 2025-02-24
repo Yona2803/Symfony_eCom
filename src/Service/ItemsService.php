@@ -7,6 +7,7 @@ use App\Entity\Items;
 use App\Form\ItemType;
 use App\Repository\ItemsRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\FormFactoryInterface;
 
@@ -70,23 +71,19 @@ class ItemsService
 
 
 
-
-
-
     /**
      * @return Items[]
      */
+    public function getAllProductsWithPagination($offset, $limit): Paginator
+    {
+        return $this->itemsRepository->findProducts($offset, $limit);
+    }
+
+
     public function getAllProducts(): array
     {
         return $this->itemsRepository->findAll();
     }
-
-
-    public function getProductByName(string $name): array
-    {
-        return $this->itemsRepository->findByPartialName($name);
-    }
-
 
 
     public function findItemsByTag(string $tag): array
@@ -100,11 +97,9 @@ class ItemsService
 
 
 
-
-
     public function handleUpdateProduct(Request $request): bool
     {
-        $productId = $request->request->get('productId'); 
+        $productId = $request->request->get('productId');
         $item = $this->itemsRepository->find($productId);
         $form = $this->formFactory->create(ItemType::class, $item);
         $form->handleRequest($request);
@@ -143,6 +138,4 @@ class ItemsService
 
         return false;
     }
-
-
 }

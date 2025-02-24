@@ -16,7 +16,7 @@
 		</div>
 		<div class="ProductList">
 			{% for item in items|slice(0, 8) %}
-				<div class="Product">
+				<div class="Product" {{item.stock > 0 ? '' : ' style="cursor: no-drop;" title="Out of stock"' }} >
 					<div class="OptionSection" id="{{ item.id }}">
 						<button type="button" id="WishlistPrd{{ item.id }}" onclick="toggleWishlist({{ item.id }}, this)">
 							<svg class="Selected_Item" width="34" height="34" viewbox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -32,7 +32,9 @@
 							{% else %}
 								<img src="{{ asset('img/No_Img.png') }}" alt="{{ item.name }}">
 							{% endif %}
+																{% if item.stock > 0 %}
 							<button type="button" onclick="addToCart_One( {{ item.id }} ); event.preventDefault();  event.stopPropagation();">Add To Cart</button>
+																{% endif %}
 						</div>
 					</a>
 					<h6 id="ProductName">{{item.name}}</h6>

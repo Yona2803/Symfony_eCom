@@ -3,27 +3,32 @@
 namespace App\Controller;
 
 use App\Repository\OrdersRepository;
+use App\Repository\OrderDetailsRepository;
 use App\Service\OrdersService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\OrderDetails;
+use App\Entity\Users;
+use App\Service\UsersService;
 
 final class OrdersController extends AbstractController
 {
+    private $usersService;
 
-
-
-    function __construct(
+    public function __construct(
         private OrdersRepository $ordersRepository,
-        private OrdersService $ordersService
+        private OrderDetailsRepository $orderDetailsRepository,
+        private OrdersService $ordersService,
+        UsersService $usersService,
+
     ) {
         $this->ordersRepository = $ordersRepository;
+        $this->usersService = $usersService;
     }
-
-
-
 
     #[Route('/orders', name: 'orders-list')]
     public function listOrders(Request $request): Response
@@ -43,7 +48,6 @@ final class OrdersController extends AbstractController
         ]);
     }
 
-
     #[Route('/orders/returns', name: 'orders-returns')]
     public function ordersReturnsRequestList(Request $request, OrdersRepository $orderRepository): Response
     {
@@ -51,7 +55,7 @@ final class OrdersController extends AbstractController
         $limit = OrdersRepository::PAGINATOR_PER_PAGE; // Results per page
         $offset = ($page - 1) * $limit; // Calculate the offset
 
-        $paginator = $orderRepository->findOrderDetails($offset, $limit);
+        $paginator = $orderRepository->getOrderDetailsByStateStatus($offset, $limit);
         $totalResults = count($paginator);
         $totalPages = ceil($totalResults / $limit);
 
@@ -62,16 +66,23 @@ final class OrdersController extends AbstractController
         ]);
     }
 
-
-
     #[Route('/order/{orderId}/{orderStatus}', name: 'change-order-status')]
     public function changeOrderStatus(int $orderId, string $orderStatus): JsonResponse
     {
-        $newOrderStatus = $this->ordersService->changeOrderStatus($orderId, $orderStatus);
+        $result = $this->ordersService->changeOrderStatusV2($orderId, $orderStatus);
+
+        if ($result) {
+            return new JsonResponse([
+                'status' => 'successChanged',
+                'message' => 'Order status successfully changed.',
+                'orderStatus' => $orderStatus
+            ], Response::HTTP_OK);
+        }
+
         return new JsonResponse([
-            'status' => 'successChanged',
-            'message' => 'Order status successfully changed.',
-            'orderStatus' => $newOrderStatus
+            'status' => 'failedChanged',
+            'message' => 'Order status failed to change.',
+            'orderStatus' => $orderStatus
         ], Response::HTTP_OK);
     }
 
@@ -84,5 +95,69 @@ final class OrdersController extends AbstractController
             'status' => 'success',
             'orderDetails' => $orderDetails
         ], Response::HTTP_OK);
+    }
+
+    // **** Get Order's : Records By Caller ****
+    #[Route('/Orders/FetchRecordsby/{Caller}', name: 'GetByCaller')]
+    public function GetRecordsByCaller(
+        string $Caller,
+        Request $request,
+        EntityManagerInterface $entityManager,
+    ): JsonResponse {
+        $User_id = $this->usersService->getIdOfAuthenticatedUser();
+
+        $Data = [];
+
+        $Option = ($Caller == 'Returns') ? 'Return' : ($Caller == 'Orders' ? 'Order' : 'Cancel');
+
+        if (!empty($Option)) {
+            $Data = $this->ordersRepository->findOrders($Option, $User_id);
+        } else {
+            return new JsonResponse(['error' => 'Invalid Caller'], 400);
+        }
+
+        if (!is_array($Data)) {
+            $Data = [];
+        }
+
+        return new JsonResponse($Data);
+    }
+
+    #[Route('/Orders/FetchRecordDetailsby/{orderId}', name: 'GetDetailsById')]
+    public function getRecordsByOrderId(
+        int $orderId,
+    ): JsonResponse {
+        $data = $this->orderDetailsRepository->findOrderDetailsById($orderId);
+        return new JsonResponse($data);
+    }
+
+    #[Route('/Orders/Status/{status}/{orderId}', name: 'PutStausByID')]
+    public function ChangeStatus(
+        string $status,
+        int $orderId,
+    ): JsonResponse {
+        if ($status && $orderId) {
+            $data = $this->ordersService->changeOrderStatus($orderId, $status);
+        }
+        if ($data) {
+            return new JsonResponse([
+                'status' => $status,
+                'orderId' => $orderId,
+            ]);
+        } else {
+            return new JsonResponse([
+                'status' => 'error'
+            ]);
+        }
+    }
+
+
+
+
+    #[Route('/order/{orderId}/state/{state}/{emailCustomer}', name: 'change-order-state')]
+    public function changeOrderStatusState(int $orderId, string $state, string $emailCustomer): JsonResponse
+    {
+        $data = $this->ordersService->changeOrderStatusState($orderId, $state, $emailCustomer);
+        return new JsonResponse($data);
     }
 }

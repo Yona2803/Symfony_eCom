@@ -54,7 +54,7 @@ a {
 
 #Right {
   width: 399px;
-  height: fit-content;
+  height: auto;
   margin-left: 71px;
   display: flex;
   flex-direction: column;
@@ -96,12 +96,15 @@ a {
 }
 
 #Right p {
-  width: 100%;
-  height: fit-content;
+  width: 373px;
+  white-space: pre-wrap;
+  height: auto;
   font-size: 14px;
   font-weight: 500;
   color: #000;
-  text-wrap: wrap;
+  
+  overflow-wrap: break-word;
+
   margin: 18px 0 24px 0;
 }
 #Right #SeperatorLine {

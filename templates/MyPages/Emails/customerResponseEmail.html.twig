@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {# email subject #}
+    <title>{{ orderState }} Request</title> 
+</head>
+<body>
+    <h1>{{ orderState }} Request</h1>
+    <p>Dear {{ customerName }},</p>
+    <p>Your <strong>{{ orderState }} Request</strong> for your order with ID <strong>{{ orderId }}</strong> has been <strong>{{ orderStateStatus }}</strong>.</p>
+    
+    {% if orderStateStatus == 'Accepted' %}
+    <p>The status of your order with ID <strong>{{ orderId }}</strong> has been changed to : <strong>{{ orderStatus }}</strong>.</p>
+    {% else %}
+    <p>The status of your order with ID <strong>{{ orderId }}</strong> is : <strong>{{ orderStatus }}</strong>.</p>
+    {% endif %}
+    
+    <p>Thank you for shopping with us!</p>
+</body>
+</html>

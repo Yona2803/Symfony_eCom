@@ -56,8 +56,10 @@
 					<p>{{ ProductDetails.description }}</p>
 					<span id="SeperatorLine"></span>
 					<div>
-						<input type="number" min="1" id="quantity{{ ProductDetails.id }}" onchange="update_LocalStorages({{ ProductDetails.id }},{{ ProductDetails.stock }})" value="1" max="{{ ProductDetails.stock }}">
-						<button type="button" onclick="addToCart_WithDetail({{ ProductDetails.id }},{{ ProductDetails.stock }})">Add To Cart</button>
+						<input type="number" {{ProductDetails.stock > 0 ? '' : 'disabled style="Background-color: #808080; color: black; cursor: no-drop;" title="Out of stock"' }} id="quantity{{ ProductDetails.id }}" onchange="update_LocalStorages({{ ProductDetails.id }},{{ ProductDetails.stock }})" min="{{ ProductDetails.stock > 0 ? 1 : 0}}" value="{{ ProductDetails.stock > 0 ? 1 : 0}}" max="{{ ProductDetails.stock }}">
+
+						<button type="button" {{ProductDetails.stock > 0 ? '' : 'disabled style="Background-color: #808080; color: black; cursor: no-drop;" title="Out of stock"' }} onclick="addToCart_WithDetail({{ ProductDetails.id }},{{ ProductDetails.stock }})">Add To Cart</button>
+
 						<button type="button" id="WishlistPrd{{ ProductDetails.id }}" onclick="toggleWishlist({{ ProductDetails.id }}, this)">
 							<svg class="Selected_Item" width="34" height="34" viewbox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
 								<circle cx="17" cy="17" r="17" fill="transparent"/>
@@ -65,7 +67,7 @@
 							</svg>
 						</button>
 					</div>
-					<button type="button" onclick="BuyNow({{ ProductDetails.id }},{{ ProductDetails.stock }})">Buy Now</button>
+					<button type="button" {{ProductDetails.stock > 0 ? '' : 'disabled style="Background-color: #808080; color: black; cursor: no-drop;" title="Out of stock"' }} onclick="BuyNow({{ ProductDetails.id }},{{ ProductDetails.stock }})">Buy Now</button>
 				</div>
 			</div>
 		</div>

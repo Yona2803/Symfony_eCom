@@ -227,7 +227,7 @@ let ValidationWindow = document.getElementById("Validation_Window");
 ContainerMsg.addEventListener("click", function (event) {
   ContainerMsg.style.display = "none";
   document.body.classList.remove("no-scroll");
-  window.location.href = "/";
+  window.location.href = "/home";
 });
 
 ValidationWindow.addEventListener("click", function (event) {

@@ -106,30 +106,3 @@ body {
 
 
 
-
-.sectionTest {
-    display: flex;
-    align-items: center;
-    background-color: #f8f9fa;
-    position: relative;
-    width: 100%;
-    margin: 10px auto;
-    margin-bottom: 20px;
-    /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
-    border-radius: 5px;
-}
-
-.sectionTest span {
-    width: 20px;
-    height: 40px;
-    background-color: #db4444;
-    margin: 0px 15px;
-    border-radius: 10%;
-}
-
-.sectionTest h4 {
-    font-size: 24px;
-    font-weight: bold;
-    color: #db4444;
-}
-

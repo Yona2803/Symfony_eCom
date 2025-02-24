@@ -46,7 +46,7 @@ class UsersController extends AbstractController
         $limit = UsersRepository::PAGINATOR_PER_PAGE; // Results per page
         $offset = ($page - 1) * $limit; // Calculate the offset
 
-        $paginator = $this->usersRepository->findCustomerByRoles($offset, $limit, 'ROLE_CUSTOMER');
+        $paginator = $this->usersRepository->findCustomerByRoles('ROLE_CUSTOMER', $offset, $limit);
         $totalResults = count($paginator);
         $totalPages = ceil($totalResults / $limit);
 
