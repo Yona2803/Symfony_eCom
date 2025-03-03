@@ -16,12 +16,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 class UsersRepository extends ServiceEntityRepository
 {
 
-<<<<<<< HEAD
-
-    public const PAGINATOR_PER_PAGE = 10;
-=======
     public const PAGINATOR_PER_PAGE = 6;
->>>>>>> master
 
 
     public function __construct(ManagerRegistry $registry)

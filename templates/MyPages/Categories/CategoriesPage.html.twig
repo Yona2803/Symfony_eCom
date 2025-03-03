@@ -7,6 +7,7 @@
 		<link rel="icon" type="image/x-icon" href="{{ asset('img/icon/Icon.png') }}">
 		<link rel="stylesheet" href="{{ asset('css/Categories/updateCategoryStyle.css') }}">
 		<link rel="stylesheet" href="{{ asset('css/Categories/FormCategoryStyle.css') }}">
+
 	</head>
 	<body>
 
@@ -15,7 +16,6 @@
 
 		{# include loading message page #}
 		{{ include('LoadingMessage/LoadingMessage.html.twig') }}
-
 
 
 		{% set updateCategoryMessage = app.flashes('updateCategory') %}
@@ -61,7 +61,7 @@
 
 
 		<div class="main-content">
-		
+
 			<div class="sectionTest">
 				<span></span>
 				<h4>Categories</h4>
