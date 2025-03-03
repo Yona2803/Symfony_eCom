@@ -93,7 +93,6 @@ class OrdersRepository extends ServiceEntityRepository
         ->setParameter('shipped', 'Shipped')
         ->setParameter('delivered', 'Delivered')
         ->setParameter('pending', 'Pending')
-        // ->setParameter('accepted', 'Accepted')
         ->setParameter('declined', 'Declined')
         ->orderBy('o.id', 'DESC')
         ->setFirstResult($offset)
@@ -102,6 +101,44 @@ class OrdersRepository extends ServiceEntityRepository
 
     // Use Doctrine's Paginator with fetchJoinCollection for better performance
     return new Paginator($query, $fetchJoinCollection = true);
+}
+
+
+    public function findOrderDetailsWithoutPagination(): array
+{
+    return $this->createQueryBuilder('o')
+        ->addSelect(
+            'o.id AS orderId',
+            'o.orderDate',
+            'o.totalAmount',
+            'u.id AS userId',
+            'u.username',
+            'u.firstName',
+            'u.lastName',
+            'u.email',
+            'os.statusName'
+        )
+        ->join('o.user', 'u')
+        ->join('o.orderStatus', 'os')
+        ->leftJoin('o.orderState', 'orderState')
+        ->leftJoin('orderState.StateStatus', 'stateStatus') 
+        ->where(
+            'os.statusName LIKE :preparing 
+            OR os.statusName LIKE :shipped
+            OR os.statusName LIKE :delivered'
+        )
+        ->andWhere(
+            'stateStatus.name LIKE :pending
+            OR stateStatus.name LIKE :declined 
+            OR stateStatus.name IS NULL')
+        ->setParameter('preparing', 'Preparing')
+        ->setParameter('shipped', 'Shipped')
+        ->setParameter('delivered', 'Delivered')
+        ->setParameter('pending', 'Pending')
+        ->setParameter('declined', 'Declined')
+        ->orderBy('o.id', 'DESC')
+        ->getQuery()
+        ->getResult();
 }
 
 

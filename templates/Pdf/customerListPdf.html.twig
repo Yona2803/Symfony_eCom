@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Order Summary</title>
+		<style>
+			body {
+				font-family: Arial, Helvetica, "Segoe UI", Tahoma, Verdana, sans-serif;
+				font-size: 14px;
+				width: 100%;
+				margin: 0;
+				padding: 0;
+				color: #333;
+			}
+
+			{# .container {
+				width: 90%;
+				margin: 0 auto;
+				padding: 20px;
+				border: 1px solid #ddd;
+			} #}
+
+			/* Header */
+			.header {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				border-bottom: 2px solid #007cca;
+				padding-bottom: 10px;
+				margin-bottom: 20px;
+			}
+
+			.logo img {
+				width: 180px;
+			}
+
+			.company-info {
+				text-align: right;
+				font-size: 12px;
+				color: #555;
+			}
+
+			/* Order Details */
+			.order-details {
+				margin-bottom: 20px;
+				padding: 10px;
+				border: 1px solid #007cca;
+				border-radius: 5px;
+				background: #f5f5f5;
+			}
+
+			.order-details p {
+				margin: 5px 0;
+				font-size: 14px;
+			}
+
+			/* Table */
+			table {
+				width: 100%;
+				border-collapse: collapse;
+				margin-top: 10px;
+			}
+
+			th,
+			td {
+				padding: 10px;
+				border: 1px solid #ddd;
+				text-align: left;
+			}
+
+			th {
+				background-color: #007cca;
+				color: white;
+			}
+
+			/* Footer */
+			.footer {
+				margin-top: 20px;
+				padding-top: 10px;
+				border-top: 2px solid #007cca;
+				text-align: center;
+				font-size: 14px;
+				color: #555;
+			}
+
+			.footer img {
+				width: 20px;
+				margin: 5px;
+			}
+		</style>
+	</head>
+	<body>
+
+		<div
+			class="container">
+			<!-- Header -->
+			<div class="header">
+				<div class="logo">
+					<img src="data:image/png;base64,{{ logo }}" alt="Exclusive Logo">
+				</div>
+				<div>
+				</div>
+				<div class="company-info">
+					<p>
+						<strong>Exclusive SARL</strong>
+					</p>
+					<p>20 RUE AYADA LOT BOUREHAL, BERRECHID 26 100</p>
+					<p>Tél: (+212) 520 134675 | Fax: (+212) 456 789090</p>
+					<p>Email: Exclusive@Service.ma</p>
+				</div>
+				<h2>Customers List:</h2>
+			</div>
+
+
+			<!-- Table -->
+			<table>
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Username</th>
+						<th>First Name</th>
+						<th>Last Name</th>
+						<th>Email</th>
+						<th>Phone</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for customer in cutomerDetails %}
+						<tr>
+							<td>
+								{{ customer.Id }}
+							</td>
+							<td>
+								{{ customer.username }}
+							</td>
+							<td>
+								{{ customer.firstName }}
+							</td>
+							<td>
+								{{ customer.lastName }}
+							</td>
+							<td>
+								{{ customer.email }}
+							</td>
+							<td>
+								{{ customer.phoneNumber }}
+							</td>
+						</tr>
+					{% else %}
+						<tr>
+							<td colspan="6">No customer available.</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+
+			<!-- Footer -->
+			{# <div class="footer">
+                    <p>THANK YOU FOR YOUR TRUST.</p>
+                    <img src="data:image/png;base64,{{ facebook_logo }}" alt="Facebook">
+                    <img src="data:image/png;base64,{{ instagram_logo }}" alt="Instagram">
+                    <p>@Exclusive_ma</p>
+                </div> #}
+
+		</div>
+
+	</body>
+</html>
