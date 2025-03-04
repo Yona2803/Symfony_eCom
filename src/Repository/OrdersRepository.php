@@ -58,88 +58,90 @@ class OrdersRepository extends ServiceEntityRepository
 
 
     public function findOrderDetails(int $offset, int $limit = self::PAGINATOR_PER_PAGE): Paginator
-{
-    // Validate offset and limit
-    if ($offset < 0 || $limit < 1) {
-        throw new \InvalidArgumentException('Invalid offset or limit.');
-    }
+    {
+        // Validate offset and limit
+        if ($offset < 0 || $limit < 1) {
+            throw new \InvalidArgumentException('Invalid offset or limit.');
+        }
 
-    $query = $this->createQueryBuilder('o')
-        ->addSelect(
-            'o.id AS orderId',
-            'o.orderDate',
-            'o.totalAmount',
-            'u.id AS userId',
-            'u.username',
-            'u.firstName',
-            'u.lastName',
-            'u.email',
-            'os.statusName'
-        )
-        ->join('o.user', 'u')
-        ->join('o.orderStatus', 'os')
-        ->leftJoin('o.orderState', 'orderState')
-        ->leftJoin('orderState.StateStatus', 'stateStatus') 
-        ->where(
-            'os.statusName LIKE :preparing 
+        $query = $this->createQueryBuilder('o')
+            ->addSelect(
+                'o.id AS orderId',
+                'o.orderDate',
+                'o.totalAmount',
+                'u.id AS userId',
+                'u.username',
+                'u.firstName',
+                'u.lastName',
+                'u.email',
+                'os.statusName'
+            )
+            ->join('o.user', 'u')
+            ->join('o.orderStatus', 'os')
+            ->leftJoin('o.orderState', 'orderState')
+            ->leftJoin('orderState.StateStatus', 'stateStatus')
+            ->where(
+                'os.statusName LIKE :preparing 
             OR os.statusName LIKE :shipped
             OR os.statusName LIKE :delivered'
-        )
-        ->andWhere(
-            'stateStatus.name LIKE :pending
+            )
+            ->andWhere(
+                'stateStatus.name LIKE :pending
             OR stateStatus.name LIKE :declined 
-            OR stateStatus.name IS NULL')
-        ->setParameter('preparing', 'Preparing')
-        ->setParameter('shipped', 'Shipped')
-        ->setParameter('delivered', 'Delivered')
-        ->setParameter('pending', 'Pending')
-        ->setParameter('declined', 'Declined')
-        ->orderBy('o.id', 'DESC')
-        ->setFirstResult($offset)
-        ->setMaxResults($limit)
-        ->getQuery();
+            OR stateStatus.name IS NULL'
+            )
+            ->setParameter('preparing', 'Preparing')
+            ->setParameter('shipped', 'Shipped')
+            ->setParameter('delivered', 'Delivered')
+            ->setParameter('pending', 'Pending')
+            ->setParameter('declined', 'Declined')
+            ->orderBy('o.id', 'DESC')
+            ->setFirstResult($offset)
+            ->setMaxResults($limit)
+            ->getQuery();
 
-    // Use Doctrine's Paginator with fetchJoinCollection for better performance
-    return new Paginator($query, $fetchJoinCollection = true);
-}
+        // Use Doctrine's Paginator with fetchJoinCollection for better performance
+        return new Paginator($query, $fetchJoinCollection = true);
+    }
 
 
     public function findOrderDetailsWithoutPagination(): array
-{
-    return $this->createQueryBuilder('o')
-        ->addSelect(
-            'o.id AS orderId',
-            'o.orderDate',
-            'o.totalAmount',
-            'u.id AS userId',
-            'u.username',
-            'u.firstName',
-            'u.lastName',
-            'u.email',
-            'os.statusName'
-        )
-        ->join('o.user', 'u')
-        ->join('o.orderStatus', 'os')
-        ->leftJoin('o.orderState', 'orderState')
-        ->leftJoin('orderState.StateStatus', 'stateStatus') 
-        ->where(
-            'os.statusName LIKE :preparing 
+    {
+        return $this->createQueryBuilder('o')
+            ->addSelect(
+                'o.id AS orderId',
+                'o.orderDate',
+                'o.totalAmount',
+                'u.id AS userId',
+                'u.username',
+                'u.firstName',
+                'u.lastName',
+                'u.email',
+                'os.statusName'
+            )
+            ->join('o.user', 'u')
+            ->join('o.orderStatus', 'os')
+            ->leftJoin('o.orderState', 'orderState')
+            ->leftJoin('orderState.StateStatus', 'stateStatus')
+            ->where(
+                'os.statusName LIKE :preparing 
             OR os.statusName LIKE :shipped
             OR os.statusName LIKE :delivered'
-        )
-        ->andWhere(
-            'stateStatus.name LIKE :pending
+            )
+            ->andWhere(
+                'stateStatus.name LIKE :pending
             OR stateStatus.name LIKE :declined 
-            OR stateStatus.name IS NULL')
-        ->setParameter('preparing', 'Preparing')
-        ->setParameter('shipped', 'Shipped')
-        ->setParameter('delivered', 'Delivered')
-        ->setParameter('pending', 'Pending')
-        ->setParameter('declined', 'Declined')
-        ->orderBy('o.id', 'DESC')
-        ->getQuery()
-        ->getResult();
-}
+            OR stateStatus.name IS NULL'
+            )
+            ->setParameter('preparing', 'Preparing')
+            ->setParameter('shipped', 'Shipped')
+            ->setParameter('delivered', 'Delivered')
+            ->setParameter('pending', 'Pending')
+            ->setParameter('declined', 'Declined')
+            ->orderBy('o.id', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 
 
 
@@ -204,24 +206,6 @@ class OrdersRepository extends ServiceEntityRepository
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     //    /**
     //     * @return Orders[] Returns an array of Orders objects
     //     */
@@ -237,13 +221,13 @@ class OrdersRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?Orders
-    //    {
-    //        return $this->createQueryBuilder('o')
-    //            ->andWhere('o.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    // public function findOneBySomeField($value): ?Orders
+    // {
+    //     return $this->createQueryBuilder('o')
+    //         ->andWhere('o.id = :val%')
+    //         ->setParameter('val', $value)
+    //         ->getQuery()
+    //         ->getOneOrNullResult()
+    //     ;
+    // }
 }
