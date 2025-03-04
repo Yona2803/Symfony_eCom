@@ -17,7 +17,6 @@
 			</p>
 			<div class="Contact">
 				<div class="Contact-LeftSection">
-
 					<div class="TopSection">
 						<div>
 							<svg width="40" height="40" viewbox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -29,8 +28,9 @@
 						<div>
 							<p>We are availabel 24/7, 7 days a week.</p>
 							<p>Phone:
-								<span style="font-size: 11px;">(+212)</span>
-								82 545 7391</p>
+								<span style="font-size: 12px;">(+212)</span>
+								82 545 7391
+							</p>
 						</div>
 					</div>
 
@@ -47,50 +47,35 @@
 						<div>
 							<p>Fill out our form and we will contact you within 24 hours.</p>
 							<p>Emails: customer@exclusive.com</p>
+							<p>Emails: support@exclusive.com</p>
 						</div>
 					</div>
 
 				</div>
 				<div class="Contact-RightSection">
-					<form class="MailingContactForm">
+					<form id="MailingContact-form" class="MailingContact-form" method="POST" action="{{ path('clientSendEmail') }}">
+
 						<div id="UserInfo">
-							<div>
-								<label for="FirstName">Your Name
-									<span>*</span>
-								</label>
-								<input type="text" name="FirstName" id="FirstName" required>
-							</div>
-
-							<div>
-								<label for="Email">Your Email
-									<span>*</span>
-								</label>
-								<input type="email" name="Email" id="Email" required>
-							</div>
-
-							<div>
-								<label for="PhoneNumber">Your Phone
-									<span>*</span>
-								</label>
-								<input type="tel" name="PhoneNumber" id="PhoneNumber" required>
-							</div>
+							<input type="text" name="FirstName" id="FirstName" placeholder="Your Name *" value="{{FirstName}}" required>
+							<input type="email" name="Email" id="Email" placeholder="Your Email *" value="{{Email}}" required>
+							<input type="tel" name="PhoneNumber" id="PhoneNumber" placeholder="Your Phone *" value="{{PhoneNumber}}" required>
 						</div>
 
 						<div id="Comment">
-							<label for="CommentText">Your Massage
-								<span>*</span>
-							</label>
-							<input type="textarea" name="CommentText" id="CommentText" required>
+							<textarea name="CommentText" id="CommentText" rows="5" cols="33" placeholder="Your Massage" required></textarea>
 						</div>
 
 						<div id="Buttons">
-							<input type="Submit" id="SubmitButton" value="Send Massage">
-							<input type="Reset" id="ResetButton" value="Reset">
+							<button type="Reset" id="ResetButton">Reset</button>
+							<button type="Submit" id="SubmitButton">Send Massage</button>
 						</div>
 					</div>
 				</form>
 			</div>
 		</div>
+		{# Header Section #}
+		{% include 'components/Footer/Footer.html.twig' %}
+
 		<script src="{{ asset('js/global.js') }}"></script>
 		<script src="{{ asset('Pages/ContactPage/main.js') }}"></script>
 		<script></script>
