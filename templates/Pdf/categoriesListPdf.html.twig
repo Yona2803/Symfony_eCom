@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>Orders Pdf</title>
+		<title>Categories Pdf</title>
 		<style>
 			body {
 				font-family: Arial, Helvetica, "Segoe UI", Tahoma, Verdana, sans-serif;
@@ -108,7 +108,7 @@
 					<p>Tél: (+212) 520 134675 | Fax: (+212) 456 789090</p>
 					<p>Email: Exclusive@Service.ma</p>
 				</div>
-				<h2>Orders List:</h2>
+				<h2>Categories List:</h2>
 			</div>
 
 
@@ -116,41 +116,31 @@
 			<table>
 				<thead>
 					<tr>
-						<th>Customer</th>
-						<th>Order Details</th>
-						<th>Status</th>
+						<th>ID</th>
+						<th>Name</th>
+						<th>Logo</th>
 					</tr>
 				</thead>
 				<tbody>
-					{% for order in orderDetails %}
-						<tr id="order-{{ order.orderId }}" class="order-row" data-status="{{ order.statusName }}">
+					{% for category in categoryDetails %}
+						<tr id="order-{{ category.id }}" class="order-row" data-status="{{ category.name }}">
 							<td>
-								<strong>ID:</strong>
-								{{ order.userId }}<br>
-								<strong>Username:</strong>
-								{{ order.username }}<br>
-								<strong>First Name:</strong>
-								{{ order.firstName }}<br>
-								<strong>Email:</strong>
-								{{ order.email }}
+								{{ category.id }}
 							</td>
-
 							<td>
-								<strong>ID:</strong>
-								{{ order.orderId }}<br>
-								<strong>Date:</strong>
-								{{ order.orderDate|date('Y-m-d') }}<br>
-								<strong>Total:</strong>
-								{{ order.totalAmount | default('N/A') }}
-								DH
+								{{ category.name }}
 							</td>
-							<td class="cellOrderStatus">
-								<span id="statusName-{{ order.orderId }}">{{ order.statusName }}</span>
+							<td style="text-align: center;">
+								{% if category.categoryImage %}
+									<img src="data:{{ category.mimeType }};base64,{{ category.categoryImage }}" alt="{{ category.name }}" style="width: 50px; height: 50px;"/>
+								{% else %}
+									No Image
+								{% endif %}
 							</td>
 						</tr>
 					{% else %}
 						<tr>
-							<td colspan="4">No orders available.</td>
+							<td colspan="3">No orders available.</td>
 						</tr>
 					{% endfor %}
 				</tbody>

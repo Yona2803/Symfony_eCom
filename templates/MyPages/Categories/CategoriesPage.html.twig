@@ -8,6 +8,27 @@
 		<link rel="stylesheet" href="{{ asset('css/Categories/updateCategoryStyle.css') }}">
 		<link rel="stylesheet" href="{{ asset('css/Categories/FormCategoryStyle.css') }}">
 
+		<style>
+			#a-print-pdf {
+				text-decoration: none; /* Remove underline from the link */
+			}
+
+			#btn-print-pdf {
+				background-color: #007bff; /* Blue color */
+				color: white; /* White text */
+				border: none;
+				padding: 10px 20px;
+				font-size: 16px;
+				cursor: pointer;
+				border-radius: 5px;
+				transition: background-color 0.3s ease;
+			}
+
+			#btn-print-pdf:hover {
+				background-color: #0056b3; /* Darker blue on hover */
+			}
+		</style>
+
 	</head>
 	<body>
 
@@ -66,6 +87,10 @@
 				<span></span>
 				<h4>Categories</h4>
 			</div>
+
+			<a id="a-print-pdf" href="{{ path('categories_pdf') }}" target="_blank">
+				<button id="btn-print-pdf">Print</button>
+			</a>
 
 			<table id="categoriesTable">
 				<thead>

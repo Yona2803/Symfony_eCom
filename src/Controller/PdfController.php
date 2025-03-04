@@ -82,14 +82,14 @@ class PdfController extends AbstractController
         // Instantiate Dompdf
         $dompdf = new Dompdf($pdfOptions);
 
-        $cutomerDetails = $this->usersRepository->findAll();
+        $categoryDetails = $this->categoriesRepository->findAll();
 
         $Logo = base64_encode(file_get_contents(getcwd() . '/img/Logo/Logo.png'));
         $facebookLogo = base64_encode(file_get_contents(getcwd() . '/img/icon/FaceBook.png'));
         $instagramLogo = base64_encode(file_get_contents(getcwd() . '/img/icon/Instagram.png'));
 
-        $html = $this->renderView('Pdf/customerListPdf.html.twig', [
-            'cutomerDetails' => $cutomerDetails,
+        $html = $this->renderView('Pdf/categoriesListPdf.html.twig', [
+            'categoryDetails' => $categoryDetails,
             'logo' => $Logo,
             'facebook_logo' => $facebookLogo,
             'instagram_logo' => $instagramLogo
@@ -105,10 +105,70 @@ class PdfController extends AbstractController
             200,
             [
                 'Content-Type' => 'application/pdf',
-                'Content-Disposition' => 'inline; filename="customers list.pdf"',
+                'Content-Disposition' => 'inline; filename="categories list.pdf"',
             ]
         );
     }
+
+
+    #[Route('/categories', name: 'categories_pdf')]
+    public function categoryListPdf(): Response
+    {
+        // Configure Dompdf options
+        $pdfOptions = new Options();
+        $pdfOptions->set('defaultFont', 'Arial');
+
+        // Instantiate Dompdf
+        $dompdf = new Dompdf($pdfOptions);
+
+        // Fetch categories
+        $categoryDetails = $this->categoriesRepository->findAll();
+
+        // File info object for MIME type detection
+        $finfo = new \finfo(FILEINFO_MIME_TYPE);
+
+        // Process categories: decode images and determine MIME type
+        $processedCategories = array_map(function ($category) use ($finfo) {
+            $imageData = stream_get_contents($category->getCategoryImage());
+            $mimeType = $finfo->buffer($imageData); // Detect MIME type
+
+            return [
+                'id' => $category->getId(),
+                'name' => $category->getName(),
+                'categoryImage' => base64_encode($imageData), // Base64 encode the image
+                'mimeType' => $mimeType, // Store detected MIME type
+            ];
+        }, $categoryDetails);
+
+        // Encode logos
+        $Logo = base64_encode(file_get_contents(getcwd() . '/img/Logo/Logo.png'));
+        $facebookLogo = base64_encode(file_get_contents(getcwd() . '/img/icon/FaceBook.png'));
+        $instagramLogo = base64_encode(file_get_contents(getcwd() . '/img/icon/Instagram.png'));
+
+        // Render HTML for PDF
+        $html = $this->renderView('Pdf/categoriesListPdf.html.twig', [
+            'categoryDetails' => $processedCategories,
+            'logo' => $Logo,
+            'facebook_logo' => $facebookLogo,
+            'instagram_logo' => $instagramLogo
+        ]);
+
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+        $pdfOutput = $dompdf->output();
+
+        return new Response(
+            $pdfOutput,
+            200,
+            [
+                'Content-Type' => 'application/pdf',
+                'Content-Disposition' => 'inline; filename="categories_list.pdf"',
+            ]
+        );
+    }
+
+
 
 
 }
