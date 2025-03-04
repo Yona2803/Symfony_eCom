@@ -65,7 +65,7 @@ class UsersRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('u')
             ->where('u.roles LIKE :role')
-            ->setParameter('role', (string)'%' . $role . '%')
+            ->setParameter('role', (string) '%' . $role . '%')
             ->getQuery()
             ->getResult();
     }
@@ -81,7 +81,7 @@ class UsersRepository extends ServiceEntityRepository
 
         $query = $this->createQueryBuilder('u')
             ->where('u.roles LIKE :role')
-            ->setParameter('role', (string)'%' . $role . '%')
+            ->setParameter('role', (string) '%' . $role . '%')
             ->setFirstResult($offset)
             ->setMaxResults($limit)
             ->getQuery();
@@ -105,4 +105,5 @@ class UsersRepository extends ServiceEntityRepository
 
         return $result > 0 ? true : false;
     }
+
 }
