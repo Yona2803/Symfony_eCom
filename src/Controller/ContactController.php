@@ -75,11 +75,11 @@ class ContactController extends AbstractController
     private function sendEmail($data): void
     {
         $ClientSide_subject = "Exclusive WebSite: Contact Section";
-        $ClientSide_Message = "New Request! \r\n \r\nName: " . $data['FirstName'] . "\r\nPhone Number: " . $data['PhoneNumber']  . "\r\nEmail: " . $data['Email'] . "\r\n \r\nMessage: \r\n- " . $data['MsgText'];
+        $ClientSide_Message = "New Contact Request! \r\n \r\nName: " . $data['FirstName'] . "\r\nPhone Number: " . $data['PhoneNumber']  . "\r\nEmail: " . $data['Email'] . "\r\n \r\nMessage: \r\n- " . $data['MsgText'];
 
 
         $OurSide_subject = "Exclusive WebSite";
-        $OurSide_Message = "Thank you, " . $data['FirstName'] . " for contacting us! We have received your message. Our customer service team will respond within the next 24-48 hours. \r\n" . "In the meantime, feel free to check out our Summer Sale at Product section.\r\n \r\n" . "We look forward to assisting you! \r\n" . "Exclusive.";
+        $OurSide_Message = "Thank you, " . $data['FirstName'] . ",\n for contacting us! We have received your message. Our customer service team will respond within the next 24-48 hours. \r\n" . "In the meantime, feel free to check out our Summer Sale at Product section.\r\n \r\n" . "We look forward to assisting you! \r\n" . "Exclusive.";
 
         // Access the sender from the parameters
         $Client_Email = $data['Email'];
@@ -101,22 +101,5 @@ class ContactController extends AbstractController
 
         $this->mailer->send($ClientSide_email);
         $this->mailer->send($OurSide_email);
-    }
-
-
-    public function getUserAccount(EntityManagerInterface $entityManager): Response
-    {
-        $User_id = $this->usersService->getIdOfAuthenticatedUser();
-
-        $Status = "";
-        // return new Response('GET.');
-        $User_Data = $entityManager->getRepository(Users::class)->find($User_id);
-        $form = $this->createForm(UsersType::class, $User_Data);
-
-        return $this->render('Pages/AccountPage/AccountPage.html.twig', [
-            'User_Data' => $User_Data,
-            'form' => $form->createView(),
-            'Status' => $Status,
-        ]);
     }
 }
