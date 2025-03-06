@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>{{ exception.statusCode }} Error</title>
+		<link rel="stylesheet" href="{{ asset('Pages/Page404/Style.css') }}">
+		<link rel="icon" type="image/x-icon" href="{{ asset('img/icon/Icon.png') }}">
+	</head>
+	<body>
+		{# Header Section #}
+		{% include 'components/Header/Header.html.twig' with { 'ParentPage': 'Page404' } %}
+		
+		{# Adding HTML #}
+		<div class="Container">
+			<p id="Route_Page">
+				<a id="Route_Path"></a>
+				<span>{{ exception.statusCode }} Error</span>
+			</p>
+		</div>
+
+		<div class="Container">
+			<h1>{{ exception.statusCode }} {{ exception.statusText }}</h1>
+			<p>The page you visited was {{ exception.statusText }}. You can go to the home page.</p>
+			<a href="{{ path('home') }}">
+				<button type="button">
+					Back to home page</button>
+			</a>
+		</div>
+
+		{# Footer Section #}
+		{% include 'components/Footer/Footer.html.twig' %}
+		
+		<script src="{{ asset('js/global.js') }}"></script>
+		<script src="{{ asset('Pages/AboutUsPage/main.js') }}"></script>
+	</body>
+</html>

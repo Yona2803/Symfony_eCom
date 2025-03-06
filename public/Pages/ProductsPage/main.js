@@ -1,8 +1,5 @@
 // Add Route to Local storage
-addRoute("/Products", "Products &#x2f; ");
-
-
-
+addRoute("/productsPage", "Products &#x2f; ");
 
 async function openPopup(productId) {
   
