@@ -28,6 +28,7 @@ class Categories
     #[ORM\OneToMany(targetEntity: Items::class, mappedBy: 'category', orphanRemoval: true)]
     private Collection $items;
 
+
     public function __construct()
     {
         $this->items = new ArrayCollection();
@@ -91,4 +92,6 @@ class Categories
 
         return $this;
     }
+
+    
 }

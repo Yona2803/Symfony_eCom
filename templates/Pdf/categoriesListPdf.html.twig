@@ -71,6 +71,7 @@
 			th {
 				background-color: #007cca;
 				color: white;
+				text-align: center;
 			}
 
 			/* Footer */
@@ -132,6 +133,7 @@
 							</td>
 							<td style="text-align: center;">
 								{% if category.categoryImage %}
+
 									<img src="data:{{ category.mimeType }};base64,{{ category.categoryImage }}" alt="{{ category.name }}" style="width: 50px; height: 50px;"/>
 								{% else %}
 									No Image
