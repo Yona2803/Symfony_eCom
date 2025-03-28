@@ -70,7 +70,7 @@ class UsersController extends AbstractController
     #[Route('/Users/customerslist', name: 'user-customer-list')]
     public function customerList(): JsonResponse
     {
-        $customers = $this->usersRepository->findAllAdmins('ROLE_ADMIN');
+        $customers = $this->usersRepository->findAllUsersByRole('ROLE_ADMIN');
 
         $data = [];
         foreach ($customers as $customer) {

@@ -61,7 +61,7 @@ class UsersRepository extends ServiceEntityRepository
     }
 
 
-    public function findAllAdmins(string $role)
+    public function findAllUsersByRole(string $role)
     {
         return $this->createQueryBuilder('u')
             ->where('u.roles LIKE :role')
