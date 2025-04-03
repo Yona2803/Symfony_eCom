@@ -16,7 +16,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class Users implements UserInterface, PasswordAuthenticatedUserInterface
 {
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -42,10 +41,6 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 10, nullable: true)]
     private ?string $phoneNumber;
-
-
-
-
 
     public function getId(): ?int
     {
@@ -157,7 +152,6 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUsername(string $username): static
     {
         $this->username = $username;
-
         return $this;
     }
 
@@ -263,7 +257,6 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     public function setGoogleId(?string $google_id): static
     {
         $this->google_id = $google_id;
-
         return $this;
     }
 }

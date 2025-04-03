@@ -63,7 +63,7 @@ function getRoute() {
       routeInfo[0].srcPage_Text === "Products &#x2f; "
     ) {
       Route_Path =
-        routeInfo[0].srcPage_Text === "Home &#x2f; " ? "/" : "/Products";
+        routeInfo[0].srcPage_Text === "Home &#x2f; " ? "/" : "/productsPage";
       Route_Text =
         routeInfo[0].srcPage_Text === "Home &#x2f; "
           ? "Home &#x2f; "

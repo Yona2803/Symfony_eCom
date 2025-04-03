@@ -1,45 +1,261 @@
 body {
-    width: 100%;
-    height: 100%;
-    font-family: "Segoe UI", Tahoma, Verdana, sans-serif;
-    font-weight: 400;
-    color: #000;
-    margin: 0;
-    padding: 0;
-    background-color: #fff;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  a {
-    text-decoration: none;
-  }
-  
-  .Container {
-    width: 1170px;
-    height: fit-content;
-    display: flex;
-    flex-direction: column;
-  }
+  width: 100%;
+  height: 100%;
+  font-family: "Segoe UI", Tahoma, Verdana, sans-serif;
+  font-weight: 400;
+  color: #000;
+  margin: 0;
+  padding: 0;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 
-  #Route_Page {
-    font-size: 14px;
-    color: rgba(0, 0, 0, 0.5);
-    margin: 70px 0 80px 0;
-    padding: 0;
-  }
-  
-  #Route_Page a {
-    color: rgb(0, 0, 0, 0.5);
-  }
-  
-  #Route_Page span {
-    color: rgb(0, 0, 0, 1);
-  }
-  
-  #Account_Name span {
-    color: #db4444;
-    text-transform: uppercase;
-  }
+a {
+  text-decoration: none;
+}
+
+.Container {
+  width: 1170px;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+}
+
+#Route_Page {
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.5);
+  margin: 70px 0 80px 0;
+  padding: 0;
+}
+
+#Route_Page a {
+  color: rgb(0, 0, 0, 0.5);
+}
+
+#Route_Page span {
+  color: rgb(0, 0, 0, 1);
+}
+
+.Contact {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  height: 384px;
+  margin-bottom: 140px;
+}
+
+.Contact-LeftSection {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin-right: 30px;
+  gap: 32px;
+  width: 340px;
+  height: 100%;
+  padding: 40px 0;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 1);
+  font-weight: 400px;
+  border-radius: 4px;
+
+  -webkit-box-shadow: 0px 1px 13px 0px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: 0px 1px 13px 0px rgba(0, 0, 0, 0.05);
+  box-shadow: 0px 1px 13px 0px rgba(0, 0, 0, 0.05);
+}
+
+.Contact-LeftSection .TopSection,
+.Contact-LeftSection .BottomSection {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  width: 270px;
+  height: fit-content;
+}
+.Contact-LeftSection .TopSection div:nth-of-type(1),
+.Contact-LeftSection .BottomSection div:nth-of-type(1) {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.Contact-LeftSection .TopSection div:nth-of-type(1) h3,
+.Contact-LeftSection .BottomSection div:nth-of-type(1) h3 {
+  font-weight: 600;
+  font-size: 16px;
+  margin: 0;
+  padding: 0;
+}
+.Contact-LeftSection .TopSection div:nth-of-type(2),
+.Contact-LeftSection .BottomSection div:nth-of-type(2) {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.Contact-LeftSection .TopSection div:nth-of-type(2) p,
+.Contact-LeftSection .BottomSection div:nth-of-type(2) p {
+  width: 250px;
+  margin: 0;
+  padding: 0;
+}
+.Contact-LeftSection #Seperatorline {
+  width: 270px;
+  height: 1px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 1px;
+}
+
+/* Right Section */
+.Contact-RightSection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: calc(100% - 340px - 30px);
+  height: 100%;
+  padding: 40px 0;
+  border-radius: 4px;
+
+  -webkit-box-shadow: 0px 1px 13px 0px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: 0px 1px 13px 0px rgba(0, 0, 0, 0.05);
+  box-shadow: 0px 1px 13px 0px rgba(0, 0, 0, 0.05);
+}
+
+.Contact-RightSection #UserInfo {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+  height: 50px;
+}
+
+.Contact-RightSection #UserInfo input {
+  background: #f5f5f5;
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.5);
+  font-weight: 400;
+
+  margin: 0;
+  padding: 13px 16px;
+  letter-spacing: 1px;
+
+  width: calc(235px - 16px - 16px);
+  outline: 1px solid transparent;
+  border-radius: 4px;
+  border: none;
+
+  -webkit-transition: all 0.32s ease-out;
+  -moz-transition: all 0.32s ease-out;
+  -o-transition: all 0.32s ease-out;
+  transition: all 0.32s ease-out;
+}
+
+.Contact-RightSection #UserInfo input::placeholder {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.Contact-RightSection #UserInfo input:hover {
+  outline: 1px solid rgb(0, 0, 0, 0.5);
+}
+
+.Contact-RightSection #UserInfo input:focus {
+  color: #000;
+  background: #fff;
+  outline: 1px solid #db4444;
+}
+
+.Contact-RightSection #Comment {
+  display: flex;
+  flex-direction: column;
+}
+
+.Contact-RightSection #Comment #CommentText {
+  background: #f5f5f5;
+  font-family: "Segoe UI", Tahoma, Verdana, sans-serif;
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.5);
+  font-weight: 400;
+
+  margin: 32px 0;
+  padding: 13px 16px;
+  letter-spacing: 1px;
+
+  line-height: 29px;
+  word-spacing: 2px;
+
+  max-width: 100%;
+  width: calc(100% - 32px);
+  height: 207px;
+  resize: none;
+  outline: 1px solid transparent;
+  border-radius: 4px;
+  border: none;
+
+  -webkit-transition: all 0.32s ease-out;
+  -moz-transition: all 0.32s ease-out;
+  -o-transition: all 0.32s ease-out;
+  transition: all 0.32s ease-out;
+}
+
+.Contact-RightSection #Comment textarea::placeholder {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.Contact-RightSection #Comment textarea:hover {
+  outline: 1px solid rgb(0, 0, 0, 0.5);
+}
+
+.Contact-RightSection #Comment textarea:focus {
+  color: #000;
+  background: #fff;
+  outline: 1px solid #db4444;
+}
+
+.Contact-RightSection #Buttons {
+  display: flex;
+  height: fit-content;
+  width: calc(100%);
+}
+
+.Contact-RightSection #Buttons button {
+  border-radius: 4px;
+  border: none;
+  outline: none;
+  background: #f5f5f5;
+  font-weight: 400;
+
+  cursor: pointer;
+  padding: 16px 48px;
+  margin: 0;
+
+  -webkit-transition: all 0.32s ease-out;
+  -moz-transition: all 0.32s ease-out;
+  -o-transition: all 0.32s ease-out;
+  transition: all 0.32s ease-out;
+}
+
+.Contact-RightSection #Buttons button:first-of-type {
+  background-color: transparent;
+  color: #000;
+  margin-left: auto;
+}
+.Contact-RightSection #Buttons button:last-of-type {
+  background-color: #db4444;
+  color: #fff;
+  margin-left: 16px;
+}
+
+.Contact-RightSection #Buttons button:last-of-type:hover {
+  background-color: #ff5c5c;
+}
+.Contact-RightSection #Buttonsn:last-of-type:active {
+  background-color: #db4444;
+}
+.Contact-RightSection #Buttons button:first-of-type:hover {
+  color: #ff5c5c;
+}
+.Contact-RightSection #Buttons button:first-of-type:active {
+  color: #db4444;
+}

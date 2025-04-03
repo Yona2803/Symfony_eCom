@@ -83,11 +83,6 @@ class OrdersService
 
         return false;
     }
-
-
-
-
-
     public function changeOrderStatusV2($orderId, $orderStatus): bool
     {
         // Retrieve the order
