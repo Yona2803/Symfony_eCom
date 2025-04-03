@@ -21,6 +21,9 @@ services:
     App\Controller\:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
+    App\Service\StripeService:
+        arguments:
+            $stripeSecretKey: '%stripe.secret_key%'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
@@ -29,3 +32,5 @@ services:
 parameters:
     user_id: '%env(USER_ID)%'
     mailer_sender_address: '%env(resolve:MAILER_DSN)%'
+    stripe.secret_key: '%env(STRIPE_SECRET_KEY)%'
+    

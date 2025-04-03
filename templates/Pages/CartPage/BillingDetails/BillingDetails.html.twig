@@ -6,6 +6,11 @@
 		<link rel="icon" type="image/x-icon" href="{{ asset('img/icon/Icon.png') }}">
 	</head>
 	<body>
+
+		{# include loading message page #}
+		{{ include('LoadingMessage/LoadingMessage.html.twig') }}
+
+
 		<div id="Validation_Container">
 			<div id="Validation_Window">
 				<div id="Section_Top">
@@ -99,7 +104,7 @@
 									</p>
 								</div>
 								<div id="PaymentOption-bank" class="PaymentOption">
-									<input type="radio" id="BANK" name="PaymentOption" disabled/>
+									<input type="radio" id="BANK" name="PaymentOption"/>
 									<label for="BANK">Bank</label>
 
 									<img src="{{ asset('img/icon/Visa.png') }}" alt="">
@@ -127,8 +132,37 @@
 		<script src="{{ asset('js/global.js') }}"></script>
 		<script src="{{ asset('Pages/CartPage/BillingDetails/main.js') }}"></script>
 		<script>
-			
-		</script>
+        document.getElementById('BANK').addEventListener('change', async function(event) {
+            event.preventDefault();
+			const loadingMessage = document.getElementById("loadingMessage"); // Add a loading message element in your HTML
+
+		    const amount = document.getElementById('TTCValue').value;
+            const email = document.getElementById('users_email').value;
+            const firstName = document.getElementById('users_firstName').value;
+            const lastName = document.getElementById('users_lastName').value;
+			const fullName = firstName + ' ' + lastName;
+
+            // Show loading message
+			if (loadingMessage) {
+				loadingMessage.style.display = "flex";
+			}
+
+
+            const response = await fetch('/api/payment/checkout', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ amount: amount, fullName: fullName, email: email })
+            });
+
+            const data = await response.json();
+            if (data.url) {
+				if (loadingMessage) {
+					loadingMessage.style.display = "none";
+				}
+                window.location.href = data.url;
+            }
+        });
+    </script>
 
 	</body>
 </html>

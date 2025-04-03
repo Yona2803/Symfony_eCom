@@ -47,7 +47,10 @@ async function openPopup(productId) {
         }
       });
 
-      document.getElementById("updateProduct").style.display = "block";
+      const popup = document.getElementById("updateProduct");
+      popup.style.display = "flex";
+      popup.style.justifyContent = "center";
+      popup.style.alignItems = "center";
     }
   } catch (error) {
     console.error("Error opening popup:", error);
